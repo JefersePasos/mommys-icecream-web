@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de Usuario</title>
+</head>
+<body>
+    <h1>Bienvenido, <span th:text="${usuario.nombre}"></span>!</h1>
+
+    <p><strong>Correo:</strong> <span th:text="${usuario.correo}"></span></p>
+    <p><strong>Provincia:</strong> <span th:text="${usuario.provincia}"></span></p>
+    <a href="/editar-perfil">
+        <button>Editar Perfil</button>
+    </a>
+    
+    <form action="/logout" method="post">
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <form action="/eliminar-cuenta" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');">
+        <button type="submit" style="color: red;">Eliminar cuenta</button>
+    </form>
+</body>
+</html>
