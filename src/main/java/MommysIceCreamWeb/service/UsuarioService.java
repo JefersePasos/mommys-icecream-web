@@ -22,8 +22,8 @@ public class UsuarioService {
 
     public void registrarUsuario(Usuario usuario) { //Método para registrar un nuevo usuario
         // aca hacemos el hash de la contrasena para guardarla de forma segura
-        String hash = passwordEncoder.encode(usuario.getContrasena());
-        usuario.setContrasena(hash);
+        //String hash = passwordEncoder.encode(usuario.getContrasena());
+        //usuario.setContrasena(hash);
         // aca guardamos el usuario en la base de datos
         usuarioRepository.save(usuario);
     }
@@ -33,12 +33,12 @@ public class UsuarioService {
     }
 
     //---> Métodos para verificar y encriptar contraseñas sin usar el PasswordEncoder de Spring Security, eliminar después de pruebas <---//
-    public boolean verificarPassword(String rawPassword, String hashedPassword) {
+    /*public boolean verificarPassword(String rawPassword, String hashedPassword) {
         return passwordEncoder.matches(rawPassword, hashedPassword);
-    }
+    }*/
 
-    public String encriptarPassword(String rawPassword) {
-        return passwordEncoder.encode(rawPassword);
+    public String encriptarPassword(String Password) {
+        return Password;
     }
     //---> Fin de métodos para verificar y encriptar contraseñas sin usar el PasswordEncoder de Spring Security <---//
 

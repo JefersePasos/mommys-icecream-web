@@ -75,6 +75,15 @@ public class UsuarioController {
         return "cuenta_eliminada";
     }
 
+    @GetMapping("/confirmar-eliminacion") // Mostrar página de confirmación de eliminación de cuenta | Apunta al confirmar_eliminacion.html en templates.
+    public String mostrarConfirmacionEliminacion(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+        return "confirmar_eliminacion";
+    }
+
     //Todo los metodos de procesar formularios
     @PostMapping("/registro") // Procesar el formulario de registro | Recibe los datos del formulario de registro
     public String procesarRegistro(@ModelAttribute("usuario") Usuario usuario, @RequestParam(name = "telefonos[0].numero", required = false) String telefonoInput, Model model) {
@@ -105,7 +114,9 @@ public class UsuarioController {
             Usuario usuarioDb = usuarioOptional.get();
 
             //if (passwordEncoder.matches(usuario.getContrasena(), usuarioDb.getContrasena())){ // Verificar la contraseña y compararla con el hash almacenada
-            if (usuarioService.verificarPassword(usuario.getContrasena(), usuarioDb.getContrasena())) { //Verificar la contraseña usando el servicio en texto plano
+            //if (usuarioService.verificarPassword(usuario.getContrasena(), usuarioDb.getContrasena())) {
+                 //Verificar la contraseña usando el servicio en texto plano
+            if (usuarioDb.getContrasena().equals(usuario.getContrasena())) {
                 session.setAttribute("usuarioLogueado", usuarioDb);// Guardar usuario en sesión
                 return "redirect:/perfil"; // Página privada 
             }
@@ -158,15 +169,27 @@ public class UsuarioController {
     }
 
     @PostMapping("/eliminar-cuenta") // Procesar la eliminación de la cuenta del usuario | No recibe datos
-    public String eliminarCuenta(HttpSession session) {
+    public String eliminarCuenta(@RequestParam("contrasena") String contrasena,HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
-        if (usuario != null) {
+        /*if (usuario != null) {
             usuarioService.eliminarUsuario(usuario.getId());
             session.invalidate();
+        }*/
+        if (usuario == null) {
+            return "redirect:/login";
         }
 
-        return "redirect:/cuenta_eliminada"; // o a una página de confirmación
-    }
+        System.out.println("Contraseña ingresada: " + contrasena);
+        System.out.println("Contraseña real: " + usuario.getContrasena());
 
+        if (!usuario.getContrasena().equals(contrasena)) {// Validar contraseña (plana, sin BCrypt)
+            model.addAttribute("error", "La contraseña no coincide.");
+            return "confirmar_eliminacion"; // ← No elimina nada
+        }
+
+        usuarioService.eliminarUsuario(usuario.getId()); //Solo si coincide se elimina
+        session.invalidate();
+        return "cuenta_eliminada"; // o a una página de confirmación
+    }
 }
