@@ -2,24 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Perfil de Usuario</title>
+    <title>Perfil</title>
+    <link rel="stylesheet" href="/css/estilos.css">
 </head>
-<body>
-    <h1>Bienvenido, <span th:text="${usuario.nombre}"></span>!</h1>
+<body class="centrado">
 
-    <p><strong>Correo:</strong> <span th:text="${usuario.correo}"></span></p>
-    <p><strong>Provincia:</strong> <span th:text="${usuario.provincia}"></span></p>
-    <a href="/editar-perfil">
-        <button>Editar Perfil</button>
-    </a>
-    
-    <form action="/logout" method="post">
-        <button type="submit">Cerrar sesión</button>
-    </form>
+    <div class="contenedor-formulario">
+        <h2>Hola, <span th:text="${usuario.nombre}">Usuario</span> 👋</h2>
 
-    <h3>Eliminar cuenta</h3>
-    <form action="/confirmar-eliminacion" method="get">
-        <button type="submit" style="color: red;">Eliminar cuenta</button>
-    </form>
+        <div class="perfil-datos">
+            <p><strong>Correo:</strong> <span th:text="${usuario.correo}"></span></p>
+            <p><strong>Provincia:</strong> <span th:text="${usuario.provincia}"></span></p>
+            <p><strong>Cantón:</strong> <span th:text="${usuario.canton}"></span></p>
+            <p><strong>Distrito:</strong> <span th:text="${usuario.distrito}"></span></p>
+            <p><strong>Dirección:</strong> <span th:text="${usuario.direccionExacta}"></span></p>
+        </div>
+
+        <div style="margin-top: 1.5em; display: flex; flex-direction: column; gap: 0.5em;">
+            <a href="/editar-perfil">
+                <button>Editar perfil</button>
+            </a>
+
+            <form action="/logout" method="post">
+                <button type="submit" style="background-color: var(--gris); color: var(--texto);">Cerrar sesión</button>
+            </form>
+
+            <form action="/confirmar-eliminacion" method="get">
+                <button type="submit" style="background-color: #ffb3b3; color: #800000;">Eliminar cuenta</button>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>

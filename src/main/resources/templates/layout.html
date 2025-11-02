@@ -1,0 +1,23 @@
+
+<!-- Este no lo estoy usando, pero me puede servir de pruebas para mas adelante, en el controlador NO lo estoy llamando-->
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title} :: title">Mommys Ice Cream</title>
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Mommys Ice Cream</h1>
+    </header>
+
+    <main>
+        <div th:insert="${body}"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mommys Ice Cream</p>
+    </footer>
+</body>
+</html>

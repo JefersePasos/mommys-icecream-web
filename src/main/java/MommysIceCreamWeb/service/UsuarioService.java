@@ -2,8 +2,7 @@ package MommysIceCreamWeb.service;
 
 import MommysIceCreamWeb.domain.Usuario;
 import MommysIceCreamWeb.repository.UsuarioRepository;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Optional;
@@ -12,7 +11,7 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // para usar la encritpacion por nosotros
+    //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // para usar la encritpacion por nosotros
     //private final BCryptPasswordEncoder passwordEncoder;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {

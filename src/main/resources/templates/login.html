@@ -2,23 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/estilos.css">
     <title>Iniciar Sesión</title>
 </head>
-<body>
-    <h1>Iniciar Sesión</h1>
+<body class="centrado">
+    <div class="contenedor-formulario">
+        <h2>Iniciar sesión</h2>
 
-    <div th:if="${error}">
-        <p style="color: red;" th:text="${error}"></p>
+        <div th:if="${error}">
+            <p class="error" th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/login}" th:object="${usuario}" method="post">
+            <label>Correo:</label>
+            <input type="email" th:field="*{correo}" required />
+
+            <label>Contraseña:</label>
+            <input type="password" th:field="*{contrasena}" required />
+
+            <button type="submit">Ingresar</button>
+        </form>
+
+        <p>¿No tienes cuenta? <a href="/registro">Regístrate</a></p>
     </div>
-    <form th:action="@{/login}" th:object="${usuario}" method="post">
-        <label>Correo:</label>
-        <input type="email" th:field="*{correo}" required>
-
-        <label>Contraseña:</label>
-        <input type="password" th:field="*{contrasena}" required>
-
-        <button type="submit">Iniciar sesión</button>
-    </form>
-    <p>¿No tienes cuenta? <a href="/registro">Regístrate</a></p>
 </body>
 </html>

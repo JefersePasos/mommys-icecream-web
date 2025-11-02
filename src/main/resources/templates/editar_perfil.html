@@ -2,47 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/estilos.css">
     <title>Editar Perfil</title>
 </head>
-<body>
-    <h1>Editar Perfil</h1>
+<body class="centrado">
+    <div class="contenedor-formulario">
+        <h2>Editar Perfil</h2>
 
-    <div th:if="${mensaje}">
-        <p style="color: green;" th:text="${mensaje}"></p>
+        <div th:if="${mensaje}" class="mensaje" th:text="${mensaje}"></div>
+
+        <form th:action="@{/editar-perfil}" th:object="${usuario}" method="post">
+            <label>Nombre:</label>
+            <input type="text" th:field="*{nombre}" required /><br/>
+
+            <label>Primer Apellido:</label>
+            <input type="text" th:field="*{primerApellido}" required /><br/>
+
+            <label>Segundo Apellido:</label>
+            <input type="text" th:field="*{segundoApellido}" /><br/>
+
+            <label>Correo:</label>
+            <input type="email" th:field="*{correo}" required /><br/>
+
+            <label>Nueva Contraseña (opcional):</label>
+            <input type="password" th:field="*{contrasena}" /><br/>
+
+            <label>Provincia:</label>
+            <input type="text" th:field="*{provincia}" /><br/>
+
+            <label>Cantón:</label>
+            <input type="text" th:field="*{canton}" /><br/>
+
+            <label>Distrito:</label>
+            <input type="text" th:field="*{distrito}" /><br/>
+
+            <label>Dirección Exacta:</label>
+            <textarea th:field="*{direccionExacta}"></textarea><br/>
+
+            <button type="submit">Guardar Cambios</button>
+        </form>
+
+        <br/>
+        <div style="margin-top: 1em;">
+            <a href="/perfil">Volver al perfil</a>
+        </div>
     </div>
-
-    <form th:action="@{/editar-perfil}" th:object="${usuario}" method="post">
-        <label>Nombre:</label>
-        <input type="text" th:field="*{nombre}" required /><br/>
-
-        <label>Primer Apellido:</label>
-        <input type="text" th:field="*{primerApellido}" required /><br/>
-
-        <label>Segundo Apellido:</label>
-        <input type="text" th:field="*{segundoApellido}" /><br/>
-
-        <label>Correo:</label>
-        <input type="email" th:field="*{correo}" required /><br/>
-
-        <label>Nueva Contraseña (opcional):</label>
-        <input type="password" th:field="*{contrasena}" /><br/>
-
-        <label>Provincia:</label>
-        <input type="text" th:field="*{provincia}" /><br/>
-
-        <label>Cantón:</label>
-        <input type="text" th:field="*{canton}" /><br/>
-
-        <label>Distrito:</label>
-        <input type="text" th:field="*{distrito}" /><br/>
-
-        <label>Dirección Exacta:</label>
-        <textarea th:field="*{direccionExacta}"></textarea><br/>
-
-        <button type="submit">Guardar Cambios</button>
-    </form>
-
-    <br/>
-    <a href="/perfil">Volver al Perfil</a>
 </body>
 </html>

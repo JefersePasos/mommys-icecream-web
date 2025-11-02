@@ -1,0 +1,158 @@
+
+:root {
+    --naranja: #FFA978;
+    --naranja-hover: #FF9460;
+    --durazno: #FFE6D5;
+    --menta: #CFFFE2;
+    --rosado: #FFC1CC;
+    --vainilla: #FFF4CC;
+    --gris: #EDEDED;
+    --texto: #333333;
+    --texto-suave: #777777;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--durazno);
+    color: var(--texto);
+}
+
+header {
+    text-align: center;
+    background-color: var(--naranja);
+    color: white;
+    padding: 2em;
+    border-bottom: 5px solid var(--naranja-hover);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2em;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid var(--gris);
+    padding: 1.5em;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.card.secundaria {
+    background-color: var(--vainilla);
+}
+
+button {
+    background-color: var(--naranja);
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1em;
+}
+
+button:hover {
+    background-color: var(--naranja-hover);
+}
+
+footer {
+    text-align: center;
+    padding: 1em;
+    background-color: var(--gris);
+    font-size: 0.9em;
+    color: var(--texto-suave);
+}
+
+/* CENTRAR VERTICAL Y HORIZONTAL */
+.centrado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--durazno);
+    padding: 1em;
+}
+
+/* CONTENEDOR DE FORMULARIO */
+.contenedor-formulario {
+    background-color: white;
+    padding: 2em;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* INPUTS */
+form input {
+    width: 100%;
+    padding: 0.6em;
+    margin: 0.5em 0 1em 0;
+    border: 1px solid var(--gris);
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+/* BOTÓN */
+form button {
+    width: 100%;
+    padding: 0.6em;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+}
+
+a button { /* Para los botones que son enlaces */
+    display: block;
+    width: 100%;
+}
+
+form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
+    width: 100%;
+    padding: 0.6em;
+    margin: 0.5em 0 1em 0;
+    border: 1px solid var(--gris);
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+/* MENSAJE DE ERROR */
+.error {
+    background-color: var(--rosado);
+    padding: 0.5em;
+    border-radius: 6px;
+    color: #a33;
+    font-weight: bold;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.mensaje { /* MENSAJE DE ÉXITO */
+    background-color: var(--menta);
+    padding: 0.5em;
+    border-radius: 6px;
+    color: #206040;
+    font-weight: bold;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+/* RESPONSIVE EXTRAS (opcional) */
+@media (max-width: 500px) {
+    .contenedor-formulario {
+        padding: 1.5em 1em;
+    }
+}

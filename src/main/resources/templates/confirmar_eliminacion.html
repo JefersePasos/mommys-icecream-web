@@ -2,23 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/estilos.css">
     <title>Confirmar Eliminación</title>
 </head>
-<body>
-    <h2>Confirmar Eliminación de Cuenta</h2>
+<body class="centrado">
+    <div class="contenedor-formulario">
+        <h2 style="color: red;">Confirmar Eliminación de Cuenta</h2>
+        <p>Esta acción eliminará tu cuenta permanentemente.</p>
+        
+        <div th:if="${error}" class="error" th:text="${error}"></div>
 
-    <p>Por seguridad, ingresa tu contraseña para confirmar la eliminación de tu cuenta.</p>
+        <p>Por seguridad, ingresa tu contraseña para confirmar la eliminación de tu cuenta.</p>
 
-    <div th:if="${error}">
-        <p style="color:red;" th:text="${error}"></p>
+        <form action="/eliminar-cuenta" method="post">
+            <label>Confirma tu contraseña:</label>
+            <input type="password" name="contrasena" required />
+            <br><br>
+            <button type="submit" style="margin-top: 1em;">Confirmar y eliminar</button>
+        </form>
+
+        <div style="margin-top: 1em;">
+            <a href="/perfil">Cancelar y volver al perfil</a>
+        </div>
+
     </div>
-
-    <form action="/eliminar-cuenta" method="post">
-        <label>Contraseña:</label>
-        <input type="password" name="contrasena" required />
-        <br><br>
-        <button type="submit" style="color: red;">Confirmar y eliminar</button>
-        <a href="/perfil"><button type="button">Cancelar</button></a>
-    </form>
 </body>
 </html>
