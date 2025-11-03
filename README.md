@@ -7,7 +7,7 @@ Bienvenido al repositorio de **Mommy's Ice Cream Web**, una aplicación desarrol
 - **Java**: Lenguaje principal para la lógica de negocio.
 - **Spring Boot**: Framework para el desarrollo ágil y eficiente del backend.
 - **HTML**: Estructura del contenido en la interfaz de usuario.
-- **CSS**: Estilos y diseño visual de la aplicación.
+- **CSS**: Estilos y diseño visual de la aplicación...
 
 ## Estructura del proyecto
 
