@@ -6,19 +6,7 @@ Su objetivo es permitir la gestión de productos dentro del sistema de una helad
 El administrador puede registrar nuevos productos, editarlos, ocultarlos temporalmente o eliminarlos de forma permanente.
 De esta forma se mantiene actualizado el catálogo que aparece en el sitio.
 
-Tecnologías utilizadas
 
-Java 17
-
-Spring Boot
-
-Thymeleaf
-
-HTML y CSS
-
-MySQL
-
-Maven
 
 Estructura principal del proyecto
 src/
