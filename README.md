@@ -1,37 +1,97 @@
-# Mommy's Ice Cream Web
+Mommy’s IceCream Web
+Descripción
 
-Bienvenido al repositorio de **Mommy's Ice Cream Web**, una aplicación desarrollada para la gestión de una heladería. Este proyecto utiliza Java con el framework Spring Boot para el backend, y HTML/CSS para el frontend.
+Este proyecto es una aplicación web desarrollada en Spring Boot con Thymeleaf.
+Su objetivo es permitir la gestión de productos dentro del sistema de una heladería.
+El administrador puede registrar nuevos productos, editarlos, ocultarlos temporalmente o eliminarlos de forma permanente.
+De esta forma se mantiene actualizado el catálogo que aparece en el sitio.
 
-## Tecnologías utilizadas
+Tecnologías utilizadas
 
-- **Java**: Lenguaje principal para la lógica de negocio.
-- **Spring Boot**: Framework para el desarrollo ágil y eficiente del backend.
-- **HTML**: Estructura del contenido en la interfaz de usuario.
-- **CSS**: Estilos y diseño visual de la aplicación.
+Java 17
 
-## Estructura del proyecto
+Spring Boot
 
-La aplicación está organizada en las siguientes partes principales:
+Thymeleaf
 
-- `/src/main/java` - Código fuente backend con Spring Boot.
-- `/src/main/resources` - Archivos de configuración y recursos estáticos.
-- `/src/main/resources/static` - Archivos HTML y CSS para el frontend.
-- `/src/test/java` - Pruebas unitarias y de integración.
+HTML y CSS
 
-## Instalación
+MySQL
 
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/JefersePasos/mommys-icecream-web.git
-   ```
-2. Abre el proyecto en tu IDE favorito (IntelliJ IDEA, Eclipse, VS Code, etc).
-3. Asegúrate de tener Java 17+ y Maven instalados.
-4. Ejecuta la aplicación:
-   ```bash
-   mvn spring-boot:run
-   ```
+Maven
 
-## Ejecución
+Estructura principal del proyecto
+src/
+ └── main/
+      ├── java/MommysIceCreamWeb/demo/
+      │     ├── controller/
+      │     │     └── ProductoController.java
+      │     ├── model/
+      │     │     └── Producto.java
+      │     ├── repository/
+      │     │     └── ProductoRepository.java
+      │     └── service/
+      │           └── ProductoService.java
+      └── resources/
+            ├── templates/
+            │     └── productos/
+            │           ├── listar.html
+            │           └── form.html
+            ├── static/
+            │     └── css/
+            │           └── style.css
+            └── application.properties
 
-La aplicación estará disponible en [http://localhost:8080](http://localhost:8080).
+Conexión a la base de datos
 
+El sistema está preparado para funcionar con MySQL.
+En el archivo application.properties ya viene configurada una conexión local por defecto:
+
+spring.datasource.url=jdbc:mysql://localhost:3306/mommys_icecream
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.thymeleaf.cache=false
+server.port=8080
+
+
+Si se va a usar otro usuario o contraseña de MySQL, solo se deben cambiar esas dos líneas.
+La base de datos utilizada se llama mommys_icecream y puede importarse usando el archivo .sql que se incluye en el repositorio.
+
+Cómo ejecutar el proyecto
+
+Crear la base de datos mommys_icecream en MySQL (o importar el archivo .sql).
+
+Verificar la conexión en application.properties.
+
+Desde la carpeta del proyecto, ejecutar el siguiente comando:
+
+mvn spring-boot:run
+
+
+Una vez iniciado, abrir el navegador y entrar a:
+
+http://localhost:8080/productos
+
+
+Ahí se puede probar el sistema completo de registro y manejo de productos.
+
+Funcionalidades
+
+Registrar nuevos productos con nombre y estado.
+
+Editar información de productos existentes.
+
+Ocultar temporalmente un producto cuando no está disponible.
+
+Eliminar productos de forma permanente.
+
+Visualización del catálogo en una tabla con opciones de acción.
+
+Estado actual del proyecto
+
+El proyecto se encuentra funcional y listo para pruebas o despliegue.
+Solo requiere tener MySQL instalado y la base de datos configurada correctamente.
+El resto del código y las vistas están listas para usarse sin cambios adicionales.
