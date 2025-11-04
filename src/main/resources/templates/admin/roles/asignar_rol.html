@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Asignar Rol</title>
+    <link rel="stylesheet" href="/css/estilos.css" />
+</head>
+<body class="centrado">
+
+<div class="contenedor-formulario">
+    <h2>Asignar Rol</h2>
+
+    <p>Seleccioná un nuevo rol para el usuario <strong th:text="${usuario.nombre} + ' ' + ${usuario.primerApellido}"></strong></p>
+
+    <form th:action="@{/admin/roles/asignar}" method="post">
+        <input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+
+        <label for="rol">Nuevo Rol:</label>
+        <select name="rolId" id="rol" required>
+            <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}" th:selected="${rol.id == usuario.rol.id}"></option>
+        </select>
+
+        <br><br>
+        <button type="submit">Confirmar</button>
+    </form>
+
+    <br>
+    <a href="/admin/roles/dashboard">
+        <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
+    </a>
+</div>
+
+</body>
+</html>

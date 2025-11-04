@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Confirmar Revocación</title>
+    <link rel="stylesheet" href="/css/estilos.css" />
+</head>
+<body class="centrado">
+
+<div class="contenedor-formulario">
+    <h2 style="color: red;">¿Revocar rol?</h2>
+    <p>¿Estás seguro de que deseas quitar el rol de <strong th:text="${usuario.rol.nombre}"></strong> al usuario <strong th:text="${usuario.nombre} + ' ' + ${usuario.primerApellido}"></strong>?</p>
+
+    <form th:action="@{'/admin/roles/revocar/' + ${usuario.id}}" method="post">
+        <button type="submit">Sí, revocar rol</button>
+    </form>
+
+    <br>
+    <a href="/admin/roles/dashboard">
+        <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
+    </a>
+</div>
+
+</body>
+</html>

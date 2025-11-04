@@ -10,7 +10,12 @@ import java.util.List;
 @Data //Lombok
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Usuario {
+
+    @ManyToOne
+    @JoinColumn(name = "rol_id")
+    private Rol rol;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
