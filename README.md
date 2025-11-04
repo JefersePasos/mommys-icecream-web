@@ -7,6 +7,13 @@ El administrador puede registrar nuevos productos, editarlos, ocultarlos tempora
 De esta forma se mantiene actualizado el catálogo que aparece en el sitio.
 
 
+ feature/product
+
+- **Java**: Lenguaje principal para la lógica de negocio.
+- **Spring Boot**: Framework para el desarrollo ágil y eficiente del backend.
+- **HTML**: Estructura del contenido en la interfaz de usuario.
+- **CSS**: Estilos y diseño visual de la aplicación...
+main
 
 Estructura principal del proyecto
 src/
