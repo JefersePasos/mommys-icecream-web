@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Dashboard de Roles</title>
+        <link rel="stylesheet" href="/css/estilos.css" />
+    </head>
+    <body> 
+        <header>
+            <div class="navbar">
+                <a class="brand" th:href="@{/}">
+                    <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+                    <h1>
+                        <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
+                        <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
+                    </h1>
+                </a>
+
+                <nav class="nav-menu">
+                    <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
+                    <a th:href="@{/productos/listar}"       th:text="#{nav.catalogo}">Catálogo</a>
+                    <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
+                    <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <span th:text="${lang} ?: 'ES'">ES</span>
+                    <a th:href="@{/carrito}" title="Carrito"</a>
+                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                    <a th:href="@{/login}" title="Cuenta">
+                        <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
+                    </a>
+                </div>
+            </div>
+        </header>
+        <div class="centrado">
+
+            <div class="contenedor-formulario" style="max-width: 900px;">
+
+                <!-- Tabla de usuarios con sus roles -->
+                <h2>Panel de Administración de Roles</h2>
+                <div th:if="${session.errorRol}" class="error" th:text="${session.errorRol}"></div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">Nombre</th>
+                            <th style="text-align: left;">Correo</th>
+                            <th style="text-align: left;">Rol Actual</th>
+                            <th style="text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td th:text="${usuario.nombre} + ' ' + ${usuario.primerApellido}"></td>
+                            <td th:text="${usuario.correo}"></td>
+                            <td th:text="${usuario.rol.nombre}"></td>
+                            <td>
+                                <form th:action="@{'/admin/roles/asignar/' + ${usuario.id}}" method="get" style="display:inline;">
+                                    <button type="submit">Cambiar rol</button>
+                                </form>
+                                <form th:if="${usuario.rol.nombre != 'Cliente'}"
+                                      th:action="@{'/admin/roles/confirmar-revocacion/' + ${usuario.id}}" method="get"
+                                      style="display:inline;">
+                                    <button type="submit" style="background-color: #ffe6e6; color: #b30000;">
+                                        Revocar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Tabla de roles existentes -->
+                <h3 style="margin-top: 2em;">Roles existentes</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">Nombre del rol</th>
+                            <th style="text-align: center;">Estado</th>    
+                            <th style="text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="rol : ${roles}">
+                            <td th:text="${rol.nombre}"></td>
+                            <td th:text="${#strings.toString(rol)}"></td> <!-- <td th:text="${rol.activo} ? 'Activo' : 'Inactivo'"></td> -->
+                            <td style="text-align: center;">
+                                <form th:action="@{'/admin/roles/editar/' + ${rol.id}}" method="get" style="display:inline;">
+                                    <button type="submit">Editar</button>
+                                </form>
+                                <form th:action="@{'/admin/roles/eliminar/' + ${rol.id}}" method="post"
+                                      onsubmit="return confirm('¿Estás seguro de que deseas eliminar este rol?');"
+                                      style="display:inline; margin-left: 0.5em;">
+                                    <button type="submit" style="background-color: #ffd6d6; color: #800000;">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 2em;">
+                    <form action="/admin/roles/crear" method="get">
+                        <button type="submit">➕ Crear nuevo rol</button>
+                    </form>
+                </div>
+
+                <div style="margin-top: 2em;">
+                    <a href="/perfil">
+                        <button style="background-color: var(--gris); color: var(--texto);">Volver</button>
+                    </a>
+                </div>
+            </div> 
+        </div>
+    </body>
+</html>

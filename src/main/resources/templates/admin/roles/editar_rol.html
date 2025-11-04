@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Editar Rol</title>
+    <link rel="stylesheet" href="/css/estilos.css" />
+</head>
+<body class="centrado">
+    <div class="contenedor-formulario">
+        <h2>Editar Rol</h2>
+
+        <form th:action="@{/admin/roles/editar}" th:object="${rol}" method="post">
+            <input type="hidden" th:field="*{id}" />
+
+            <label>Nombre del Rol:</label>
+            <input type="text" th:field="*{nombre}" required />
+
+            <br><br>
+            <button type="submit">Guardar cambios</button>
+        </form>
+
+        <div style="margin-top: 1em;">
+            <a href="/admin/roles/dashboard">
+                <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
