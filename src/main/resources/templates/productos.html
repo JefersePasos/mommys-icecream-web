@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/estilos.css">
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+        <script th:src="@{/js/rutinas.js}"></script>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <title>Mommys Ice Cream - Inicio</title>
+</head>
+<body>
+    <div class="contenedor-header dropdown">
+       <header>
+            <nav>
+                <ul>
+                    <li>
+                        <a th:href="@{/}" >
+                                <img src="/img/logo.png" alt="Logo de Mommys Ice Cream" width="75" height="75"/>
+                                Mommys Ice Cream
+                        </a>
+                    </li>
+                    <li><a th:href="@{/comprar}">Comprar</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/sobre_nosotros}">Sobre Nosotros</a></li>
+                    <li><a th:href="@{/contactenos}">Contactenos</a></li>
+                    <li>
+                        <a th:href="@{/carrito}">
+                            <img src="https://www.freeiconspng.com/uploads/basket-cart-icon-27.png" width="50" height="50" alt="basket cart icon" /></a>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/login}">
+                            <img src="/img/login_logo.png" alt="Login" width="50" height="50"/>
+                        </a>
+                    </li>
+                    <ul  class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle"  data-bs-toggle="dropdown"  href="#" role="button" aria-expanded="false">
+                                Idioma</a>
+                            <ul class="dropdown-menu languaje-select">
+                                <li><a class="dropdown-item" th:href="@{/(lang=es)}">Español</a></li>
+                                <li><a class="dropdown-item" th:href="@{/(lang=en)}">English</a></li>
+                                <li><a class="dropdown-item" th:href="@{/(lang=fr)}">Française</a></li>
+                                <li><a class="dropdown-item" th:href="@{/(lang=pt)}">Portugaise</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </ul>
+            </nav>
+        </header>
+    </div>
+    <div>
+        <section class="catalogo">
+            <h2>Sabores Disponibles</h2>
+            <p>Explora nuestra variedad de sabores clásicos y exclusivos.</p>
+        </section>
+        <section class="catalogo">
+            <h2>Nuevos Sabores</h2>
+            <p>Explora nuestra variedad de sabores clásicos y exclusivos.</p>
+        </section>
+        <section class="catalogo">
+            <h2>Pide un Sabor Personalizado</h2>
+            <p>Explora nuestra variedad de sabores clásicos y exclusivos.</p>
+            <div class="contenedor-formulario">
+                <div th:if="${error}">
+                    <p class="error" th:text="${error}"></p>
+                </div>
+
+                <form method="post">
+                    <label>Nombre Completo:</label>
+                    <input type="text" field="nombre" required />
+
+                    <label>Correo Electrónico:</label>
+                    <input type="email" th:field="email" required />
+
+                    <label>Número de Teléfono:</label>
+                    <input type="number" th:field="phone" required />
+
+                    <label>Descripción del sabor:</label>
+                    <input type="text" th:field="sabor" required />
+
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    <div>
+        <footer>
+            <p>&copy; 2025 Mommys Ice Cream. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+</body>
+</html>

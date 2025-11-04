@@ -20,10 +20,12 @@ body {
 }
 
 header {
-    text-align: center;
+    position: fixed;
+    text-align: justify;
     background-color: var(--naranja);
+    width: 100% ;
     color: white;
-    padding: 2em;
+    padding: 0;
     border-bottom: 5px solid var(--naranja-hover);
 }
 
@@ -66,10 +68,13 @@ button:hover {
 
 footer {
     text-align: center;
-    padding: 1em;
     background-color: var(--gris);
     font-size: 0.9em;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     color: var(--texto-suave);
+    position: fixed;
 }
 
 /* CENTRAR VERTICAL Y HORIZONTAL */
@@ -92,6 +97,38 @@ footer {
     max-width: 400px;
 }
 
+/* CONTENEDOR DE FORMULARIO */
+.contenedor-header {
+    background-color: white;
+    border-radius: 12px;
+    width: 100%;
+}
+
+/* CONTENEDOR DE FORMULARIO */
+.contenedor-header li {
+    background-color: var(--naranja);
+    padding: 1%;
+    display: inline;
+    width: 100%;
+    
+}
+
+.contenedor-header  a{
+    font-family: 'Trebuchet MS';
+    font-size: large;
+    text-decoration-line: none;
+    color: var(--texto);
+    
+}
+
+.languaje-select li{
+    background-color: white;
+    color: var(--texto);
+    text-decoration-line: none;
+    display: line;
+    padding: 0%;
+}
+
 /* INPUTS */
 form input {
     width: 100%;
@@ -101,6 +138,24 @@ form input {
     border-radius: 8px;
     font-size: 1em;
     box-sizing: border-box;
+}
+
+.catalogo{
+    width: 33%;
+    border: 1px solid var(--gris);
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    background-color: white;
+    color: var(--texto);
+}
+
+.catalogo li{
+    background-color: gray;
+    color: var(--texto);
+    text-decoration-line: none;
+    display: line;
+    padding: 0%;
 }
 
 /* BOTÓN */
