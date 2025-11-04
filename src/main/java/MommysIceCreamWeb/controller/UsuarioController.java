@@ -29,12 +29,12 @@ public class UsuarioController {
     @GetMapping("/registro") // Mostrar el formulario de registro | Apunta al registro.html en templates.
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "registro";
+        return "login/registro";
     }
     @GetMapping("/login") // Mostrar el formulario de login | Apunta al login.html en templates.
     public String mostrarFormularioLogin(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "login";
+        return "login/login";
     }
 
     @GetMapping("/perfil")// Mostrar perfil del usuario | Apunta al perfil.html en templates.
@@ -49,7 +49,7 @@ public class UsuarioController {
         //String correo = principal.getName();
         //Usuario usuario = usuarioService.buscarPorCorreo(correo).orElse(null);
         model.addAttribute("usuario", usuario);
-        return "perfil";
+        return "user/perfil";
     }
 
     //@GetMapping("/logout") // Cerrar sesión | No recibe datos
@@ -67,12 +67,12 @@ public class UsuarioController {
         }
 
         model.addAttribute("usuario", usuario);
-        return "editar_perfil";
+        return "user/editar_perfil";
     }
 
     @GetMapping("/cuenta-eliminada") // Mostrar página de cuenta eliminada | Apunta al cuenta_eliminada.html en templates.
     public String cuentaEliminada() {
-        return "cuenta_eliminada";
+        return "user/cuenta_eliminada";
     }
 
     @GetMapping("/confirmar-eliminacion") // Mostrar página de confirmación de eliminación de cuenta | Apunta al confirmar_eliminacion.html en templates.
@@ -81,7 +81,7 @@ public class UsuarioController {
         if (usuario == null) {
             return "redirect:/login";
         }
-        return "confirmar_eliminacion";
+        return "user/confirmar_eliminacion";
     }
 
     //Todo los metodos de procesar formularios
@@ -90,7 +90,7 @@ public class UsuarioController {
 
         if (usuarioService.buscarPorCorreo(usuario.getCorreo()).isPresent()) { // Validar si ya existe el correo
             model.addAttribute("error", "Ya existe una cuenta con ese correo.");
-            return "registro";
+            return "login/registro";
         }
 
         // Si se ingresó un número, crear objeto Telefono
@@ -123,7 +123,7 @@ public class UsuarioController {
         }
 
         model.addAttribute("error", "Correo o contraseña incorrectos.");
-        return "login";
+        return "login/login";
     }
 
     @PostMapping("/editar-perfil") // Procesar el formulario de edición de perfil | Recibe los datos del formulario de edición de perfil
@@ -159,7 +159,7 @@ public class UsuarioController {
         session.setAttribute("usuarioLogueado", usuarioOriginal);
         model.addAttribute("mensaje", "Perfil actualizado correctamente");
 
-        return "editar_perfil";
+        return "user/editar_perfil";
     }
 
     @PostMapping("/logout") // Cerrar sesión | No recibe datos
@@ -185,11 +185,11 @@ public class UsuarioController {
 
         if (!usuario.getContrasena().equals(contrasena)) {// Validar contraseña (plana, sin BCrypt)
             model.addAttribute("error", "La contraseña no coincide.");
-            return "confirmar_eliminacion"; // ← No elimina nada
+            return "user/confirmar_eliminacion"; // ← No elimina nada
         }
 
         usuarioService.eliminarUsuario(usuario.getId()); //Solo si coincide se elimina
         session.invalidate();
-        return "cuenta_eliminada"; // o a una página de confirmación
+        return "user/cuenta_eliminada"; // o a una página de confirmación
     }
 }
