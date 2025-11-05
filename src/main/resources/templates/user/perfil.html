@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Perfil</title>
+        <link rel="stylesheet" href="/css/estilos.css">
+    </head>
+    <body> 
+        <header>
+            <div class="navbar">
+                <a class="brand" th:href="@{/}">
+                    <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+                    <h1>
+                        <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
+                        <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
+                    </h1>
+                </a>
+
+                <nav class="nav-menu">
+                    <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
+                    <a th:href="@{/productos/listar}"       th:text="#{nav.catalogo}">Catálogo</a>
+                    <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
+                    <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <span th:text="${lang} ?: 'ES'">ES</span>
+                    <a th:href="@{/carrito}" title="Carrito"</a>
+                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                    <a th:href="@{/login}" title="Cuenta">
+                        <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
+                    </a>
+                </div>
+            </div>
+        </header>
+        <div class="centrado">
+
+            <div class="contenedor-formulario">
+                <h2>Hola, <span th:text="${usuario.nombre}">Usuario</span> 👋</h2>
+
+                <div class="perfil-datos">
+                    <p><strong>Correo:</strong> <span th:text="${usuario.correo}"></span></p>
+                    <p><strong>Provincia:</strong> <span th:text="${usuario.provincia}"></span></p>
+                    <p><strong>Cantón:</strong> <span th:text="${usuario.canton}"></span></p>
+                    <p><strong>Distrito:</strong> <span th:text="${usuario.distrito}"></span></p>
+                    <p><strong>Dirección:</strong> <span th:text="${usuario.direccionExacta}"></span></p>
+                </div>
+
+                <div style="margin-top: 1.5em; display: flex; flex-direction: column; gap: 0.5em;">
+                    <a href="/editar-perfil" style="text-decoration: none">
+                        <button style="background-color: var(--naranja); text-decoration: none; color: var(--texto); font-weight: 600;">Editar perfil</button>
+                    </a>
+
+                    <form action="/logout" method="post">
+                        <button type="submit" style="background-color: var(--gris); text-decoration: none; color: var(--texto); font-weight: 600;">Cerrar sesión</button>
+                    </form>
+
+                    <form action="/confirmar-eliminacion" method="get">
+                        <button type="submit" style="background-color: var(--rosado); text-decoration: none; color: var(--texto); font-weight: 600;">Eliminar cuenta</button>
+                    </form>
+                </div>
+                <!-- Solo mostrar si el usuario es Administrador por seguridad-->
+                <div th:if="${usuario != null and usuario.rol != null
+                     and #strings.equalsIgnoreCase(usuario.rol.nombre,'Administrador')}"
+                     style="margin-top:1em;">
+                    <a th:href="@{/admin/roles/dashboard}" style="text-decoration: none; font-weight: 600;">
+                        <button style="background-color: var(--durazno); text-decoration: none; color: var(--texto); font-weight: 600;">Ir al Panel de Roles</button>
+                    </a>
+                    <a th:href="@{/productos/dashboardProductos}" style="text-decoration: none; font-weight: 600;">
+                        <button style="background-color: var(--menta); text-decoration: none; color: var(--texto); font-weight: 600;">Gestión de Productos</button>
+                    </a>
+                </div>
+            </div>
+
+        </div>    
+    </body>
+</html>

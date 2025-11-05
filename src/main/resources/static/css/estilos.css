@@ -1,0 +1,398 @@
+
+:root {
+    --naranja: #FFA978;
+    --naranja-hover: #FF9460;
+    --durazno: #FFE6D5;
+    --menta: #CFFFE2;
+    --rosado: #FFC1CC;
+    --vainilla: #FFF4CC;
+    --gris: #EDEDED;
+    --texto: #333333;
+    --texto-suave: #777777;
+    --side-pad: clamp(16px, 5vw, 48px);
+    --site-max: 1800px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--durazno);
+    color: var(--texto);
+}
+
+header {
+    background-color: var(--naranja);
+    color: white;
+    padding: 0;
+    border-bottom: 5px solid var(--naranja-hover);
+    padding:0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2em;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid var(--gris);
+    padding: 1.5em;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.card.secundaria {
+    background-color: var(--vainilla);
+}
+
+button {
+    background-color: var(--naranja);
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1em;
+}
+
+button:hover {
+    background-color: var(--naranja-hover);
+}
+
+footer {
+    text-align: center;
+    padding: 1em;
+    background-color: var(--naranja);
+    font-size: 0.9em;
+    color: var white;
+}
+
+/* CENTRAR VERTICAL Y HORIZONTAL */
+.centrado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+    background-color: var(--durazno);
+    padding: 1em;
+}
+
+/* CONTENEDOR DE FORMULARIO */
+.contenedor-formulario {
+    background-color: white;
+    padding: 2em;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* INPUTS */
+form input {
+    width: 100%;
+    padding: 0.6em;
+    margin: 0.5em 0 1em 0;
+    border: 1px solid var(--gris);
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+/* BOTÓN */
+form button {
+    width: 100%;
+    padding: 0.6em;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+}
+
+a button { /* Para los botones que son enlaces */
+    display: block;
+    width: 100%;
+}
+
+form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
+    width: 100%;
+    padding: 0.6em;
+    margin: 0.5em 0 1em 0;
+    border: 1px solid var(--gris);
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+/* MENSAJE DE ERROR */
+.error {
+    background-color: var(--rosado);
+    padding: 0.5em;
+    border-radius: 6px;
+    color: #a33;
+    font-weight: bold;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.mensaje { /* MENSAJE DE ÉXITO */
+    background-color: var(--menta);
+    padding: 0.5em;
+    border-radius: 6px;
+    color: #206040;
+    font-weight: bold;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+/* RESPONSIVE EXTRAS (opcional) */
+@media (max-width: 500px) {
+    .contenedor-formulario {
+        padding: 1.5em 1em;
+    }
+}
+
+.navbar{
+    width: 100%;
+    max-width:none;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:minmax(260px,auto) 1fr auto;
+    align-items:center;
+    height:90px;
+    padding:0 32px;
+    gap:32px;
+}
+
+.nav-left{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    text-decoration:none;
+    color:#fff;
+}
+.brand img{
+    width:100px;
+    height:100px;
+    /*  border-radius:50%;*/
+    object-fit:cover;
+    /*  border:1px solid rgba(255,255,255,.35);*/
+}
+.brand h1{
+    margin:0;
+    line-height:1.1;
+    font-size:26px;
+    font-weight:700;
+    color: white;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand h1 span{
+    display:block;
+    color:#fff;
+}
+
+/* menu + actions */
+.nav-menu{
+    display:flex;
+    gap:48px;
+    justify-content:center;
+}
+
+.nav-menu a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    font-size: 20px;
+}
+
+.nav-actions{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    color:#fff
+}
+
+/* --- HERO --- */
+.hero{
+    max-width:none;
+    width: 100%;
+    margin:24px auto;
+    display:block;
+}
+/*.hero>.wide{
+    grid-column:1/-1;
+}*/
+
+.tile {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.tile img {
+    display: block;
+    width: 100%;
+    height: clamp(220px, 26vh, 460px);
+    object-fit: cover;
+    object-position: center;
+}
+
+.tile-cta{
+    position:absolute;
+    right: min(3vw, 24px);
+    bottom: min(2.5vw, 20px);
+    z-index: 2;
+}
+
+/* --- GRID 3 --- */
+.grid3{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: var(--site-max);
+    margin: 32px auto 48px;
+    padding: 0 var(--side-pad);
+    box-sizing: border-box;
+}
+.grid3 .tile img{
+    aspect-ratio:4/3;
+}
+
+.footer-note{
+    max-width:1200px;
+    margin:0 auto;
+}
+
+
+@media (max-width:900px){
+    .hero{
+        grid-template-columns:1fr;
+    }
+    .grid3{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.page{
+    max-width: 2525px;
+    margin: 24px auto;
+    /*    padding:32px 32px;   */
+
+}
+
+/* === FULL-WIDTH HERO === */
+.hero--banner {
+    position: relative;
+    max-width: var(--site-max);
+    margin: 48px auto;
+    overflow: hidden;
+    padding: 0 var(--side-pad);
+    box-sizing: border-box;
+}
+
+/* Imagen tipo banner */
+.hero--banner .hero-img {
+    display: block;
+    width: 100%;
+    height: clamp(280px, 45vh, 560px);
+    border-radius: 12px;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.hero--banner .cta {
+    position: absolute;
+    right: 5%;
+    bottom: 8%;
+    z-index: 2;
+}
+
+/* Botón sobre el banner */
+.hero--banner .cta button {
+    background-color: var(--naranja);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 0.8em 1.6em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+}
+
+.hero--banner .cta button:hover {
+    background-color: var(--naranja-hover);
+}
+
+/* Previene scroll lateral por márgenes o anchos forzados */
+html, body {
+    overflow-x: hidden;
+}
+
+/* Universal para evitar box-sizing inconsistencias */
+html {
+    box-sizing: border-box;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+.btn {
+    display: inline-block;
+    background: var(--naranja);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: clamp(14px, 1.7vw, 16px);
+    line-height: 1;
+    padding: 12px 18px;
+    border: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.btn.pill {
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-weight: 800;
+}
+
+.btn:hover {
+    background: var(--naranja-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+

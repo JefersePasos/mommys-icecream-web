@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Inactivar Rol</title>
+    <link rel="stylesheet" href="/css/estilos.css" />
+</head>
+<body class="centrado">
+
+<div class="contenedor-formulario">
+    <h2 style="color: #cc6600;">¿Inactivar este rol?</h2>
+    <p>Estás a punto de marcar el rol <strong th:text="${rol.nombre}"></strong> como <strong>inactivo</strong>.</p>
+    <p>Los usuarios ya no podrán ser asignados a este rol, pero no se eliminará del sistema.</p>
+
+    <form th:action="@{'/admin/roles/inactivar/' + ${rol.id}}" method="post">
+        <button type="submit" style="background-color: #f9e6cc; color: #cc6600;">Sí, inactivar</button>
+    </form>
+
+    <div style="margin-top: 1em;">
+        <a href="/admin/roles/dashboard">
+            <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
