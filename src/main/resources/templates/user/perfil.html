@@ -47,25 +47,31 @@
                 </div>
 
                 <div style="margin-top: 1.5em; display: flex; flex-direction: column; gap: 0.5em;">
-                    <a href="/editar-perfil">
-                        <button>Editar perfil</button>
+                    <a href="/editar-perfil" style="text-decoration: none">
+                        <button style="background-color: var(--naranja); text-decoration: none; color: var(--texto); font-weight: 600;">Editar perfil</button>
                     </a>
 
                     <form action="/logout" method="post">
-                        <button type="submit" style="background-color: var(--gris); color: var(--texto);">Cerrar sesión</button>
+                        <button type="submit" style="background-color: var(--gris); text-decoration: none; color: var(--texto); font-weight: 600;">Cerrar sesión</button>
                     </form>
 
                     <form action="/confirmar-eliminacion" method="get">
-                        <button type="submit" style="background-color: #ffb3b3; color: #800000;">Eliminar cuenta</button>
+                        <button type="submit" style="background-color: var(--rosado); text-decoration: none; color: var(--texto); font-weight: 600;">Eliminar cuenta</button>
                     </form>
                 </div>
+                <!-- Solo mostrar si el usuario es Administrador por seguridad-->
+                <div th:if="${usuario != null and usuario.rol != null
+                     and #strings.equalsIgnoreCase(usuario.rol.nombre,'Administrador')}"
+                     style="margin-top:1em;">
+                    <a th:href="@{/admin/roles/dashboard}" style="text-decoration: none; font-weight: 600;">
+                        <button style="background-color: var(--durazno); text-decoration: none; color: var(--texto); font-weight: 600;">Ir al Panel de Roles</button>
+                    </a>
+                    <a th:href="@{/productos/dashboardProductos}" style="text-decoration: none; font-weight: 600;">
+                        <button style="background-color: var(--menta); text-decoration: none; color: var(--texto); font-weight: 600;">Gestión de Productos</button>
+                    </a>
+                </div>
             </div>
-            <!-- Solo mostrar si el usuario es Administrador por seguridad-->
-            <div th:if="${usuario.rol.nombre == 'Administrador'}" style="margin-top: 1em;">
-                <a th:href="@{/admin/roles/dashboard}">
-                    <button style="background-color: var(--naranja); color: white;">Ir al Panel de Roles</button>
-                </a>
-            </div>
+
         </div>    
     </body>
 </html>

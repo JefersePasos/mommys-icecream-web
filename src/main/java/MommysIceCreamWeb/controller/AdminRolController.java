@@ -24,17 +24,18 @@ public class AdminRolController {
     }
 
     // Todo los metodos de mostrar formularios
-    @GetMapping("/dashboard") // Mostrar el dashboard de gestión de roles | Apunta al dashboard.html en templates/admin/roles.
+    @GetMapping("/dashboard")
     public String dashboardRoles(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-
-        if (usuario == null || !usuario.getRol().getNombre().equalsIgnoreCase("Administrador")) { // Verificar si el usuario es administrador  
+        Usuario admin = (Usuario) session.getAttribute("usuarioLogueado");
+        if (admin == null || admin.getRol() == null
+                || !"Administrador".equalsIgnoreCase(admin.getRol().getNombre())) {
             return "redirect:/login";
         }
 
         List<Usuario> usuarios = usuarioService.listarTodos();
         List<Rol> roles = rolService.listarTodos();
 
+        model.addAttribute("admin", admin);
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("roles", roles);
         return "admin/roles/dashboard";
@@ -48,7 +49,7 @@ public class AdminRolController {
             return "redirect:/login";
         }
 
-        Usuario usuario = usuarioService.buscarPorId(id).orElse(null); 
+        Usuario usuario = usuarioService.buscarPorId(id).orElse(null);
         if (usuario == null) {
             return "redirect:/admin/roles/dashboard";
         }
@@ -121,7 +122,6 @@ public class AdminRolController {
         return "admin/roles/inactivar_rol";
     }
 
-
     // Todos los metodos de procesar formularios 
     @PostMapping("/asignar") // Procesar el formulario para asignar un rol a un usuario | Recibe los datos del formulario de asignar rol
     public String asignarRol(@RequestParam Long usuarioId, @RequestParam Long rolId, HttpSession session) {
@@ -178,22 +178,32 @@ public class AdminRolController {
         return "redirect:/admin/roles/dashboard";
     }
 
-    @PostMapping("/crear") // Procesar el formulario para crear un nuevo rol | Recibe los datos del formulario de crear rol
+    @PostMapping("/crear")
     public String crearRol(@ModelAttribute Rol rol, HttpSession session, Model model) {
-        Usuario admin = (Usuario) session.getAttribute("usuarioLogueado");
-
-        if (admin == null || !admin.getRol().getNombre().equalsIgnoreCase("Administrador")) {
+        var admin = (Usuario) session.getAttribute("usuarioLogueado");
+        if (admin == null || admin.getRol() == null
+                || !"Administrador".equalsIgnoreCase(admin.getRol().getNombre())) {
             return "redirect:/login";
         }
 
         // Validar que no exista un rol con el mismo nombre
-        if (rolService.buscarPorNombre(rol.getNombre()).isPresent()) {
+        if (rol.getNombre() == null || rol.getNombre().trim().isEmpty()) {
+            model.addAttribute("rol", rol);
+            model.addAttribute("error", "El nombre es obligatorio.");
+            return "admin/roles/crear_rol";
+        }
+
+        var nombre = rol.getNombre().trim();
+        if (rolService.buscarPorNombre(nombre).isPresent()) {
             model.addAttribute("rol", rol);
             model.addAttribute("error", "Ya existe un rol con ese nombre.");
             return "admin/roles/crear_rol";
         }
-
+        
+        rol.setNombre(nombre);
+        rol.setActivo(Boolean.TRUE);
         rolService.guardar(rol);
+        
         return "redirect:/admin/roles/dashboard";
     }
 
@@ -212,8 +222,8 @@ public class AdminRolController {
         }
 
         List<Usuario> usuariosConRol = usuarioService.listarTodos().stream()
-            .filter(u -> u.getRol().getId().equals(id))
-            .toList();
+                .filter(u -> u.getRol().getId().equals(id))
+                .toList();
 
         if (!usuariosConRol.isEmpty()) {
             session.setAttribute("errorRol", "Este rol está en uso y no puede eliminarse.");

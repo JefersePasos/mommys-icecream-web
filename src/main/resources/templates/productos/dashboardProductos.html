@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Productos – Mommy’s Ice Cream</title>
+        <!-- Usa tu hoja de estilos actual -->
+        <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+    </head>
+    <body>
+        <!-- Barra superior (misma del sitio) -->
+        <header>
+            <div class="navbar">
+                <a class="brand" th:href="@{/}">
+                    <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+                    <h1>
+                        <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
+                        <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
+                    </h1>
+                </a>
+
+                <nav class="nav-menu">
+                    <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
+                    <a th:href="@{/productos/listar}" th:text="#{nav.catalogo}">Catálogo</a>
+                    <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
+                    <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <span th:text="${lang} ?: 'ES'">ES</span>
+                    <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
+                        <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                    </a>
+                    <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
+                        <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido centrado con tu card -->
+        <div class="centrado" style="align-items:flex-start;">
+            <div class="contenedor-formulario" style="max-width:1100px; width:100%;">
+                <h2 style="margin-top:0;">Gestión de Productos</h2>
+
+                <!-- Botón agregar (usa .btn de tu CSS) -->
+                <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
+                    <a th:href="@{/productos/nuevo}" class="btn pill" style="text-decoration:none;">
+                        ➕ Agregar Producto
+                    </a>
+                </div>
+
+                <!-- Tabla -->
+                <div style="overflow:auto;">
+                    <table style="
+                           width:100%;
+                           border-collapse:separate;
+                           border-spacing:0 10px;       /* ‘líneas’ de aire entre filas */
+                           ">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);">ID</th>
+                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);">Nombre</th>
+                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);">Estado</th>
+                                <th style="text-align:center; padding:10px 12px; color:var(--texto-suave);">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Fila como ‘chip’ con tu paleta -->
+                            <tr th:each="producto : ${productos}" style="background:#fff; box-shadow:0 4px 10px rgba(0,0,0,.06);">
+                                <td style="padding:14px 12px; border-radius:10px 0 0 10px;" th:text="${producto.id}">1</td>
+                                <td style="padding:14px 12px;" th:text="${producto.nombre}">Nombre</td>
+                                <td style="padding:14px 12px;">
+                                    <span th:text="${producto.status} ? 'Disponible' : 'No disponible'"></span>
+                                </td>
+                                <td style="padding:10px 12px; border-radius:0 10px 10px 0;">
+                                    <div style="display:flex; gap:10px; justify-content:center;">
+                                        <!-- Botones con tus variables -->
+                                        <a th:href="@{'/productos/editar/' + ${producto.id}}"
+                                           class="btn pill"
+                                           style="background:var(--naranja);">
+                                            ✏️ Editar
+                                        </a>
+                                        <a th:href="@{'/productos/eliminar/' + ${producto.id}}"
+                                           class="btn pill"
+                                           style="background:var(--rosado); color:#800000;">
+                                            🗑️ Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- ‘Separador visual’ entre filas ya lo genera border-spacing;
+                                 si quisieras una línea, sustituye border-spacing por border-bottom en cada <tr>. -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Mommys Ice Cream</p>
+        </footer>
+    </body>
+</html>

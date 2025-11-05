@@ -25,13 +25,13 @@ public class UsuarioService {
     }
 
     public void registrarUsuario(Usuario usuario) { //Método para registrar un nuevo usuario
-        // aca hacemos el hash de la contrasena para guardarla de forma segura
-        //String hash = passwordEncoder.encode(usuario.getContrasena());
-        //usuario.setContrasena(hash);
-        // aca guardamos el usuario en la base de datos
+////         aca hacemos el hash de la contrasena para guardarla de forma segura
+//        String hash = passwordEncoder.encode(usuario.getContrasena());
+//        usuario.setContrasena(hash);
+//         aca guardamos el usuario en la base de datos
 
         if (usuario.getRol() == null) { // Asignar rol "Cliente" por defecto si no se ha asignado ningún rol
-            Rol clienteRol = rolRepository.findByNombre("Cliente")
+            Rol clienteRol = rolRepository.findByNombreIgnoreCase("Cliente")
                     .orElseThrow(() -> new RuntimeException("Rol 'Cliente' no existe"));
             usuario.setRol(clienteRol);
         }

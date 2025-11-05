@@ -13,33 +13,33 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @GetMapping ("/listar")
+    @GetMapping ("/dashboardProductos")
     public String listar(Model model) {
         model.addAttribute("productos", productoService.listarTodos());
-        return "productos/listar";
+        return "productos/dashboardProductos";
     }
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("producto", new Producto());
-        return "productos/form";
+        return "productos/agregar_producto";
     }
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Producto producto) {
         productoService.guardar(producto);
-        return "redirect:/productos";
+        return "redirect:/productos/dashboardProductos";
     }
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
         productoService.obtenerPorId(id).ifPresent(p -> model.addAttribute("producto", p));
-        return "productos/form";
+        return "productos/agregar_producto";
     }
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id) {
         productoService.eliminar(id);
-        return "redirect:/productos";
+        return "redirect:/productos/dashboardProductos";
     }
 }

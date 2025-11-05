@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RolService {
@@ -15,13 +17,14 @@ public class RolService {
     public RolService(RolRepository rolRepository) {
         this.rolRepository = rolRepository;
     }
-
+    
+    @Transactional(readOnly = true)
     public List<Rol> listarTodos() {
-        return rolRepository.findAll();
+        return rolRepository.findAll(Sort.by("nombre").ascending());
     }
 
     public Optional<Rol> buscarPorNombre(String nombre) {
-        return rolRepository.findByNombre(nombre);
+        return rolRepository.findByNombreIgnoreCase(nombre);
     }
 
     public Rol guardar(Rol rol) {

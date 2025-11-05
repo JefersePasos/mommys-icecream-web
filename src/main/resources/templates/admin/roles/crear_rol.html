@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <title>Crear Nuevo Rol</title>
+        <link rel="stylesheet" href="/css/estilos.css" />
     </head>
-    <body>
-        <div>TODO write content</div>
+    <body class="centrado">
+
+        <div class="contenedor-formulario">
+            <h2>Crear Nuevo Rol</h2>
+
+            <form th:action="@{/admin/roles/crear}" method="post">
+                <label>Nombre del rol</label>
+                <input type="text" name="nombre" required minlength="3" maxlength="50" />
+                <button type="submit">Guardar</button>
+                <div th:if="${error}" class="error" th:text="${error}"></div>
+            </form>
+
+            <div style="margin-top: 1em;">
+                <a href="/admin/roles/dashboard">
+                    <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
+                </a>
+            </div>
+        </div>
+
     </body>
 </html>
