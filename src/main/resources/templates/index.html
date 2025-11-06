@@ -10,9 +10,11 @@
     </head>
     <body>
 
-        <!-- Header / Navbar -->
+        <!-- Header / Navbar 
+        Muestra la barra superior interactiva para navegar por la pagina -->
         <header>
-            <div class="navbar">
+            <!--Logo + nombre de la pagina, seccion 1-->
+            <div class="navbar"> 
                 <a class="brand" th:href="@{/}">
                     <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
                     <h1>
@@ -20,14 +22,14 @@
                         <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
                     </h1>
                 </a>
-
+         <!--Categorias del menu, seccion 2-->
                 <nav class="nav-menu">
                     <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
                     <a th:href="@{/productos/listar}"       th:text="#{nav.catalogo}">Catálogo</a>
                     <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
                     <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
                 </nav>
-
+        <!--Opciones de lenguaje y carrito de compras, seccion 3-->
                 <div class="nav-actions">
                     <span th:text="${lang} ?: 'ES'">ES</span>
                     <a th:href="@{/carrito}" title="Carrito"</a>
@@ -38,11 +40,11 @@
                 </div>
             </div>
         </header>
-
+        <!--Banner de helados (Compras) -->
         <section class="hero--banner">
             <img class="hero-img" th:src="${heroLeft} ?: @{/img/banner.jpg}" alt="Helados artesanales" />
             <div class="cta">
-                <a th:href="@{/orden/nueva}">
+                <a th:href="@{/orden/nueva}"> <!--Sin configurar-->
                     <button th:text="#{cta.hacerPedido}">¡Haz tu pedido ya!</button>
                 </a>
             </div>
@@ -74,7 +76,6 @@
                 </div>
             </div>
         </section>
-        <!-- Optional “cards” using the provided styles (example: featured items) -->
         <main th:if="${destacados != null}">
             <div class="card secundaria" th:each="item : ${destacados}">
                 <h3 th:text="${item.nombre}">Paleta artesanal</h3>
