@@ -76,15 +76,6 @@
                 </div>
             </div>
         </section>
-        <main th:if="${destacados != null}">
-            <div class="card secundaria" th:each="item : ${destacados}">
-                <h3 th:text="${item.nombre}">Paleta artesanal</h3>
-                <p th:text="${item.descripcion}">Hechas con fruta natural.</p>
-                <a th:href="@{|/producto/${item.id}|}">
-                    <button th:text="#{cta.comprar}">Comprar</button>
-                </a>
-            </div>
-        </main>
         <footer>
             <p>&copy; 2025 Mommys Ice Cream</p>
         </footer>
