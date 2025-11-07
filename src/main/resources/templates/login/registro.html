@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/css/estilos.css">
+        <title>Registro de Cuenta</title>
+    </head>
+    <body> 
+        <header>
+            <div class="navbar">
+                <a class="brand" th:href="@{/}">
+                    <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+                    <h1>
+                        <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
+                        <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
+                    </h1>
+                </a>
+
+                <nav class="nav-menu">
+                    <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
+                    <a th:href="@{/productos/listar}"       th:text="#{nav.catalogo}">Catálogo</a>
+                    <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
+                    <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <span th:text="${lang} ?: 'ES'">ES</span>
+                    <a th:href="@{/carrito}" title="Carrito"</a>
+                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                    <a th:href="@{/login}" title="Cuenta">
+                        <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
+                    </a>
+                </div>
+            </div>
+        </header>
+        <div class="centrado">
+            <div class="contenedor-formulario">
+                <!-- Aca iniciamos el crear una nueva cuenta hecha por Deyvin -->
+                <h2>Crear Cuenta</h2>
+
+                <div th:if="${error}" class="error" th:text="${error}"></div>
+                <div th:if="${mensaje}" class="mensaje" th:text="${mensaje}"></div>
+
+                <form th:action="@{/registro}" th:object="${usuario}" method="post">
+                    <label>Nombre:</label>
+                    <input type="text" th:field="*{nombre}" required /><br/>
+
+                    <label>Primer Apellido:</label>
+                    <input type="text" th:field="*{primerApellido}" required /><br/>
+
+                    <label>Segundo Apellido:</label>
+                    <input type="text" th:field="*{segundoApellido}" /><br/>
+
+                    <label>Fecha de nacimiento:</label>
+                    <input type="date" th:field="*{fechaNacimiento}" /><br/>
+
+                    <label>Correo:</label>
+                    <input type="email" th:field="*{correo}" required /><br/>
+
+                    <label>Contraseña:</label>
+                    <input type="password" th:field="*{contrasena}" required /><br/>
+
+                    <label>Provincia:</label>
+                    <input type="text" th:field="*{provincia}" /><br/>
+
+                    <label>Cantón:</label>
+                    <input type="text" th:field="*{canton}" /><br/>
+
+                    <label>Distrito:</label>
+                    <input type="text" th:field="*{distrito}" /><br/>
+
+                    <label>Dirección Exacta:</label>
+                    <textarea th:field="*{direccionExacta}"></textarea><br/>
+
+                    <!-- Teléfonos dinámicos (opcional, aquí solo uno por ahora) -->
+                    <label>Teléfono:</label>
+                    <input type="text" name="telefonos[0].numero" /><br/>
+
+                    <button type="submit">Registrarme</button>
+                </form>
+
+                <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+                <!-- Aca finalizamos el crear una nueva cuenta hecha por Deyvin -->
+            </div>
+        </div>    
+    </body>
+</html>

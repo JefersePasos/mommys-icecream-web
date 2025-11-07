@@ -1,0 +1,651 @@
+
+:root {
+    --naranja: #FFA978;
+    --naranja-hover: #FF9460;
+    --durazno: #FFE6D5;
+    --menta: #CFFFE2;
+    --rosado: #FFC1CC;
+    --vainilla: #FFF4CC;
+    --gris: #EDEDED;
+    --rojo: #D34240;
+    --cafe: #D27D63;
+    --texto: #333333;
+    --texto-suave: #777777;
+    --side-pad: clamp(16px, 5vw, 48px);
+    --site-max: 1800px;
+    /* Parámetros del grid de portada */
+    --card-w: 360px; /* ancho base para banner y grid de inicio */
+    --grid-gap: 20px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--durazno);
+    color: var(--texto);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: var(--naranja);
+    color: white;
+    padding: 0;
+    border-bottom: 5px solid var(--naranja-hover);
+    padding:0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2em;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid var(--gris);
+    padding: 1.5em;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.card.secundaria {
+    background-color: var(--vainilla);
+}
+
+button {
+    background-color: var(--naranja);
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1em;
+}
+
+button:hover {
+    background-color: var(--naranja-hover);
+}
+
+footer {
+    text-align: center;
+    padding: 1em;
+    background-color: var(--naranja);
+    font-size: 0.9em;
+    color: white;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* CENTRAR VERTICAL Y HORIZONTAL */
+.centrado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+    background-color: var(--durazno);
+    padding: 1em;
+}
+
+/* --- Catalogo --- */
+.catalogo-contenido {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.catalogo-header {
+    align-items: flex-start;
+    min-height: auto;
+    /* Alinear ancho con el grid de catálogo */
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 16px var(--side-pad) 8px;
+}
+.catalogo-title {
+    font-size: clamp(1.5rem, 3.6vw, 2.25rem);
+    font-weight: 800;
+    margin: 0;
+    color: var(--cafe);
+    text-align: center;
+}
+
+.catalogo-subtitle{
+    font-size: 35px;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+    text-align: center;
+
+}
+
+.catalogo-img{
+
+    height:600px;
+    display:flex;
+    align-items:flex-start; 
+    justify-content:center;
+    overflow:hidden;
+    background:transparent;
+}
+
+/* CONTENEDOR DE FORMULARIO */
+.contenedor-formulario {
+    background-color: white;
+    padding: 2em;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* INPUTS */
+form input {
+    width: 100%;
+    padding: 0.6em;
+    margin: 0.5em 0 1em 0;
+    border: 1px solid var(--gris);
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+/* BOTÓN */
+form button {
+    width: 100%;
+    padding: 0.6em;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+}
+
+a button { /* Para los botones que son enlaces */
+    display: block;
+    width: 100%;
+}
+
+form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
+    width: 100%;
+    padding: 0.6em;
+    margin: 0.5em 0 1em 0;
+    border: 1px solid var(--gris);
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+/* MENSAJE DE ERROR */
+.error {
+    background-color: var(--rosado);
+    padding: 0.5em;
+    border-radius: 6px;
+    color: #a33;
+    font-weight: bold;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.mensaje { /* MENSAJE DE ÉXITO */
+    background-color: var(--menta);
+    padding: 0.5em;
+    border-radius: 6px;
+    color: #206040;
+    font-weight: bold;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+/* RESPONSIVE EXTRAS (opcional) */
+@media (max-width: 500px) {
+    .contenedor-formulario {
+        padding: 1.5em 1em;
+    }
+}
+
+.navbar{
+    width: 100%;
+    max-width:none;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:minmax(260px,auto) 1fr auto;
+    align-items:center;
+    height:90px;
+    padding:0 32px;
+    gap:32px;
+}
+
+.nav-left{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    text-decoration:none;
+    color:#fff;
+}
+.brand img{
+    width:100px;
+    height:100px;
+    object-fit:cover;
+}
+.brand h1{
+    margin:0;
+    line-height:1.1;
+    font-size:26px;
+    font-weight:700;
+    color: white;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand h1 span{
+    display:block;
+    color:#fff;
+}
+
+/* menu + actions */
+.nav-menu{
+    display:flex;
+    gap:48px;
+    justify-content:center;
+}
+
+.nav-menu a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    font-size: 20px;
+}
+
+.nav-actions{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    color:#fff
+}
+
+/* --- HERO --- */
+.hero{
+    max-width:none;
+    width: 100%;
+    margin:24px auto;
+    display:block;
+}
+/*.hero>.wide{
+    grid-column:1/-1;
+}*/
+
+.tile {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+ .tile img {
+    display: block;
+    width: 100%;
+    height: clamp(320px, 36vh, 640px);
+    object-fit: cover;
+    object-position: center;
+}.tile-cta{
+    position:absolute;
+    right: min(3vw, 24px);
+    bottom: min(2.5vw, 20px);
+    z-index: 2;
+}
+
+.tile .product{
+
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:22px; 
+    justify-content:center; 
+    padding:24px 40px;
+}
+
+/* --- GRID 3 --- */
+.grid3{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: var(--site-max);
+    margin: 32px auto 48px;
+    padding: 0 var(--side-pad);
+    box-sizing: border-box;
+}
+.grid3 > .tile > img{
+    aspect-ratio:4/3;
+}
+
+
+.catalogo-grid{
+    
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    gap: 20px;
+    justify-content: center; 
+    max-width: 1360px; 
+    margin: 16px auto 48px;
+    padding: 0 var(--side-pad);
+    box-sizing: border-box;
+}
+.catalogo-grid .tile {
+    width: 300px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: unset;
+}
+
+.catalogo-grid .tile > div {
+    flex: initial;
+}
+
+.catalogo-grid .tile > div:last-child {
+}
+
+
+@media (max-width: 1280px) {
+    .catalogo-grid {
+        grid-template-columns: repeat(3, 300px);
+        max-width: 980px;
+    }
+}
+@media (max-width: 900px) {
+    .catalogo-grid {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+        padding: 0 20px;
+    }
+    .catalogo-grid .tile { width: 100%; }
+}
+@media (max-width: 600px) {
+    .catalogo-grid {
+        grid-template-columns: 1fr;
+        padding: 0 14px;
+    }
+}
+.grid3 > .tile > img{
+    aspect-ratio:4/3;
+}
+
+.recientes-grid {
+    
+    grid-template-columns: repeat(3, 300px);
+    justify-content: center;
+    max-width: 980px; /* 3*300 + 2*20 gap */
+}
+
+
+.recientes-box {
+    background: var(--naranja);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    max-width: 1360px;
+    margin: 12px auto 24px;
+    padding: 12px 0 8px; 
+}
+
+.footer-note{
+    max-width:1200px;
+    margin:0 auto;
+}
+
+
+@media (max-width:900px){
+    .hero{
+        grid-template-columns:1fr;
+    }
+    .grid3{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.page{
+    max-width: 2525px;
+    margin: 24px auto;
+    /*    padding:32px 32px;   */
+
+}
+
+/* === FULL-WIDTH HERO === */
+.hero--banner {
+    position: relative;
+    max-width: var(--site-max);
+    margin: 48px auto;
+    overflow: hidden;
+    padding: 0 var(--side-pad);
+    box-sizing: border-box;
+}
+
+/* Alinea el banner de inicio con el ancho del grid de 3 columnas (300px x 3 + 20px gaps) */
+.home-hero {
+    /* Igual ancho visual que el grid de 3 columnas (300px + 20px gap) */
+    max-width: calc(3 * var(--card-w) + 2 * var(--grid-gap));
+    width: 100%;
+}
+
+/* Cuando el grid baja a 2 columnas */
+@media (max-width: 900px) {
+  .home-hero { max-width: calc(2 * var(--card-w) + 1 * var(--grid-gap)); }
+}
+/* Cuando el grid baja a 1 columna */
+@media (max-width: 600px) {
+  .home-hero { max-width: var(--card-w); }
+}
+
+/* Alinea el grid inferior con el mismo ancho que el banner */
+.home-grid {
+  max-width: calc(3 * var(--card-w) + 2 * var(--grid-gap));
+}
+@media (max-width: 900px) {
+  .home-grid { max-width: calc(2 * var(--card-w) + 1 * var(--grid-gap)); }
+}
+@media (max-width: 600px) {
+  .home-grid { max-width: var(--card-w); }
+}
+
+/* Imagen tipo banner */
+.hero--banner .hero-img {
+    display: block;
+    width: 100%;
+    height: clamp(280px, 45vh, 560px);
+    border-radius: 12px;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.hero--banner .cta {
+    position: absolute;
+    right: 5%;
+    bottom: 8%;
+    z-index: 2;
+}
+
+/* Botón sobre el banner */
+.hero--banner .cta button {
+    background-color: var(--naranja);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 0.8em 1.6em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+}
+
+/* Evita subrayado heredado del <a> que envuelve el botón */
+.hero--banner .cta a { text-decoration: none; }
+
+.hero--banner .cta button:hover {
+    background-color: var(--naranja-hover);
+}
+
+/* --- Productos --- */
+.product{
+
+    width:260px; 
+    border:1px solid var(--gris); 
+    border-radius:12px; 
+    overflow:hidden; 
+    background:#fff; 
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Estilos del catálogo */
+
+.catalogo-img {
+    width: 100%;
+    height: 150px; 
+    overflow: hidden;
+    margin: 0;
+}
+
+.catalogo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.product-contenido {
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+
+.catalogo-grid .tile > .product-contenido {
+    display: grid;
+}
+
+
+.product-title-box {
+    background: var(--cafe);
+    display: flex;
+    align-items: center; 
+    margin-top: 24px;
+}
+
+.product-titulo {
+    font-size: 26px; 
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+    margin: 0;
+    padding: 10px 12px; 
+    display: block;
+    text-align: left;
+}
+
+.product-descripcion {
+    margin: 0 12px;
+    color: var(--texto);
+    font-size: 20px;
+    line-height: 1.4;
+    min-height: calc(1.4em * 3);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    padding: 0;
+    text-align: left;
+}
+
+.product-acciones {
+    margin-top: auto; 
+    display: flex;
+    align-self: center;
+}
+
+.product-acciones .btn {
+    flex: 1;
+    text-align: center;
+}
+
+.product-acciones .btn.pill {
+    padding: 12px 18px;
+    font-size: 16px;
+}
+
+.product-precio {
+    display: block;
+    padding: 12px;
+    margin: 0 12px 8px 12px; 
+    font-weight: 700;
+    font-size: 25px;
+    color: var(--texto);
+}
+
+
+html, body {
+    overflow-x: hidden;
+}
+
+
+html {
+    box-sizing: border-box;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+.btn {
+    display: inline-block;
+    background: var(--naranja);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: clamp(14px, 1.7vw, 16px);
+    line-height: 1;
+    padding: 12px 18px;
+    border: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.btn.pill {
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-weight: 600;
+}
+
+
+.btn:hover {
+    background: var(--naranja-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
