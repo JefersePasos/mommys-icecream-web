@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findByStatusTrue();
+    List<Producto> findTop3ByStatusTrueOrderByIdDesc();
 }

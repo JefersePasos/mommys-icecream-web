@@ -1,25 +1,21 @@
 package MommysIceCreamWeb.controller;
 
+import MommysIceCreamWeb.service.ProductoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class IndexController {
-    
-//    // Las últimas versiones de Spring, recomiendan utilziar final y contructor en lugar de @autowired
-//    private final ProductoServices productoServices;
-//    private final CategoriaServices categoriaServices;
-//    
-//    // (Spring inyecta automáticamente)
-//    public IndexController(ProductoServices productoServices, CategoriaServices categoriaServices) {
-//        this.productoServices = productoServices;
-//        this.categoriaServices = categoriaServices;
-//    }
-//    
+
+    @Autowired
+    private ProductoService productoService;
+
     @GetMapping("/")
-    public String inicio() {
+    public String inicio(Model model) {
+        // 3 productos más recientes disponibles para la portada
+        model.addAttribute("recientes", productoService.listar3RecientesDisponibles());
         return "index";
     }
     

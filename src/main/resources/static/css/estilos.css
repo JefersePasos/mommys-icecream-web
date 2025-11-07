@@ -13,6 +13,9 @@
     --texto-suave: #777777;
     --side-pad: clamp(16px, 5vw, 48px);
     --site-max: 1800px;
+    /* Parámetros del grid de portada */
+    --card-w: 360px; /* ancho base para banner y grid de inicio */
+    --grid-gap: 20px;
 }
 
 body {
@@ -102,7 +105,10 @@ footer {
 .catalogo-header {
     align-items: flex-start;
     min-height: auto;
-    padding: 20px 40px 8px;
+    /* Alinear ancho con el grid de catálogo */
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 16px var(--side-pad) 8px;
 }
 .catalogo-title {
     font-size: clamp(1.5rem, 3.6vw, 2.25rem);
@@ -110,6 +116,15 @@ footer {
     margin: 0;
     color: var(--cafe);
     text-align: center;
+}
+
+.catalogo-subtitle{
+    font-size: 35px;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+    text-align: center;
+
 }
 
 .catalogo-img{
@@ -342,18 +357,14 @@ form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
     max-width: 100%;
     display: flex;
     flex-direction: column;
-    /* Elimina la altura mínima que generaba mucho espacio vacío */
     min-height: unset;
 }
 
 .catalogo-grid .tile > div {
-    /* Evitar estiramiento que crea huecos verticales */
     flex: initial;
-    /* no forzamos display aquí para no anular el layout interno */
 }
 
 .catalogo-grid .tile > div:last-child {
-    /* Ya no usamos flex en el contenedor, sin distribución extra */
 }
 
 
@@ -378,6 +389,23 @@ form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
 }
 .grid3 > .tile > img{
     aspect-ratio:4/3;
+}
+
+.recientes-grid {
+    
+    grid-template-columns: repeat(3, 300px);
+    justify-content: center;
+    max-width: 980px; /* 3*300 + 2*20 gap */
+}
+
+
+.recientes-box {
+    background: var(--naranja);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    max-width: 1360px;
+    margin: 12px auto 24px;
+    padding: 12px 0 8px; 
 }
 
 .footer-note{
@@ -418,6 +446,33 @@ form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
     box-sizing: border-box;
 }
 
+/* Alinea el banner de inicio con el ancho del grid de 3 columnas (300px x 3 + 20px gaps) */
+.home-hero {
+    /* Igual ancho visual que el grid de 3 columnas (300px + 20px gap) */
+    max-width: calc(3 * var(--card-w) + 2 * var(--grid-gap));
+    width: 100%;
+}
+
+/* Cuando el grid baja a 2 columnas */
+@media (max-width: 900px) {
+  .home-hero { max-width: calc(2 * var(--card-w) + 1 * var(--grid-gap)); }
+}
+/* Cuando el grid baja a 1 columna */
+@media (max-width: 600px) {
+  .home-hero { max-width: var(--card-w); }
+}
+
+/* Alinea el grid inferior con el mismo ancho que el banner */
+.home-grid {
+  max-width: calc(3 * var(--card-w) + 2 * var(--grid-gap));
+}
+@media (max-width: 900px) {
+  .home-grid { max-width: calc(2 * var(--card-w) + 1 * var(--grid-gap)); }
+}
+@media (max-width: 600px) {
+  .home-grid { max-width: var(--card-w); }
+}
+
 /* Imagen tipo banner */
 .hero--banner .hero-img {
     display: block;
@@ -451,6 +506,9 @@ form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
 
 }
 
+/* Evita subrayado heredado del <a> que envuelve el botón */
+.hero--banner .cta a { text-decoration: none; }
+
 .hero--banner .cta button:hover {
     background-color: var(--naranja-hover);
 }
@@ -467,6 +525,7 @@ form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
 }
 
 /* Estilos del catálogo */
+
 .catalogo-img {
     width: 100%;
     height: 150px; 
@@ -484,33 +543,31 @@ form textarea { /* Esto es por si en el futuro quiero agregar un textarea */
 .product-contenido {
     padding: 0;
     display: grid;
-    gap: 10px; /* espacio claro entre título, descripción y precio */
+    gap: 10px;
 }
 
-/* Asegura que el contenedor de contenido use grid aunque otra regla genérica exista */
+
 .catalogo-grid .tile > .product-contenido {
     display: grid;
 }
 
 
 .product-title-box {
-    background: var(--naranja);
-    border-radius: 10px;
-    display: grid;
+    background: var(--cafe);
+    display: flex;
+    align-items: center; 
+    margin-top: 24px;
 }
 
 .product-titulo {
-    font-size: 26px; /* más grande para mejorar legibilidad */
+    font-size: 26px; 
     font-weight: 700;
-    margin: 0;
     line-height: 1.2;
     color: white;
-    padding: 8px 12px;
-    display: flex;
-    align-items: center;    
-    justify-content: flex-start; 
+    margin: 0;
+    padding: 10px 12px; 
+    display: block;
     text-align: left;
-    min-height: 44px;
 }
 
 .product-descripcion {

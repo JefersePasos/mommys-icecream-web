@@ -26,8 +26,12 @@ public class ProductoController {
     public String catalogo(Model model) {
         // Muestra solo productos disponibles
         var productos = productoService.listarDisponibles();
-        logger.info("Cargando catálogo: {} productos encontrados", productos == null ? 0 : productos.size());
+        var recientes = productoService.listar3RecientesDisponibles();
+        logger.info("Cargando catálogo: {} productos encontrados ({} recientes)",
+                productos == null ? 0 : productos.size(),
+                recientes == null ? 0 : recientes.size());
         model.addAttribute("productos", productos);
+        model.addAttribute("recientes", recientes);
         return "productos/catalogo";
     }
 
