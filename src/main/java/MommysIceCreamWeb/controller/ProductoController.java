@@ -6,17 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("/productos")
 public class ProductoController {
     @Autowired
     private ProductoService productoService;
+    private final Logger logger = LoggerFactory.getLogger(ProductoController.class);
 
     @GetMapping ("/dashboardProductos")
     public String listar(Model model) {
         model.addAttribute("productos", productoService.listarTodos());
         return "productos/dashboardProductos";
+    }
+
+    @GetMapping("/catalogo")
+    public String catalogo(Model model) {
+        // Muestra solo productos disponibles
+        var productos = productoService.listarDisponibles();
+        logger.info("Cargando catálogo: {} productos encontrados", productos == null ? 0 : productos.size());
+        model.addAttribute("productos", productos);
+        return "productos/catalogo";
     }
 
     @GetMapping("/nuevo")

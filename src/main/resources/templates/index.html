@@ -25,7 +25,7 @@
          <!--Categorias del menu, seccion 2-->
                 <nav class="nav-menu">
                     <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
-                    <a th:href="@{/productos/listar}"       th:text="#{nav.catalogo}">Catálogo</a>
+                    <a th:href="@{/catalogo}"       th:text="#{nav.catalogo}">Catálogo</a>
                     <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
                     <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
                 </nav>
@@ -54,7 +54,7 @@
             <div class="tile">
                 <img th:src="${tile1} ?: @{/img/heladosTarjeta1.jpg}" alt="Catálogo de helados" />
                 <div class="tile-cta">
-                    <a class="btn pill" th:href="@{/productos/listar}">Ver más</a>
+                    <a class="btn pill" th:href="@{/catalogo}">Ver más</a>
                 </div>
             </div>
 

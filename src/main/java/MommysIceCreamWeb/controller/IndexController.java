@@ -23,6 +23,15 @@ public class IndexController {
         return "index";
     }
     
+    /**
+     * Redirige la ruta corta /catalogo al controlador de productos.
+     * Esto evita el 404 cuando alguien visita /catalogo directamente.
+     */
+    @GetMapping("/catalogo")
+    public String catalogoRedirect() {
+        return "redirect:/productos/catalogo";
+    }
+    
 //    @GetMapping("/catalogo")
 //    public String cargarCatalogo (Model model) {
 //        model.addAttribute("idCategoriaActual", idCategoria);

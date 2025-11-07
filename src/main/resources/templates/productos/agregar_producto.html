@@ -45,8 +45,11 @@
       <form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
         <input type="hidden" th:field="*{id}" />
 
-        <label for="nombre"><strong>Nombre</strong></label>
-        <input id="nombre" type="text" th:field="*{nombre}" placeholder="Nombre del producto" required />
+        <label for="sabor"><strong>Sabor</strong></label>
+        <input id="sabor" type="text" th:field="*{sabor}" placeholder="Sabor del helado" required />
+
+        <label for="descripcion"><strong>Descripción</strong></label>
+        <input id="descripcion" type="text" th:field="*{descripcion}" placeholder="Descripción del helado" required />
 
         <label for="estado"><strong>Estado</strong></label>
         <!-- el select hereda estilos de inputs; por si acaso igualamos padding/borde -->
@@ -55,6 +58,9 @@
           <option th:value="true">Disponible</option>
           <option th:value="false">No disponible</option>
         </select>
+
+  <label for="imagen"><strong>Imagen (URL)</strong></label>
+  <input id="imagen" type="url" th:field="*{imagen}" placeholder="https://example.com/imagen.jpg" />
 
         <!-- Acciones -->
         <div style="display:flex; gap:10px; margin-top:6px;">

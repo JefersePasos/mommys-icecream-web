@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Catálogo</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <a class="brand" th:href="@{/}">
+                <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+                <h1>
+                    <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
+                    <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
+                </h1>
+            </a>
+
+            <nav class="nav-menu">
+                <a th:href="@{/comprar}" th:text="#{nav.comprar}">Comprar</a>
+                <a th:href="@{/productos/catalogo}" th:text="#{nav.catalogo}">Catálogo</a>
+                <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
+                <a th:href="@{/contacto}" th:text="#{nav.contacto}">Contáctenos</a>
+            </nav>
+
+            <div class="nav-actions">
+                <span th:text="${lang} ?: 'ES'">ES</span>
+                <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
+                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                </a>
+                <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
+                    <img th:src="@{/img/cuenta.png}" alt="Perfil"
+                        style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="catalogo-contenido">
+
+
+        <div class="centrado catalogo-header">
+            <h2 class="catalogo-title">Catálogo de productos</h2>
+        </div>
+        <!-- contenedor de tarjetas -->
+        <div class="grid3 page catalogo-grid">
+            <div th:each="producto : ${productos}" class="tile" th:if="${producto.status}">
+                    <!-- Foto centrada -->
+                    <div class="catalogo-img">
+                        <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
+                            alt="Imagen del producto" />
+                        <img th:unless="${producto.imagen != null and producto.imagen != ''}"
+                            th:src="@{/img/heladosMani.png}" alt="Imagen por defecto" />
+                    </div>
+                    <!--Nombre en tarjeta-->
+                    <div class="product-contenido">
+                        <div style="background-color: #D27D63;">
+                            <h3 th:text="${producto.nombre}" class="product-titulo">Nombre del producto</h3>
+                        </div>
+
+
+                        <p class="product-descripcion"
+                            th:text="${producto.descripcion} ?: 'Sin descripción disponible.'">
+                            Sin descripción disponible.
+                        </p>
+
+                        <span class="product-precio">₡900</span>
+
+                        <!-- <div class="product-acciones">
+                            <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="btn pill"
+                                style="background-color: #D27D63;">Ver más</a>
+                        </div> -->
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mommys Ice Cream</p>
+    </footer>
+</body>
+
+</html>
