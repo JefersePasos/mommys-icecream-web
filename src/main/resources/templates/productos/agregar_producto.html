@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
   <meta charset="UTF-8" />
   <title th:text="${producto.id != null} ? 'Editar Producto' : 'Nuevo Producto'">Producto</title>
   <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 <body>
-  <!-- Barra superior reutilizada -->
   <header>
     <div class="navbar">
       <a class="brand" th:href="@{/}">
@@ -52,22 +51,21 @@
         <input id="descripcion" type="text" th:field="*{descripcion}" placeholder="Descripción del helado" required />
 
         <label for="estado"><strong>Estado</strong></label>
-        <!-- el select hereda estilos de inputs; por si acaso igualamos padding/borde -->
         <select id="estado" th:field="*{status}"
                 style="width:100%; padding:0.6em; margin:0.5em 0 1em 0; border:1px solid var(--gris); border-radius:8px; font-size:1em;">
           <option th:value="true">Disponible</option>
           <option th:value="false">No disponible</option>
         </select>
 
-  <label for="imagen"><strong>Imagen (URL)</strong></label>
-  <input id="imagen" type="url" th:field="*{imagen}" placeholder="https://example.com/imagen.jpg" />
+        <label for="imagen"><strong>Imagen (URL)</strong></label>
+        <input id="imagen" type="url" th:field="*{imagen}" placeholder="https://example.com/imagen.jpg" />
 
         <!-- Acciones -->
         <div style="display:flex; gap:10px; margin-top:6px;">
           <button type="submit" class="btn pill" style="width:100%; font-weight: 600">Guardar</button>
-          <button th:href="@{/productos/dashboardProductos}" class="btn pill" style="background:var(--gris); color:var(--texto); width:100%; text-align:center; text-decoration:none;">
+          <a th:href="@{/productos/dashboardProductos}" class="btn pill" style="background:var(--gris); color:var(--texto); width:100%; text-align:center; text-decoration:none;">
             Volver
-          </button>
+          </a>
         </div>
       </form>
     </div>

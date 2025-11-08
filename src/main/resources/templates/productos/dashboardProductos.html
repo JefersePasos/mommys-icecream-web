@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
     <head>
         <meta charset="UTF-8" />
-        <title>Productos – Mommy’s Ice Cream</title>
-        <!-- Usa tu hoja de estilos actual -->
+        <title>Productos — Mommy’s Ice Cream</title>
         <link rel="stylesheet" th:href="@{/css/estilos.css}" />
     </head>
     <body>
-        <!-- Barra superior (misma del sitio) -->
+        <!-- Barra superior -->
         <header>
             <div class="navbar">
                 <a class="brand" th:href="@{/}">
@@ -36,16 +35,15 @@
                 </div>
             </div>
         </header>
-
-        <!-- Contenido centrado con tu card -->
+        <!-- Contenido -->
         <div class="centrado" style="align-items:flex-start;">
             <div class="contenedor-formulario" style="max-width:1100px; width:100%;">
                 <h2 style="margin-top:0;">Gestión de Productos</h2>
 
-                <!-- Botón agregar (usa .btn de tu CSS) -->
+                <!-- Botón agregar -->
                 <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
                     <a th:href="@{/productos/nuevo}" class="btn pill" style="text-decoration:none;">
-                        ➕ Agregar Producto
+                        Agregar Producto
                     </a>
                 </div>
 
@@ -65,7 +63,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Fila como ‘chip’ con tu paleta -->
                             <tr th:each="producto : ${productos}" style="background:#fff; box-shadow:0 4px 10px rgba(0,0,0,.06);">
                                 <td style="padding:14px 12px; border-radius:10px 0 0 10px;" th:text="${producto.id}">1</td>
                                 <td style="padding:14px 12px;" th:text="${producto.nombre}">Nombre</td>
@@ -74,22 +71,15 @@
                                 </td>
                                 <td style="padding:10px 12px; border-radius:0 10px 10px 0;">
                                     <div style="display:flex; gap:10px; justify-content:center;">
-                                        <!-- Botones con tus variables -->
-                                        <a th:href="@{'/productos/editar/' + ${producto.id}}"
-                                           class="btn pill"
-                                           style="background:var(--naranja);">
-                                            ✏️ Editar
+                                        <a th:href="@{'/productos/editar/' + ${producto.id}}" class="btn pill" style="background:var(--naranja);">
+                                            Editar
                                         </a>
-                                        <a th:href="@{'/productos/eliminar/' + ${producto.id}}"
-                                           class="btn pill"
-                                           style="background:var(--rosado); color:#800000;">
-                                            🗑️ Eliminar
+                                        <a th:href="@{'/productos/eliminar/' + ${producto.id}}" class="btn pill" style="background:var(--rosado); color:#800000;">
+                                            Eliminar
                                         </a>
                                     </div>
                                 </td>
                             </tr>
-                            <!-- ‘Separador visual’ entre filas ya lo genera border-spacing;
-                                 si quisieras una línea, sustituye border-spacing por border-bottom en cada <tr>. -->
                         </tbody>
                     </table>
                 </div>
