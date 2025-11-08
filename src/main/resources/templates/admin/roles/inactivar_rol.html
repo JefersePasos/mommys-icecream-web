@@ -1,27 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8" />
     <title>Inactivar Rol</title>
     <link rel="stylesheet" href="/css/estilos.css" />
 </head>
-<body class="centrado">
 
-<div class="contenedor-formulario">
-    <h2 style="color: #cc6600;">¿Inactivar este rol?</h2>
-    <p>Estás a punto de marcar el rol <strong th:text="${rol.nombre}"></strong> como <strong>inactivo</strong>.</p>
-    <p>Los usuarios ya no podrán ser asignados a este rol, pero no se eliminará del sistema.</p>
+<body>
 
-    <form th:action="@{'/admin/roles/inactivar/' + ${rol.id}}" method="post">
-        <button type="submit" style="background-color: #f9e6cc; color: #cc6600;">Sí, inactivar</button>
-    </form>
+    <header>
+        <!--Logo + nombre de la pagina, seccion 1-->
+        <div class="navbar">
+            <a class="brand" th:href="@{/}">
+                <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+                <h1>
+                    <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
+                    <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
+                </h1>
+            </a>
+            <!--Categorias del menu, seccion 2-->
+            <nav class="nav-menu">
+                <a th:href="@{/comprar}" th:text="#{nav.comprar}">Comprar</a>
+                <a th:href="@{/catalogo}" th:text="#{nav.catalogo}">Catálogo</a>
+                <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
+                <a th:href="@{/contacto}" th:text="#{nav.contacto}">Contáctenos</a>
+            </nav>
+            <!--Opciones de lenguaje y carrito de compras, seccion 3-->
+            <div class="nav-actions">
+                <span th:text="${lang} ?: 'ES'">ES</span>
+                <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
+                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                </a>
+                <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
+                    <img th:src="@{/img/cuenta.png}" alt="Perfil"
+                        style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
+                </a>
+            </div>
+        </div>
+    </header>
 
-    <div style="margin-top: 1em;">
-        <a href="/admin/roles/dashboard">
-            <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
-        </a>
+    <div class="centrado">
+
+        <div class="contenedor-formulario">
+            <h2 style="color: #cc6600;">¿Inactivar este rol?</h2>
+            <p>Estás a punto de marcar el rol <strong th:text="${rol.nombre}"></strong> como <strong>inactivo</strong>.
+            </p>
+            <p>Los usuarios ya no podrán ser asignados a este rol, pero no se eliminará del sistema.</p>
+
+            <form th:action="@{'/admin/roles/inactivar/' + ${rol.id}}" method="post">
+                <button type="submit" style="background-color: #f9e6cc; color: #cc6600;">Sí, inactivar</button>
+            </form>
+
+            <div style="margin-top: 1em;">
+                <a href="/admin/roles/dashboard">
+                    <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
+                </a>
+            </div>
+        </div>
     </div>
-</div>
-
 </body>
+
 </html>
