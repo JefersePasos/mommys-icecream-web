@@ -13,6 +13,8 @@ public class ProductoService {
     private ProductoRepository productoRepository;
 
     public List<Producto> listarTodos() { return productoRepository.findAll(); }
+    public List<Producto> listarDisponibles() { return productoRepository.findByStatusTrue(); }
+    public List<Producto> listar3RecientesDisponibles() { return productoRepository.findTop3ByStatusTrueOrderByIdDesc(); }
     public void guardar(Producto producto) { productoRepository.save(producto); }
     public Optional<Producto> obtenerPorId(Long id) { return productoRepository.findById(id); }
     public void eliminar(Long id) { productoRepository.deleteById(id); }

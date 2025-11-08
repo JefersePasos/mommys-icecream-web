@@ -1,11 +1,13 @@
 package MommysIceCreamWeb.controller;
 
 import MommysIceCreamWeb.domain.Producto;
+import MommysIceCreamWeb.domain.Sugerencia;
 import MommysIceCreamWeb.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 @RequestMapping("/productos")
@@ -17,6 +19,16 @@ public class ProductoController {
     public String listar(Model model) {
         model.addAttribute("productos", productoService.listarTodos());
         return "productos/dashboardProductos";
+    }
+
+    @GetMapping("/catalogo")
+    public String catalogo(Model model) {
+        var productos = productoService.listarTodos();
+        var recientes = productoService.listar3RecientesDisponibles();
+        model.addAttribute("productos", productos);
+        model.addAttribute("recientes", recientes);
+        model.addAttribute("sugerencia", new Sugerencia());
+        return "productos/catalogo";
     }
 
     @GetMapping("/nuevo")
@@ -42,4 +54,21 @@ public class ProductoController {
         productoService.eliminar(id);
         return "redirect:/productos/dashboardProductos";
     }
+    
+    // Confirmación: permitir acceso directo por GET
+    @GetMapping("/confirmacion")
+    public String verConfirmacion() {
+        return "productos/confirmacion";
+    }
+
+    // Confirmación: recibir POST desde el formulario de sugerencias
+    @PostMapping("/confirmacion")
+    public String recibirSugerencia(@ModelAttribute("sugerencia") Sugerencia sugerencia) {
+        // Aquí podrías persistir la sugerencia o enviar una notificación
+        return "productos/confirmacion"; // o redirect:/productos/confirmacion para PRG
+    }
+    @ModelAttribute("sugerencia") 
+    public Sugerencia initSugerencia(){ 
+        return new Sugerencia();
+     }
 }

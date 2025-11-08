@@ -6,6 +6,12 @@
         <title th:text="${pageTitle} ?: 'Mommy’s ice cream'">Mommy’s ice cream</title>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+        <style>
+            /* Quita la sombra del banner principal sin afectar otros banners */
+            .no-overlay::before { content: none !important; }
+            /* Quita el background de ese banner */
+            .no-bg { background: none !important; }
+        </style>
 
     </head>
     <body>
@@ -25,36 +31,35 @@
          <!--Categorias del menu, seccion 2-->
                 <nav class="nav-menu">
                     <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
-                    <a th:href="@{/productos/listar}"       th:text="#{nav.catalogo}">Catálogo</a>
+                    <a th:href="@{/catalogo}"       th:text="#{nav.catalogo}">Catálogo</a>
                     <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
                     <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
                 </nav>
         <!--Opciones de lenguaje y carrito de compras, seccion 3-->
                 <div class="nav-actions">
                     <span th:text="${lang} ?: 'ES'">ES</span>
-                    <a th:href="@{/carrito}" title="Carrito"</a>
-                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
-                    <a th:href="@{/login}" title="Cuenta">
+                    <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
+                        <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                    </a>
+                    <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
                         <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
                     </a>
                 </div>
             </div>
         </header>
         <!--Banner de helados (Compras) -->
-        <section class="hero--banner">
+        <section class="hero--banner home-hero no-overlay no-bg">
             <img class="hero-img" th:src="${heroLeft} ?: @{/img/banner.jpg}" alt="Helados artesanales" />
             <div class="cta">
-                <a th:href="@{/orden/nueva}"> <!--Sin configurar-->
-                    <button th:text="#{cta.hacerPedido}">¡Haz tu pedido ya!</button>
-                </a>
+                <a class="btn pill" th:href="@{/orden/nueva}" th:text="#{cta.hacerPedido}">¡Haz tu pedido ya!</a>
             </div>
         </section>
-        <section class="grid3">
+        <section class="grid3 home-grid">
             <!-- Tarjeta 1: Ver más (Catálogo) -->
             <div class="tile">
                 <img th:src="${tile1} ?: @{/img/heladosTarjeta1.jpg}" alt="Catálogo de helados" />
                 <div class="tile-cta">
-                    <a class="btn pill" th:href="@{/productos/listar}">Ver más</a>
+                    <a class="btn pill" th:href="@{/catalogo}">Ver más</a>
                 </div>
             </div>
 
