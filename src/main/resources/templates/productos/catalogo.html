@@ -44,7 +44,7 @@
         <div class="centrado catalogo-header">
             <h2 class="catalogo-title">Catálogo de productos</h2>
         </div>
-        <div class="recientes-box" th:if="${recientes} != null and ${#lists.size(recientes)} > 0">
+        <div class="recientes-box" th:if="${recientes != null and #lists.size(recientes) > 0}">
             <h1 class="catalogo-subtitle">Descubre nuestros sabores más recientes</h1>
             <div class="grid3 page catalogo-grid recientes-grid">
                 <div th:each="producto : ${recientes}" class="tile">
@@ -69,23 +69,19 @@
 
                         <span class="product-precio">₡900</span>
 
-                        <!-- <div class="product-acciones">
-                            <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="btn pill"
-                                style="background-color: #D27D63;">Ver más</a>
-                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
         <!-- contenedor de tarjetas -->
         <div class="grid3 page catalogo-grid">
-            <div th:each="producto : ${productos}" class="tile" th:if="${producto.status}">
+            <div th:each="producto : ${productos}" class="tile" th:classappend="${!producto.status} ? ' tile-off'">
                 <!-- Foto centrada -->
                 <div class="catalogo-img">
                     <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
                         alt="Imagen del producto" />
                     <img th:unless="${producto.imagen != null and producto.imagen != ''}"
-                        th:src="@{/img/heladosMani.png}" alt="Imagen por defecto" />
+                        th:src="@{/img/heladosTarjeta1.png}" alt="Imagen por defecto" />
                 </div>
                 <!--Nombre en tarjeta-->
                 <div class="product-contenido">
@@ -99,35 +95,34 @@
                     </p>
 
                     <span class="product-precio">₡900</span>
-
-                    <!-- <div class="product-acciones">
-                            <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="btn pill"
-                                style="background-color: #D27D63;">Ver más</a>
-                        </div> -->
                 </div>
+                <!-- Overlay de no disponible -->
+                <div class="tile-overlay" th:if="${!producto.status}">No disponible</div>
             </div>
         </div>
         <section>
+            <section class="hero--banner-sugerencias hero--banner--bleed">
+                <div class="banner-text">
+                    <h2 class="catalogo-title">Tienes algún sabor en mente que no ves en nuestra lista?</h2>
+                </div>
+            </section>
             <!-- Contenido -->
             <div class="centrado" style="align-items:flex-start;">
                 <div class="contenedor-formulario" style="max-width:560px; width:100%;">
-                    <h2 style="margin-top:0;" th:text="'Sugerencia Nuevo Sabor'">Producto</h2>
+                    <h2 style="margin-top:0;" th:text="'¡Háznolo Saber!'">Producto</h2>
+                    <form th:object="${sugerencia}" th:action="@{/productos/confirmacion}" method="post">
 
-                    <label for="sabor"><strong>Descripción del Sabor</strong></label>
-                    <input id="sabor" type="text" th:field="*{sabor}" placeholder="Sabor del helado" required />
+                        <label for="sabor"><strong>Descripción</strong></label>
+                        <input id="sabor" type="text" th:field="*{sabor}" placeholder="Sabor del helado" required />
 
-                    <label for="descripcion"><strong>Correo Electrónico</strong></label>
-                    <input id="descripcion" type="text" th:field="*{descripcion}" placeholder="ejemplo@gmail.cpm"
-                        required />
+                        <label for="descripcion"><strong>Correo Electrónico</strong></label>
+                        <input id="descripcion" type="text" th:field="*{descripcion}" placeholder="ejemplo@gmail.com"
+                            required />
 
-                    <!-- Acciones -->
-                    <div style="display:flex; gap:10px; margin-top:6px;">
-                        <button th:href="@{/productos/confirmacion}" class="btn pill" style="width:100%; font-weight: 600">Enviar</button>
-                        <button th:href="@{/productos/dashboardProductos}" class="btn pill"
-                            style="background:var(--gris); color:var(--texto); width:100%; text-align:center; text-decoration:none;">
-                            Volver
-                        </button>
-                    </div>
+                        <!-- Acciones -->
+                        <div style="display:flex; gap:10px; margin-top:6px;">
+                            <button type="submit" class="btn pill" style="width:100%; font-weight: 600; background-color: #D27D63;">Enviar</button>
+                        </div>
                     </form>
                 </div>
             </div>
