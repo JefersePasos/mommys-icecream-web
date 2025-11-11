@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 
 <head>
     <meta charset="UTF-8" />
-    <title>Editar Rol</title>
+    <title th:text="#{roles.editarRol}">Edit Role</title>
     <link rel="stylesheet" href="/css/estilos.css" />
 </head>
 
@@ -27,7 +27,12 @@
             </nav>
             <!--Opciones de lenguaje y carrito de compras, seccion 3-->
             <div class="nav-actions">
-                <span th:text="${lang} ?: 'ES'">ES</span>
+                <form method="get">
+                    <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                        <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                        <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                    </select>
+                </form>
                 <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
                     <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
                 </a>
@@ -40,25 +45,26 @@
     </header>
     <div class="centrado">
         <div class="contenedor-formulario">
-            <h2>Editar Rol</h2>
+            <h2 th:text="#{roles.editarRol}">Edit Role</h2>
 
             <form th:action="@{/admin/roles/editar}" th:object="${rol}" method="post">
                 <input type="hidden" th:field="*{id}" />
 
-                <label>Nombre del Rol:</label>
+                <label th:text="#{roles.nombre}">Role Name:</label>
                 <input type="text" th:field="*{nombre}" required />
 
                 <br><br>
-                <button type="submit">Guardar cambios</button>
+                <button type="submit" th:text="#{boton.guardarChanges}">Save changes</button>
             </form>
 
             <div style="margin-top: 1em;">
                 <a href="/admin/roles/dashboard">
-                    <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
+                    <button style="background-color: var(--gris); color: var(--texto);" th:text="#{boton.cancelar}">Cancel</button>
                 </a>
             </div>
         </div>
     </div>
+<script src="/js/lang.js"></script>
 </body>
 
 </html>

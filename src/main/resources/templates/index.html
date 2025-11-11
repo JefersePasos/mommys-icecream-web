@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,7 +37,12 @@
                 </nav>
         <!--Opciones de lenguaje y carrito de compras, seccion 3-->
                 <div class="nav-actions">
-                    <span th:text="${lang} ?: 'ES'">ES</span>
+                    <form method="get">
+                        <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                            <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                        </select>
+                    </form>
                     <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
                         <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
                     </a>
@@ -51,7 +56,7 @@
         <section class="hero--banner home-hero no-overlay no-bg">
             <img class="hero-img" th:src="${heroLeft} ?: @{/img/banner.jpg}" alt="Helados artesanales" />
             <div class="cta">
-                <a class="btn pill" th:href="@{/orden/nueva}" th:text="#{cta.hacerPedido}">¡Haz tu pedido ya!</a>
+                    <a class="btn pill" th:href="@{/orden/nueva}" th:text="#{cta.hacerPedido}">Order now!</a>
             </div>
         </section>
         <section class="grid3 home-grid">
@@ -59,7 +64,7 @@
             <div class="tile">
                 <img th:src="${tile1} ?: @{/img/heladosTarjeta1.jpg}" alt="Catálogo de helados" />
                 <div class="tile-cta">
-                    <a class="btn pill" th:href="@{/catalogo}">Ver más</a>
+                    <a class="btn pill" th:href="@{/catalogo}" th:text="#{cta.verMas}">See more</a>
                 </div>
             </div>
 
@@ -67,9 +72,7 @@
             <div class="tile">
                 <img th:src="${tile2} ?: @{/img/frutas.jpg}" alt="Frutas para paletas personalizadas" />
                 <div class="tile-cta">
-                    <a class="btn pill" th:href="@{/personaliza}" aria-label="Pide tu sabor personalizado">
-                        ¡Pide tu sabor personalizado!
-                    </a>
+                    <a class="btn pill" th:href="@{/productos/catalogo} + '#sugerir-nuevo'" th:attr="aria-label=#{cta.saborPersonalizado}" th:text="#{cta.saborPersonalizado}">Request your custom flavor!</a>
                 </div>
             </div>
 
@@ -77,7 +80,7 @@
             <div class="tile">
                 <img th:src="${tile3} ?: @{/img/resenas.png}" alt="Clientes dejando reseñas" />
                 <div class="tile-cta">
-                    <a class="btn pill" th:href="@{/resenas}" aria-label="Ver reseñas">Ver reseñas</a>
+                    <a class="btn pill" th:href="@{/resenas}" th:attr="aria-label=#{cta.feedback}" th:text="#{cta.feedback}">See reviews</a>
                 </div>
             </div>
         </section>
@@ -85,5 +88,6 @@
             <p>&copy; 2025 Mommys Ice Cream</p>
         </footer>
 
+    <script src="/js/lang.js"></script>
     </body>
 </html>

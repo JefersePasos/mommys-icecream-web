@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8" />
-        <title>Dashboard de Roles</title>
+        <title th:text="#{roles.tituloDashboard}">Roles Dashboard</title>
         <link rel="stylesheet" href="/css/estilos.css" />
     </head>
     <body> 
@@ -24,7 +24,12 @@
                 </nav>
 
                 <div class="nav-actions">
-                    <span th:text="${lang} ?: 'ES'">ES</span>
+                    <form method="get">
+                        <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                            <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                        </select>
+                    </form>
                     <a th:href="@{/carrito}" title="Carrito"</a>
                     <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
                     <a th:href="@{/login}" title="Cuenta">
@@ -38,15 +43,15 @@
             <div class="contenedor-formulario" style="max-width: 900px;">
 
                 <!-- Tabla de usuarios con sus roles -->
-                <h2>Panel de Administración de Roles</h2>
+                <h2 th:text="#{roles.tituloPanel}">Roles Administration Panel</h2>
                 <div th:if="${session.errorRol}" class="error" th:text="${session.errorRol}"></div>
                 <table style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th style="text-align: left;">Nombre</th>
-                            <th style="text-align: left;">Correo</th>
-                            <th style="text-align: left;">Rol Actual</th>
-                            <th style="text-align: center;">Acciones</th>
+                            <th style="text-align: left;" th:text="#{tabla.nombre}">Name</th>
+                            <th style="text-align: left;" th:text="#{tabla.correo}">Email</th>
+                            <th style="text-align: left;" th:text="#{roles.rolActual}">Current Role</th>
+                            <th style="text-align: center;" th:text="#{boton.acciones}">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,14 +61,12 @@
                             <td th:text="${usuario.rol.nombre}"></td>
                             <td>
                                 <form th:action="@{'/admin/roles/asignar/' + ${usuario.id}}" method="get" style="display:inline;">
-                                    <button type="submit">Cambiar rol</button>
+                                    <button type="submit" th:text="#{roles.changeRole}">Change role</button>
                                 </form>
                                 <form th:if="${usuario.rol.nombre != 'Cliente'}"
                                       th:action="@{'/admin/roles/confirmar-revocacion/' + ${usuario.id}}" method="get"
                                       style="display:inline;">
-                                    <button type="submit" style="background-color: #ffe6e6; color: #b30000;">
-                                        Revocar
-                                    </button>
+                                    <button type="submit" style="background-color: #ffe6e6; color: #b30000;" th:text="#{roles.revocar}">Revoke</button>
                                 </form>
                             </td>
                         </tr>
@@ -71,37 +74,37 @@
                 </table>
 
                 <!-- Tabla de roles existentes -->
-                <h3 style="margin-top: 2em;">Roles existentes</h3>
+                <h3 style="margin-top: 2em;" th:text="#{roles.rolesExistentes}">Existing roles</h3>
                 <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
                     <thead>
                         <tr style="border-bottom: 2px solid #f2f2f2;">
-                            <th style="text-align: left; padding: 8px;">Nombre del rol</th>
-                            <th style="text-align: center; padding: 8px;">Estado</th>
-                            <th style="text-align: center; padding: 8px;">Acciones</th>
+                            <th style="text-align: left; padding: 8px;" th:text="#{roles.nombre}">Role Name:</th>
+                            <th style="text-align: center; padding: 8px;" th:text="#{roles.estado}">State</th>
+                            <th style="text-align: center; padding: 8px;" th:text="#{boton.acciones}">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="rol : ${roles}" style="border-bottom: 1px solid #e0e0e0;">
                             <td th:text="${rol.nombre}" style="padding: 10px 8px;"></td>
-                            <td th:text="${rol.activo} ? 'Activo' : 'Inactivo'"
+                            <td th:text="${rol.activo} ? #{estado.activo} : #{estado.inactivo}"
                                 style="text-align:center; padding: 10px 8px;"></td>
                             <td style="text-align:center; padding: 10px 8px;">
                                 <form th:action="@{'/admin/roles/editar/' + ${rol.id}}" method="get" style="display:inline;">
-                                    <button type="submit" style="margin-right:0.5em;">Editar</button>
+                                    <button type="submit" style="margin-right:0.5em;" th:text="#{boton.editar}">Edit</button>
                                 </form>
 
                                 <form th:if="${rol.nombre != 'Administrador' and rol.nombre != 'Cliente'}"
                                       th:action="@{'/admin/roles/inactivar/' + ${rol.id}}"
                                       method="post" style="display:inline;">
-                                    <button type="submit" style="margin-right:0.5em;">Inactivar</button>
+                                    <button type="submit" style="margin-right:0.5em;" th:text="#{roles.desactivar}">Deactivate</button>
                                 </form>
 
                                 <form th:if="${rol.nombre != 'Administrador' and rol.nombre != 'Cliente'}"
                                       th:action="@{'/admin/roles/eliminar/' + ${rol.id}}"
                                       method="post"
-                                      onsubmit="return confirm('¿Eliminar este rol?');"
+                                      onsubmit="return confirm('#{roles.confirmarEliminacion}');"
                                       style="display:inline;">
-                                    <button type="submit" style="background-color:#ffd6d6;color:#800000;">Eliminar</button>
+                                    <button type="submit" style="background-color:#ffd6d6;color:#800000;" th:text="#{boton.borrar}">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -110,16 +113,17 @@
 
                 <div style="margin-top: 2em;">
                     <form action="/admin/roles/crear" method="get">
-                        <button type="submit">➕ Crear nuevo rol</button>
+                        <button type="submit">➕ <span th:text="#{roles.crearNuevoRol}">Create new role</span></button>
                     </form>
                 </div>
 
                 <div style="margin-top: 2em;">
                     <a href="/perfil">
-                        <button style="background-color: var(--gris); color: var(--texto);">Volver</button>
+                        <button style="background-color: var(--gris); color: var(--texto);" th:text="#{boton.volver}">Back</button>
                     </a>
                 </div>
             </div> 
         </div>
+    <script src="/js/lang.js"></script>
     </body>
 </html>

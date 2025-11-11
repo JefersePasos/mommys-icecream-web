@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8" />
-        <title>Productos — Mommy’s Ice Cream</title>
+        <title th:text="#{producto.gestionProductos}">Products — Mommy’s Ice Cream</title>
         <link rel="stylesheet" th:href="@{/css/estilos.css}" />
     </head>
     <body>
@@ -25,7 +25,12 @@
                 </nav>
 
                 <div class="nav-actions">
-                    <span th:text="${lang} ?: 'ES'">ES</span>
+                    <form method="get">
+                        <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                            <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                        </select>
+                    </form>
                     <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
                         <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
                     </a>
@@ -38,12 +43,12 @@
         <!-- Contenido -->
         <div class="centrado" style="align-items:flex-start;">
             <div class="contenedor-formulario" style="max-width:1100px; width:100%;">
-                <h2 style="margin-top:0;">Gestión de Productos</h2>
+                <h2 style="margin-top:0;" th:text="#{producto.gestionProductos}">Product Management</h2>
 
                 <!-- Botón agregar -->
                 <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
-                    <a th:href="@{/productos/nuevo}" class="btn pill" style="text-decoration:none;">
-                        Agregar Producto
+                    <a th:href="@{/productos/nuevo}" class="btn pill" style="text-decoration:none;" th:text="#{producto.agregarProducto}">
+                        Add Product
                     </a>
                 </div>
 
@@ -56,10 +61,10 @@
                            ">
                         <thead>
                             <tr>
-                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);">ID</th>
-                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);">Sabor</th>
-                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);">Estado</th>
-                                <th style="text-align:center; padding:10px 12px; color:var(--texto-suave);">Acciones</th>
+                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);" th:text="#{tabla.id}">ID</th>
+                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);" th:text="#{tabla.sabor}">Flavor</th>
+                                <th style="text-align:left; padding:10px 12px; color:var(--texto-suave);" th:text="#{tabla.estado}">Status</th>
+                                <th style="text-align:center; padding:10px 12px; color:var(--texto-suave);" th:text="#{tabla.acciones}">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,15 +72,15 @@
                                 <td style="padding:14px 12px; border-radius:10px 0 0 10px;" th:text="${producto.id}">1</td>
                                 <td style="padding:14px 12px;" th:text="${producto.nombre}">Nombre</td>
                                 <td style="padding:14px 12px;">
-                                    <span th:text="${producto.status} ? 'Disponible' : 'No disponible'"></span>
+                                    <span th:text="${producto.status} ? #{estado.disponible} : #{estado.no-disponible}"></span>
                                 </td>
                                 <td style="padding:10px 12px; border-radius:0 10px 10px 0;">
                                     <div style="display:flex; gap:10px; justify-content:center;">
-                                        <a th:href="@{'/productos/editar/' + ${producto.id}}" class="btn pill" style="background:var(--naranja);">
-                                            Editar
+                                        <a th:href="@{'/productos/editar/' + ${producto.id}}" class="btn pill" style="background:var(--naranja);" th:text="#{boton.editar}">
+                                            Edit
                                         </a>
-                                        <a th:href="@{'/productos/eliminar/' + ${producto.id}}" class="btn pill" style="background:var(--rosado); color:#800000;">
-                                            Eliminar
+                                        <a th:href="@{'/productos/eliminar/' + ${producto.id}}" class="btn pill" style="background:var(--rosado); color:#800000;" th:text="#{boton.borrar}">
+                                            Delete
                                         </a>
                                     </div>
                                 </td>
@@ -89,5 +94,6 @@
         <footer>
             <p>&copy; 2025 Mommys Ice Cream</p>
         </footer>
+    <script src="/js/lang.js"></script>
     </body>
 </html>
