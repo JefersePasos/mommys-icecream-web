@@ -70,7 +70,8 @@
         <!-- Acciones -->
         <div style="display:flex; gap:10px; margin-top:6px;">
           <button type="submit" class="btn pill" style="width:100%; font-weight: 600" th:text="#{boton.guardar}">Save</button>
-          <button href="/productos/dashboardProductos" class="btn pill"
+          <button class="btn pill"
+            onclick="window.location.href='/productos/dashboardProductos';"
             style="background:var(--gris); color:var(--texto); width:100%; text-align:center; text-decoration:none;">
             <span th:text="#{boton.volver}">Back</span>
           </button>
