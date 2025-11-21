@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 
 <head>
     <meta charset="UTF-8" />
-    <title>Inactivar Rol</title>
+    <title th:text="#{roles.desactivarRol}">Deactivate Role</title>
     <link rel="stylesheet" href="/css/estilos.css" />
 </head>
 
@@ -28,7 +28,12 @@
             </nav>
             <!--Opciones de lenguaje y carrito de compras, seccion 3-->
             <div class="nav-actions">
-                <span th:text="${lang} ?: 'ES'">ES</span>
+                <form method="get">
+                    <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                        <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                        <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                    </select>
+                </form>
                 <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
                     <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
                 </a>
@@ -43,22 +48,22 @@
     <div class="centrado">
 
         <div class="contenedor-formulario">
-            <h2 style="color: #cc6600;">¿Inactivar este rol?</h2>
-            <p>Estás a punto de marcar el rol <strong th:text="${rol.nombre}"></strong> como <strong>inactivo</strong>.
-            </p>
-            <p>Los usuarios ya no podrán ser asignados a este rol, pero no se eliminará del sistema.</p>
+            <h2 style="color: #cc6600;" th:text="#{roles.confirmacion-desactivarRol}">Deactivate this role?</h2>
+            <p th:utext="${#messages.msg('roles.infoConfirmacion', rol.nombre)}"></p>
+            <p th:text="#{roles.infoConfirmacion2}"></p>
 
             <form th:action="@{'/admin/roles/inactivar/' + ${rol.id}}" method="post">
-                <button type="submit" style="background-color: #f9e6cc; color: #cc6600;">Sí, inactivar</button>
+                <button type="submit" style="background-color: #f9e6cc; color: #cc6600;" th:text="#{roles.si-desativar}">Yes, deactivate</button>
             </form>
 
             <div style="margin-top: 1em;">
                 <a href="/admin/roles/dashboard">
-                    <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
+                    <button style="background-color: var(--gris); color: var(--texto);" th:text="#{boton.cancelar}">Cancel</button>
                 </a>
             </div>
         </div>
     </div>
+<script src="/js/lang.js"></script>
 </body>
 
 </html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/css/estilos.css">
-        <title>Iniciar Sesión</title>
+        <title th:text="#{login.titulo}">Sign In</title>
     </head>
 
     <body> 
@@ -25,7 +25,12 @@
                 </nav>
 
                 <div class="nav-actions">
-                    <span th:text="${lang} ?: 'ES'">ES</span>
+                    <form method="get">
+                        <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                            <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                        </select>
+                    </form>
                     <a th:href="@{/carrito}" title="Carrito"</a>
                     <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
                     <a th:href="@{/login}" title="Cuenta">
@@ -37,24 +42,28 @@
         
         <div class="centrado">
             <div class="contenedor-formulario">
-                <h2>Iniciar sesión</h2>
+                <h2 th:text="#{login.titulo2}">Sign In</h2>
 
                 <div th:if="${error}">
                     <p class="error" th:text="${error}"></p>
                 </div>
 
                 <form th:action="@{/login}" th:object="${usuario}" method="post">
-                    <label>Correo:</label>
+                    <label th:text="#{login.correo}">Email</label>
                     <input type="email" th:field="*{correo}" required />
 
-                    <label>Contraseña:</label>
+                    <label th:text="#{login.contrasena}">Password</label>
                     <input type="password" th:field="*{contrasena}" required />
 
-                    <button type="submit">Ingresar</button>
+                    <button type="submit" th:text="#{login.ingresar}">Sign in</button>
                 </form>
 
-                <p>¿No tienes cuenta? <a href="/registro">Regístrate</a></p>
+                <p>
+                    <span th:text="#{login.noCuenta}">Don't have an account?</span>
+                    <a href="/registro" th:text="#{login.registrar}">Register</a>
+                </p>
             </div>
         </div>
+    <script src="/js/lang.js"></script>
     </body>
 </html>
