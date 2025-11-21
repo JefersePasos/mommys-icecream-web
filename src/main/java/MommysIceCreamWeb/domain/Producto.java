@@ -2,6 +2,8 @@
 package MommysIceCreamWeb.domain;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,9 +24,21 @@ public class Producto {
     
     @Column(name = "descripcion")
     private String descripcion;
+
+    @Column(name = "precio")
+    private double precio;
     
     private LocalDateTime created_at;
     private LocalDateTime modified_at;
+    private int stock;
+
+    public double getPrecio() {// getter para precio
+        return precio;
+    }
+
+    public void setPrecio(double precio) { // setter para precio
+        this.precio = precio;
+    }
 
     public Producto() {}
     public Producto(String sabor, boolean status) {
@@ -47,6 +61,7 @@ public class Producto {
     public void setCreated_at(LocalDateTime created_at) { this.created_at = created_at; }
     public LocalDateTime getModified_at() { return modified_at; }
     public void setModified_at(LocalDateTime modified_at) { this.modified_at = modified_at; }
+    
 
     public String getImagen() { return imagen; }
     public void setImagen(String imagen) { this.imagen = imagen; }

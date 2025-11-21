@@ -57,6 +57,9 @@
         <label for="descripcion"><strong th:text="#{producto.label-descripcion}">Description</strong></label>
         <input id="descripcion" type="text" th:field="*{descripcion}" th:placeholder="#{producto.comodin-descripcion}" required />
 
+        <label for="precio"><strong th:text="#{producto.label-precio}">Precio</strong></label>
+        <input id="precio" type="number" step="0.01" min="0" th:field="*{precio}" th:placeholder="#{producto.comodin-precio}" required />
+
         <label for="estado"><strong th:text="#{producto.label-estado}">Status</strong></label>
         <select id="estado" th:field="*{status}"
           style="width:100%; padding:0.6em; margin:0.5em 0 1em 0; border:1px solid var(--gris); border-radius:8px; font-size:1em;">
