@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar compra</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+<header>
+    <div class="navbar">
+        <a class="brand" th:href="@{/}">
+            <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream">
+            <h1>Mommy’s Ice Cream</h1>
+        </a>
+    </div>
+</header>
+
+<div class="centrado">
+    <div class="contenedor-formulario" style="max-width:600px;">
+        <h2>Confirmar Compra</h2>
+
+        <form th:action="@{/compras/realizar}" method="post">
+            <div>
+                <p><strong>Total a pagar:</strong> <span th:text="${total}">₡0.00</span></p>
+            </div>
+
+            <label for="metodoPago"><strong>Método de pago:</strong></label>
+            <select id="metodoPago" name="metodoPago" required>
+                <option value="tarjeta">Tarjeta</option>
+                <option value="paypal">PayPal</option>
+                <option value="contraentrega">Contra entrega</option>
+            </select>
+
+            <div style="margin-top: 1em;">
+                <button type="submit" class="btn pill">Confirmar compra</button>
+                <a th:href="@{/carrito}" class="btn pill" style="background: var(--gris); color: var(--texto);">Volver al carrito</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Mommys Ice Cream</p>
+</footer>
+</body>
+</html>

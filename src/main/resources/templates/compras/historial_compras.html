@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Compra</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div class="centrado">
+    <div class="contenedor-formulario" style="max-width: 600px;">
+        <h2>¡Compra Realizada con Éxito!</h2>
+        <p>Tu pedido ha sido procesado correctamente.</p>
+
+        <div style="margin: 20px 0;">
+            <h4>Resumen del pedido:</h4>
+            <p><strong>Número de pedido:</strong> <span th:text="${pedido.id}"></span></p>
+            <p><strong>Fecha:</strong> <span th:text="${#dates.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}"></span></p>
+            <p><strong>Total:</strong> ₡<span th:text="${pedido.total}"></span></p>
+        </div>
+
+        <div style="margin-top: 2em;">
+            <a th:href="@{/}" class="btn pill">Volver al inicio</a>
+            <a th:href="@{/compras/historial}" class="btn pill" style="background: var(--gris); color: var(--texto);">Ver historial</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Mommy's Ice Cream</p>
+</footer>
+</body>
+</html>

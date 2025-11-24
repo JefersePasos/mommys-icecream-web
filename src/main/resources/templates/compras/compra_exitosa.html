@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Compra Exitosa</title>
+  <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a class="brand" th:href="@{/}">
+        <img th:src="@{/img/logo.png}" alt="Logo Mommy's Ice Cream" />
+        <h1>
+          <span>Mommy’s</span>
+          <span>Ice Cream</span>
+        </h1>
+      </a>
+    </div>
+  </header>
+
+  <main class="centrado">
+    <div class="contenedor-formulario" style="text-align:center;">
+      <h2 style="color: green;">✔️ Compra realizada con éxito</h2>
+      <p>Tu pedido ha sido procesado correctamente. Pronto recibirás una confirmación por correo electrónico.</p>
+      <p>Gracias por confiar en nosotros ✨</p>
+      
+      <div style="margin-top: 1.5em;">
+        <a th:href="@{/productos/catalogo}" class="btn pill">Volver al Catálogo</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Mommy's Ice Cream</p>
+  </footer>
+</body>
+</html>
