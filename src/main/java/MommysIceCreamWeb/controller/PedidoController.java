@@ -8,12 +8,17 @@ import MommysIceCreamWeb.service.PedidoService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/compras")
 public class PedidoController {
@@ -28,22 +33,48 @@ public class PedidoController {
     private PdfService pdfService;
 
     @GetMapping("/historial")
-    public String historialPedidos(Model model, HttpSession session) {
+    public String historialPedidos(
+            @RequestParam(required = false) String desde,
+            @RequestParam(required = false) String hasta,
+            @RequestParam(required = false) String estado,
+            @RequestParam(required = false) Integer meses,
+            Model model,
+            HttpSession session) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        if (usuario != null) {
-            var pedidos = pedidoService.obtenerPedidosPorUsuario(usuario);
-
-            // Asegura que productos nunca sea null
-            pedidos.forEach(pedido -> {
-                if (pedido.getProductos() == null) {
-                    pedido.setProductos(java.util.Collections.emptyList());
-                }
-            });
-
-            model.addAttribute("pedidos", pedidos);
-            return "compras/historial_compras";
+        if (usuario == null) {
+            return "redirect:/login";
         }
-        return "redirect:/login";
+
+        var pedidos = pedidoService.obtenerPedidosPorUsuario(usuario);
+
+        //  FILTRO POR FECHAS
+        if (desde != null && !desde.isEmpty()) {
+            var desdeDate = LocalDate.parse(desde).atStartOfDay();
+            pedidos.removeIf(p -> p.getCreated_at().isBefore(desdeDate));
+        }
+
+        if (hasta != null && !hasta.isEmpty()) {
+            var hastaDate = LocalDate.parse(hasta).atTime(23, 59, 59);
+            pedidos.removeIf(p -> p.getCreated_at().isAfter(hastaDate));
+        }
+
+        //  FILTRO POR ESTADO
+        if (estado != null && !estado.isEmpty()) {
+            boolean estadoBool = Boolean.parseBoolean(estado);
+            pedidos.removeIf(p -> p.isOrderStatus() != estadoBool);
+        }
+
+        //  FILTRO POR MESES
+        if (meses != null && meses > 0) {
+            LocalDateTime limite = LocalDateTime.now().minusMonths(meses);
+            pedidos.removeIf(p -> p.getCreated_at().isBefore(limite));
+        }
+
+        // Enviar pedidos a la vista
+        model.addAttribute("pedidos", pedidos);
+
+        return "compras/historial_compras";
     }
 
     @GetMapping("/pedidos/detalle/{id}")

@@ -26,6 +26,32 @@
             <span th:text="${pedido.orderStatus} ? 'Confirmado' : 'Pendiente'"></span>
         </p>
 
+        <form th:action="@{/compras/historial}" method="get" style="margin-bottom: 20px;">
+  
+            <label>Desde:</label>
+            <input type="date" name="desde" />
+
+            <label>Hasta:</label>
+            <input type="date" name="hasta" />
+
+            <label>Estado:</label>
+            <select name="estado">
+                <option value="">Todos</option>
+                <option value="true">Confirmado</option>
+                <option value="false">Pendiente</option>
+            </select>
+
+            <label>Últimos meses:</label>
+            <select name="meses">
+                <option value="0">—</option>
+                <option value="1">1 mes</option>
+                <option value="3">3 meses</option>
+                <option value="6">6 meses</option>
+            </select>
+
+            <button class="btn" type="submit">Filtrar</button>
+        </form>
+
         <table class="factura-table">
             <thead>
                 <tr>
