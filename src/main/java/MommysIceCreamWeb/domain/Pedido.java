@@ -19,11 +19,14 @@ public class Pedido {
 
     @Column(name = "order_status")
     private boolean orderStatus = true;
+    
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "modified_at")
+    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     private boolean status = true;
-
-    private LocalDateTime created_at = LocalDateTime.now();
-    private LocalDateTime modified_at = LocalDateTime.now();
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<PedidoProducto> productos;
@@ -41,11 +44,11 @@ public class Pedido {
     public boolean isStatus() { return status; }
     public void setStatus(boolean status) { this.status = status; }
 
-    public LocalDateTime getCreated_at() { return created_at; }
-    public void setCreated_at(LocalDateTime created_at) { this.created_at = created_at; }
+    public LocalDateTime getCreated_at() { return createdAt; }
+    public void setCreated_at(LocalDateTime created_at) { this.createdAt = created_at; }
 
-    public LocalDateTime getModified_at() { return modified_at; }
-    public void setModified_at(LocalDateTime modified_at) { this.modified_at = modified_at; }
+    public LocalDateTime getModified_at() { return modifiedAt; }
+    public void setModified_at(LocalDateTime modified_at) { this.modifiedAt = modified_at; }
 
     public List<PedidoProducto> getProductos() { return productos; }
     public void setProductos(List<PedidoProducto> productos) { this.productos = productos; }

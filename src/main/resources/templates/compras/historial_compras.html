@@ -1,34 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Confirmación de Compra</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+  <meta charset="UTF-8" />
+  <title>Historial de Pedidos</title>
+  <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 <body>
-<header th:replace="~{fragments/header :: header}"></header>
-
-<div class="centrado">
-    <div class="contenedor-formulario" style="max-width: 600px;">
-        <h2>¡Compra Realizada con Éxito!</h2>
-        <p>Tu pedido ha sido procesado correctamente.</p>
-
-        <div style="margin: 20px 0;">
-            <h4>Resumen del pedido:</h4>
-            <p><strong>Número de pedido:</strong> <span th:text="${pedido.id}"></span></p>
-            <p><strong>Fecha:</strong> <span th:text="${#dates.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}"></span></p>
-            <p><strong>Total:</strong> ₡<span th:text="${pedido.total}"></span></p>
-        </div>
-
-        <div style="margin-top: 2em;">
-            <a th:href="@{/}" class="btn pill">Volver al inicio</a>
-            <a th:href="@{/compras/historial}" class="btn pill" style="background: var(--gris); color: var(--texto);">Ver historial</a>
-        </div>
+  <header>
+    <div class="navbar">
+      <a class="brand" th:href="@{/}">
+        <img th:src="@{/img/logo.png}" alt="Logo Mommy's Ice Cream" />
+        <h1>Mommy’s <span>Ice Cream</span></h1>
+      </a>
     </div>
-</div>
+  </header>
 
-<footer>
+  <main class="centrado">
+    <div class="contenedor-formulario" style="max-width: 720px;">
+      <h2>Historial de Pedidos</h2>
+
+      <table style="width:100%; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th>ID Pedido</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="pedido : ${pedidos}">
+            <td th:text="${pedido.id}">123</td>
+            <td th:text="${#temporals.format(pedido.created_at, 'yyyy-MM-dd HH:mm')}">2025-11-24</td>
+            <td th:text="${pedido.orderStatus} ? 'Confirmado' : 'Pendiente'">Confirmado</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 2em;">
+        <a th:href="@{/productos/catalogo}">
+          <button class="btn">Volver al Catálogo</button>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
     <p>&copy; 2025 Mommy's Ice Cream</p>
-</footer>
+  </footer>
 </body>
 </html>

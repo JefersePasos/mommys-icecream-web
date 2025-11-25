@@ -25,7 +25,7 @@ public class PedidoService {
 
     public void realizarPedido(List<CarritoItem> items) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-
+        
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
         pedido.setOrderStatus(true); // true = confirmado
@@ -39,5 +39,10 @@ public class PedidoService {
             pp.setPrecio(item.getProducto().getPrecio());
             pedidoProductoRepository.save(pp);
         }
+        
+    }
+
+    public List<Pedido> obtenerPedidosPorUsuario(Usuario usuario) {
+        return pedidoRepository.findByUsuarioOrderByCreatedAtDesc(usuario);
     }
 }
