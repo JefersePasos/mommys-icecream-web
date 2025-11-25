@@ -3,7 +3,9 @@ package MommysIceCreamWeb.controller;
 import MommysIceCreamWeb.domain.Pedido;
 import MommysIceCreamWeb.domain.Usuario;
 import MommysIceCreamWeb.service.CarritoService;
+import MommysIceCreamWeb.service.PdfService;
 import MommysIceCreamWeb.service.PedidoService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class PedidoController {
 
     @Autowired
     private CarritoService carritoService;
+
+    @Autowired
+    private PdfService pdfService;
 
     @GetMapping("/historial")
     public String historialPedidos(Model model, HttpSession session) {
@@ -49,6 +54,18 @@ public class PedidoController {
         return "compras/detalle_pedido";
     }
 
+    @GetMapping("/pedidos/pdf/{id}")
+    public void generarFacturaPDF(@PathVariable Long id, HttpServletResponse response) throws Exception {
+
+        Pedido pedido = pedidoService.findById(id);
+
+        if (pedido == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Pedido no encontrado");
+            return;
+        }
+
+        pdfService.generarFacturaPDF(pedido, response);
+    }
 
     @PostMapping
     public String procesarCompra() {

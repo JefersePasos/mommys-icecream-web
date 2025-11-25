@@ -18,40 +18,45 @@
 
   <main class="centrado">
     <div class="contenedor-formulario" style="max-width: 900px;">
-      <h2>Detalle del Pedido</h2>
+        <h2>Detalle del Pedido</h2>
 
-      <p><strong>ID Pedido:</strong> <span th:text="${pedido.id}"></span></p>
-      <p><strong>Fecha:</strong> <span th:text="${#temporals.format(pedido.created_at, 'yyyy-MM-dd HH:mm')}"></span></p>
-      <p><strong>Estado:</strong>
-        <span th:text="${pedido.orderStatus} ? 'Confirmado' : 'Pendiente'"></span>
-      </p>
+        <p><strong>ID Pedido:</strong> <span th:text="${pedido.id}"></span></p>
+        <p><strong>Fecha:</strong> <span th:text="${#temporals.format(pedido.created_at, 'yyyy-MM-dd HH:mm')}"></span></p>
+        <p><strong>Estado:</strong>
+            <span th:text="${pedido.orderStatus} ? 'Confirmado' : 'Pendiente'"></span>
+        </p>
 
-      <table style="width:100%; border-collapse: collapse; text-align:center;">
-        <thead>
-          <tr>
-            <th>Cantidad</th>
-            <th>Producto</th>
-            <th>Precio unidad</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="pp : ${pedido.productos}">
-            <td th:text="${pp.cantidad}"></td>
-            <td th:text="${pp.producto.sabor}"></td>
-            <td th:text="${pp.precio}"></td>
-            <td th:text="${pp.cantidad * pp.precio}"></td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="factura-table">
+            <thead>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Producto</th>
+                    <th>Precio unidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
 
-      <h3 style="margin-top:20px;">
-        Total: <span th:text="${pedido.totalColones}"></span>
-      </h3>
+            <tbody>
+                <tr th:each="pp : ${pedido.productos}">
+                    <td data-label="Cantidad" th:text="${pp.cantidad}"></td>
+                    <td data-label="Producto" th:text="${pp.producto.sabor}"></td>
+                    <td data-label="Precio unidad" th:text="${pp.precio}"></td>
+                    <td data-label="Subtotal" th:text="${pp.cantidad * pp.precio}"></td>
+                </tr>
+            </tbody>
+        </table>
 
-      <a th:href="@{/compras/historial}">
-        <button class="btn">Volver al Historial</button>
-      </a>
+        <div class="factura-total">
+            Total: <span th:text="${pedido.totalColones}"></span>
+        </div>
+
+        <a th:href="@{'/compras/pedidos/pdf/' + ${pedido.id}}">
+            <button class="btn" style="margin-top: 20px;">Descargar Factura PDF</button>
+        </a>
+
+        <a th:href="@{/compras/historial}">
+            <button class="btn">Volver al Historial</button>
+        </a>
     </div>
   </main>
 
