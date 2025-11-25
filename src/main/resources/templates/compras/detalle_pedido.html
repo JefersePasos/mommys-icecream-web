@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Detalle del Pedido</title>
+  <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+
+<body>
+  <header>
+    <div class="navbar">
+      <a class="brand" th:href="@{/}">
+        <img th:src="@{/img/logo.png}" alt="Logo Mommy's Ice Cream" />
+        <h1>Mommy’s <span>Ice Cream</span></h1>
+      </a>
+    </div>
+  </header>
+
+  <main class="centrado">
+    <div class="contenedor-formulario" style="max-width: 900px;">
+      <h2>Detalle del Pedido</h2>
+
+      <p><strong>ID Pedido:</strong> <span th:text="${pedido.id}"></span></p>
+      <p><strong>Fecha:</strong> <span th:text="${#temporals.format(pedido.created_at, 'yyyy-MM-dd HH:mm')}"></span></p>
+      <p><strong>Estado:</strong>
+        <span th:text="${pedido.orderStatus} ? 'Confirmado' : 'Pendiente'"></span>
+      </p>
+
+      <table style="width:100%; border-collapse: collapse; text-align:center;">
+        <thead>
+          <tr>
+            <th>Cantidad</th>
+            <th>Producto</th>
+            <th>Precio unidad</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="pp : ${pedido.productos}">
+            <td th:text="${pp.cantidad}"></td>
+            <td th:text="${pp.producto.sabor}"></td>
+            <td th:text="${pp.precio}"></td>
+            <td th:text="${pp.cantidad * pp.precio}"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:20px;">
+        Total: <span th:text="${pedido.totalColones}"></span>
+      </h3>
+
+      <a th:href="@{/compras/historial}">
+        <button class="btn">Volver al Historial</button>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Mommy's Ice Cream</p>
+  </footer>
+</body>
+</html>

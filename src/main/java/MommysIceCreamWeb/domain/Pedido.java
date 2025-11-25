@@ -3,6 +3,8 @@ package MommysIceCreamWeb.domain;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @Entity
 @Table(name = "pedido")
@@ -52,4 +54,31 @@ public class Pedido {
 
     public List<PedidoProducto> getProductos() { return productos; }
     public void setProductos(List<PedidoProducto> productos) { this.productos = productos; }
+
+    //Para el total del precio de los productos
+    public double getTotal() {
+        if (productos == null) return 0;
+        return productos.stream()
+            .mapToDouble(p -> p.getCantidad() * p.getPrecio())
+            .sum();
+    }
+
+    //Para costa rica y su precio
+    public String getTotalColones() {
+        double total = getTotal(); // ya calculado
+
+        Locale costaRica = new Locale("es", "CR");
+        NumberFormat formato = NumberFormat.getCurrencyInstance(costaRica);
+
+        return formato.format(total);
+    }
+
+    //Para el total de la cantidad de apretados comprados y se muestren en el historial de pedidos
+    public int getCantidadTotal() {
+        if (productos == null) return 0;
+
+        return productos.stream()
+            .mapToInt(PedidoProducto::getCantidad)
+            .sum();
+    }
 }

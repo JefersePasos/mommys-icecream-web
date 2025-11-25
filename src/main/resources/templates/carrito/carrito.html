@@ -44,11 +44,13 @@
     <form th:action="@{/carrito/vaciar}" method="post">
       <button type="submit">Vaciar carrito</button>
     </form>
-    <form th:action="@{/comprar}" method="post">
+    <form th:action="@{/compras}" method="post">
         <button type="submit" class="btn">Finalizar compra</button>
     </form>
   </div>
-
   <a href="/productos/catalogo">⬅️ Seguir comprando</a>
+  <a th:href="@{/compras/historial}">
+      <button class="btn" style="margin-top: 1em;">Ver historial de pedidos</button>
+  </a>
 </body>
 </html>

@@ -775,6 +775,30 @@ html {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+th {
+    background-color: #f7f7f7;
+    border: 1px solid #bbb;
+    padding: 10px;
+    font-weight: bold;
+}
+
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+
 /* Confirmacion: encabezado con icono + texto */
 .confirmacion-encabezado{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
 .confirmacion-icon{width:56px;height:56px;object-fit:contain}

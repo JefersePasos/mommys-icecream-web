@@ -2,8 +2,6 @@
 package MommysIceCreamWeb.domain;
 
 import jakarta.persistence.*;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -30,7 +28,7 @@ public class Producto {
     
     private LocalDateTime created_at;
     private LocalDateTime modified_at;
-    private int stock;
+    //private int stock;
 
     public double getPrecio() {// getter para precio
         return precio;

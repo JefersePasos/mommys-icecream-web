@@ -23,6 +23,11 @@ public class PedidoService {
     @Autowired
     private HttpSession session;
 
+    public Pedido findById(Long id) {
+        return pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+    }
+
     public void realizarPedido(List<CarritoItem> items) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         

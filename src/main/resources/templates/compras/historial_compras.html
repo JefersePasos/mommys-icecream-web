@@ -16,23 +16,68 @@
   </header>
 
   <main class="centrado">
-    <div class="contenedor-formulario" style="max-width: 720px;">
+    <div class="contenedor-formulario" style="max-width: 900px;">
       <h2>Historial de Pedidos</h2>
 
-      <table style="width:100%; border-collapse: collapse;">
+      <table style="width:100%; border-collapse: collapse; text-align: center;">
         <thead>
-          <tr>
+          <tr class="" style="width:100%; border-collapse: collapse; text-align: center;">
             <th>ID Pedido</th>
             <th>Fecha</th>
             <th>Estado</th>
+            <th>Cantidad total</th>
+            <th>Productos comprados</th>
+            <th>Precio total</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="pedido : ${pedidos}">
-            <td th:text="${pedido.id}">123</td>
-            <td th:text="${#temporals.format(pedido.created_at, 'yyyy-MM-dd HH:mm')}">2025-11-24</td>
-            <td th:text="${pedido.orderStatus} ? 'Confirmado' : 'Pendiente'">Confirmado</td>
-          </tr>
+          <tr th:each="pedido : ${pedidos}" style="width:100%; border-collapse: collapse; text-align: center;">
+            <td th:text="${pedido.id}"></td>
+
+            <td th:text="${#temporals.format(pedido.created_at, 'yyyy-MM-dd HH:mm')}"></td>
+
+            <td th:text="${pedido.orderStatus} ? 'Confirmado' : 'Pendiente'"></td>
+            
+            <td th:text="${pedido.cantidadTotal}"></td>
+
+            <td>
+              <span th:each="pp, iter : ${pedido.productos}">
+                <span th:text="${pp.producto.sabor}"></span>
+                <span th:if="${!iter.last}"> - </span>
+              </span>
+            </td>
+
+            <td th:text="${pedido.totalColones}"></td>
+
+            <!-- Este es de cantidad unitaria
+            <td th:if="${#lists.size(pedido.productos) > 0}"
+                th:text="${pedido.productos[0].cantidad}"></td> 
+
+            Este es precio de cada producto, pero mejor hice que el backend haga la operacion
+            <td th:if="${#lists.size(pedido.productos) > 0}"
+                th:text="${pedido.productos[0].precio}"></td>
+            
+            <td colspan="3">
+              <ul>
+                <li th:each="pp : ${pedido.productos}">
+                  <span th:text="${pp.cantidad}">1</span> x
+                  <span th:text="${pp.producto.sabor}">Sabor</span> - 
+                  <span th:text="${pp.precio}">₡0.00</span>
+                </li>
+              </ul>
+            </td>--> 
+
+            <td>
+                <a th:href="@{'/compras/pedidos/detalle/' + ${pedido.id}}">
+                    <button class="btn">Ver detalle</button>
+                </a>
+            </td>
+
+             <!-- SI NO HAY PRODUCTOS -->
+            <td th:if="${#lists.size(pedido.productos) == 0}" colspan="3">
+              Sin productos
+            </td>
+          </tr> 
         </tbody>
       </table>
 
