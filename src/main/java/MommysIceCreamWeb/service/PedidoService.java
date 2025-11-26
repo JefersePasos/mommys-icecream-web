@@ -8,6 +8,12 @@ import MommysIceCreamWeb.repository.PedidoRepository;
 import MommysIceCreamWeb.repository.PedidoProductoRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -49,5 +55,10 @@ public class PedidoService {
 
     public List<Pedido> obtenerPedidosPorUsuario(Usuario usuario) {
         return pedidoRepository.findByUsuarioOrderByCreatedAtDesc(usuario);
+    }
+
+    public Page<Pedido> obtenerPedidosPaginados(Usuario usuario, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return pedidoRepository.findByUsuario(usuario, pageable);
     }
 }

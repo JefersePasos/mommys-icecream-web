@@ -107,6 +107,92 @@
         </tbody>
       </table>
 
+      <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 20px;">
+      
+        <!-- Botón Anterior -->
+        <a th:if="${!pagina.first}" th:href="@{/compras/historial(page=${pagina.number - 1}, size=${pagina.size})}">
+          <button class="btn">&laquo; Anterior</button>
+        </a>
+      
+        <div style="display: flex; align-items: center; gap: 6px;">
+      
+          <!-- ⭐ Mostrar página 1 siempre -->
+          <span th:if="${pagina.number == 0}"
+            style="font-weight:bold; padding: 6px 10px; border: 1px solid #444; border-radius: 5px; background:#eaeaea;">
+            1
+          </span>
+      
+          <a th:if="${pagina.number > 0}" th:href="@{/compras/historial(page=0, size=${pagina.size})}"
+            style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px;">
+            1
+          </a>
+      
+          <!-- Mostrar “…” después de página 1 -->
+          <span th:if="${pagina.number > 2}">…</span>
+      
+          <!-- Páginas alrededor de la actual -->
+          <span th:each="i : ${#numbers.sequence(pagina.number - 1, pagina.number + 1)}"
+            th:if="${i > 0 and i < pagina.totalPages - 1}">
+      
+            <!-- Página actual -->
+            <span th:if="${i == pagina.number}"
+              style="font-weight:bold; padding: 6px 10px; border: 1px solid #444; border-radius: 5px; background:#eaeaea;">
+              [[${i + 1}]]
+            </span>
+      
+            <!-- Otra página -->
+            <a th:if="${i != pagina.number}" th:href="@{/compras/historial(page=${i}, size=${pagina.size})}"
+              style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px;">
+              [[${i + 1}]]
+            </a>
+          </span>
+      
+          <!-- Mostrar “…” antes de la última página -->
+          <span th:if="${pagina.number < pagina.totalPages - 3}">…</span>
+      
+          <!-- ⭐ Mostrar última página -->
+          <span th:if="${pagina.number == pagina.totalPages - 1}"
+            style="font-weight:bold; padding: 6px 10px; border: 1px solid #444; border-radius: 5px; background:#eaeaea;">
+            [[${pagina.totalPages}]]
+          </span>
+      
+          <a th:if="${pagina.number < pagina.totalPages - 1}"
+            th:href="@{/compras/historial(page=${pagina.totalPages - 1}, size=${pagina.size})}"
+            style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px;">
+            [[${pagina.totalPages}]]
+          </a>
+        </div>
+      
+        <!-- Botón Siguiente -->
+        <a th:if="${!pagina.last}" th:href="@{/compras/historial(page=${pagina.number + 1}, size=${pagina.size})}">
+          <button class="btn">Siguiente &raquo;</button>
+        </a>
+      
+      </div>
+
+      <!-- Este funciona tambien, se ve mas profesional pero menos usado
+      Este codigo es para la paginación
+      <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 20px;">
+
+           Botón Anterior 
+          <a th:if="${!pagina.first}"
+            th:href="@{/compras/historial(page=${pagina.number - 1}, size=${pagina.size})}">
+              <button class="btn">&laquo; Anterior</button>
+          </a>
+
+          Texto de páginas centrado 
+          <span style="font-size: 16px; font-weight: bold; text-align: center;">
+              Página [[${pagina.number + 1}]] de [[${pagina.totalPages}]]
+          </span>
+
+           Botón Siguiente 
+          <a th:if="${!pagina.last}"
+            th:href="@{/compras/historial(page=${pagina.number + 1}, size=${pagina.size})}">
+              <button class="btn">Siguiente &raquo;</button>
+          </a>
+
+      </div>-->
+
       <div style="margin-top: 2em;">
         <a th:href="@{/productos/catalogo}">
           <button class="btn">Volver al Catálogo</button>

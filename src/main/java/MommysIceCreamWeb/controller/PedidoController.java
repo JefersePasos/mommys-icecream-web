@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,19 +36,27 @@ public class PedidoController {
 
     @GetMapping("/historial")
     public String historialPedidos(
-            @RequestParam(required = false) String desde,
-            @RequestParam(required = false) String hasta,
-            @RequestParam(required = false) String estado,
-            @RequestParam(required = false) Integer meses,
-            Model model,
-            HttpSession session) {
+        @RequestParam(required = false) Integer page,
+        @RequestParam(required = false) Integer size,
+        @RequestParam(required = false) String desde,
+        @RequestParam(required = false) String hasta,
+        @RequestParam(required = false) String estado,
+        @RequestParam(required = false) Integer meses,
+        Model model,
+        HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        var pedidos = pedidoService.obtenerPedidosPorUsuario(usuario);
+        Page<Pedido> paginaPedidos = pedidoService.obtenerPedidosPaginados(
+            usuario,
+            page == null ? 0 : page,     // página actual
+            size == null ? 5 : size      // tamaño por defecto (5 filas)
+        );
+
+        List<Pedido> pedidos = paginaPedidos.getContent();
 
         //  FILTRO POR FECHAS
         if (desde != null && !desde.isEmpty()) {
@@ -72,6 +82,7 @@ public class PedidoController {
         }
 
         // Enviar pedidos a la vista
+        model.addAttribute("pagina", paginaPedidos);
         model.addAttribute("pedidos", pedidos);
 
         return "compras/historial_compras";
