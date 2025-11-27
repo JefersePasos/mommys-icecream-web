@@ -46,4 +46,22 @@ public class CarritoService {
     public void vaciar() {
         carrito.clear();
     }
+
+    // Aumentar cantidad
+    public void aumentarCantidad(Long productoId) {
+        carrito.forEach(item -> {
+            if (item.getProducto().getId().equals(productoId)) {
+                item.setCantidad(item.getCantidad() + 1);
+            }
+        });
+    }
+
+    // Disminuir cantidad
+    public void disminuirCantidad(Long productoId) {
+        carrito.forEach(item -> {
+            if (item.getProducto().getId().equals(productoId) && item.getCantidad() > 1) {
+                item.setCantidad(item.getCantidad() - 1);
+            }
+        });
+    }
 }

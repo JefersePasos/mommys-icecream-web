@@ -43,4 +43,16 @@ public class CarritoController {
         carritoService.vaciar();
         return "redirect:/carrito";
     }
+
+    @PostMapping("/aumentar")
+    public String aumentarCantidad(@RequestParam Long productoId) {
+        carritoService.aumentarCantidad(productoId);
+        return "redirect:/carrito";
+    }
+
+    @PostMapping("/disminuir")
+    public String disminuirCantidad(@RequestParam Long productoId) {
+        carritoService.disminuirCantidad(productoId);
+        return "redirect:/carrito";
+    }
 }
