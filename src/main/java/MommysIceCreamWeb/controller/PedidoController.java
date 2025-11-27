@@ -56,7 +56,7 @@ public class PedidoController {
             size == null ? 5 : size      // tamaño por defecto (5 filas)
         );
 
-        List<Pedido> pedidos = paginaPedidos.getContent();
+        List<Pedido> pedidos = new java.util.ArrayList<>(paginaPedidos.getContent());
 
         //  FILTRO POR FECHAS
         if (desde != null && !desde.isEmpty()) {
@@ -84,7 +84,11 @@ public class PedidoController {
         // Enviar pedidos a la vista
         model.addAttribute("pagina", paginaPedidos);
         model.addAttribute("pedidos", pedidos);
-
+        model.addAttribute("desde", desde);
+        model.addAttribute("hasta", hasta);
+        model.addAttribute("estado", estado);
+        model.addAttribute("meses", meses);
+        
         return "compras/historial_compras";
     }
 
