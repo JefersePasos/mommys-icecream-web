@@ -33,9 +33,37 @@
                         <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
                     </select>
                 </form>
-                <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
-                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
-                </a>
+                    <!-- CARRITO CON MENÚ DROPDOWN -->
+                    <div class="carrito-menu-container" style="position:relative;">
+                    
+                        <img th:src="@{/img/carrito.png}" onclick="toggleCarritoMenu()"
+                            style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
+                    
+                        <div id="carritoMenu" style="
+                                            display:none;
+                                            position:absolute;
+                                            top:40px;
+                                            right:0;
+                                            background:white;
+                                            border-radius:10px;
+                                            box-shadow:0 4px 12px rgba(0,0,0,0.2);
+                                            padding:10px;
+                                            z-index:999;
+                                            min-width:180px;">
+                    
+                            <a th:href="@{/carrito}"
+                                style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                                🛒 Ver Carrito
+                            </a>
+                    
+                            <a th:href="@{/compras/historial}"
+                                style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                                📦 Historial de Compras
+                            </a>
+                    
+                        </div>
+                    
+                    </div>
                 <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
                     <img th:src="@{/img/cuenta.png}" alt="Perfil"
                         style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
@@ -64,7 +92,24 @@
             </div>
         </div>
     </div>
-<script src="/js/lang.js"></script>
+    <script src="/js/lang.js"></script>
+
+    <!-- Script para abrir el menu del carrito como un hamburger menu -->
+    <script>
+        function toggleCarritoMenu() {
+            let menu = document.getElementById("carritoMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        // Cerrar si se hace clic afuera
+        document.addEventListener("click", function(e){
+            const menu = document.getElementById("carritoMenu");
+            const container = document.querySelector(".carrito-menu-container");
+            if (!container.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 </body>
 
 </html>

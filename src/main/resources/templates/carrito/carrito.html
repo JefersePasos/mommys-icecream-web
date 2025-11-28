@@ -36,7 +36,8 @@
         <table class="factura-table">
           <thead>
             <tr>
-              <th>Producto</th>
+              <th>Imagen</th>
+              <th>Producto</th>   
               <th>Cantidad</th>
               <th>Precio</th>
               <th>Subtotal</th>
@@ -46,8 +47,24 @@
 
           <tbody>
             <tr th:each="item : ${items}">
+              <td data-label="Imagen">
+                  <img 
+                      th:if="${item.producto.imagen != null and item.producto.imagen != ''}" 
+                      th:src="${item.producto.imagen}"
+                      style="width:60px; height:60px; object-fit:cover; border-radius:8px;" 
+                      alt="Imagen del producto" />
+
+                  <img 
+                      th:unless="${item.producto.imagen != null and item.producto.imagen != ''}"
+                      th:src="@{/img/heladosTarjeta1.png}" 
+                      style="width:60px; height:60px; object-fit:cover; border-radius:8px;" 
+                      alt="Imagen por defecto" />
+              </td>
+
+              <!-- Nombre -->
               <td data-label="Producto" th:text="${item.producto.nombre}"></td>
               <!--<td data-label="Cantidad" th:text="${item.cantidad}"></td>  Este solo muestra la cantidad como tal-->
+              <!-- esta parte es para poder aumentar o disminuir la cantidad que se desea comprar -->
               <td data-label="Cantidad" style="display:flex; justify-content:center; align-items:center; gap:10px;">
               
                 <!-- Botón disminuir -->
@@ -76,12 +93,13 @@
 
               <!-- Eliminar -->
               <td data-label="Acción" style="text-align:center;">
-                <form th:action="@{/carrito/eliminar}" method="post">
-                  <input type="hidden" name="productoId" th:value="${item.producto.id}" />
-                  <button type="submit" class="btn" style="padding: 6px 12px; font-size:0.9em; background: var(--rojo);">
+                <button 
+                    class="btn" 
+                    type="button"
+                    th:attr="onclick=|abrirModal('${item.producto.id}')|"
+                    style="padding: 6px 12px; font-size:0.9em; background: var(--rojo);">
                     Eliminar
-                  </button>
-                </form>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -99,9 +117,13 @@
             <button class="btn pill" style="background: var(--naranja); font-size:18px;">Finalizar compra</button>
           </form>
 
-          <form th:action="@{/carrito/vaciar}" method="post">
-            <button class="btn pill" style="background: var(--rojo); font-size:18px;">Vaciar carrito</button>
-          </form>
+          <button 
+              class="btn" 
+              type="button"
+              onclick="abrirModalVaciar()"
+              style="background: var(--rojo); font-size:18px;">
+              Vaciar carrito
+          </button>
 
           <a th:href="@{/productos/catalogo}">
             <button class="btn pill" style="background: var(--cafe);">⬅ Seguir comprando</button>
@@ -112,8 +134,95 @@
     </div>
   </main>
 
+  <!-- MODAL DE CONFIRMACIÓN -->
+  <div id="modalEliminar" style="
+      display:none; 
+      position:fixed; 
+      top:0; left:0; 
+      width:100%; height:100%; 
+      background:rgba(0,0,0,.45); 
+      justify-content:center; 
+      align-items:center;
+      z-index:999;">
+      
+      <div style="
+          background:white; 
+          padding:2em; 
+          border-radius:12px; 
+          max-width:320px; 
+          text-align:center;">
+          
+          <h3>¿Eliminar este producto?</h3>
+          <p style="margin-bottom:1.5em;">Esta acción no se puede deshacer.</p>
+
+          <form id="formEliminar" method="post" th:action="@{/carrito/eliminar}">
+              <input type="hidden" name="productoId" id="idProductoEliminar">
+              <button class="btn" style="background:var(--rojo); width:100%;">Eliminar</button>
+          </form>
+
+          <button class="btn" onclick="cerrarModal()" style="background:var(--cafe); width:100%; margin-top:10px;">
+              Cancelar
+          </button>
+      </div>
+  </div>
+
+  <!-- MODAL PARA VACIAR CARRITO -->
+  <div id="modalVaciar" style="
+      display:none; 
+      position:fixed; 
+      top:0; left:0; 
+      width:100%; height:100%; 
+      background:rgba(0,0,0,.45); 
+      justify-content:center; 
+      align-items:center;
+      z-index:999;">
+      
+      <div style="
+          background:white; 
+          padding:2em; 
+          border-radius:12px; 
+          max-width:320px; 
+          text-align:center;">
+          
+          <h3>¿Vaciar el carrito?</h3>
+          <p style="margin-bottom:1.5em;">Esta acción eliminará TODOS los productos.</p>
+
+          <form method="post" th:action="@{/carrito/vaciar}">
+              <button class="btn" style="background:var(--rojo); width:100%;">Vaciar carrito</button>
+          </form>
+
+          <button class="btn" onclick="cerrarModalVaciar()" 
+                  style="background:var(--cafe); width:100%; margin-top:10px;">
+              Cancelar
+          </button>
+      </div>
+  </div>
+
   <footer>
     <p>&copy; 2025 Mommy's Ice Cream</p>
   </footer>
+
+    <!--Script para modal de confirmacion de eliminacion del producto-->
+  <script>
+  function abrirModal(productoId) {
+      document.getElementById("modalEliminar").style.display = "flex";
+      document.getElementById("idProductoEliminar").value = productoId;
+  }
+
+  function cerrarModal() {
+      document.getElementById("modalEliminar").style.display = "none";
+  }
+  </script>
+  
+   <!--Script para modal de confirmacion de vaciar el carrito-->
+  <script>
+  function abrirModalVaciar() {
+      document.getElementById("modalVaciar").style.display = "flex";
+  }
+
+  function cerrarModalVaciar() {
+      document.getElementById("modalVaciar").style.display = "none";
+  }
+  </script>
 </body>
 </html>

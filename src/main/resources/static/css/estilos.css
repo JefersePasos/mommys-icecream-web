@@ -875,6 +875,12 @@ tr:nth-child(even) {
     }
 }
 
+/*Estilo carrito*/
+#carritoMenu a:hover {
+    background: var(--gris);
+    border-radius: 6px;
+}
+
 
 /* Confirmacion: encabezado con icono + texto */
 .confirmacion-encabezado{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
