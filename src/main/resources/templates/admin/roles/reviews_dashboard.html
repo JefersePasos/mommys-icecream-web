@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Moderación de Reseñas</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+
+<body>
+
+<header>
+    <div class="navbar">
+        <a class="brand" th:href="@{/}">
+            <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+            <h1>Mommy’s Ice Cream</h1>
+        </a>
+        <nav class="nav-menu">
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/productos/dashboardProductos}">Productos</a>
+            <a th:href="@{/admin/reviews}" style="font-weight:bold;">Reseñas</a>
+        </nav>
+    </div>
+</header>
+
+<main class="catalogo-contenido" style="max-width:900px; margin:auto;">
+
+    <h2 class="catalogo-title">Reseñas Pendientes</h2>
+
+    <div th:if="${#lists.isEmpty(pendientes)}">
+        <p>No hay reseñas pendientes por moderar.</p>
+    </div>
+
+    <div class="tile" th:each="r : ${pendientes}" style="padding:20px; margin-bottom:20px;">
+
+        <p><strong th:text="r.user.nombre"></strong></p>
+
+        <p th:text="'⭐'.repeat(r.rating)"></p>
+
+        <p th:text="r.comment"></p>
+
+        <p>
+            <strong>Producto:</strong>
+            <span th:text="r.producto.nombre"></span>
+        </p>
+
+        <div style="display:flex; gap:10px;">
+            <a th:href="@{'/admin/reviews/aprobar/' + ${r.id}}" 
+               class="btn pill" 
+               style="background-color:#4CAF50;">Aprobar</a>
+
+            <a th:href="@{'/admin/reviews/eliminar/' + ${r.id}}"
+               class="btn pill" 
+               style="background-color:#E74C3C;">Eliminar</a>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2025 Mommys Ice Cream</p>
+</footer>
+
+</body>
+</html>

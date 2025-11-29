@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${producto.nombre}">Detalle del Producto</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+
+<body>
+
+    <!-- HEADER (copiado del catálogo) -->
+    <header>
+        <div class="navbar">
+            <a class="brand" th:href="@{/}">
+                <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+                <h1>
+                    <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
+                    <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
+                </h1>
+            </a>
+
+            <nav class="nav-menu">
+                <a th:href="@{/comprar}" th:text="#{nav.comprar}">Comprar</a>
+                <a th:href="@{/productos/catalogo}" th:text="#{nav.catalogo}">Catálogo</a>
+                <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
+                <a th:href="@{/contacto}" th:text="#{nav.contacto}">Contáctenos</a>
+            </nav>
+
+            <div class="nav-actions">
+                <form method="get">
+                    <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                        <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                        <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                    </select>
+                </form>
+
+                <div class="carrito-menu-container" style="position:relative;">
+                    <img src="/img/carrito.png" onclick="toggleCarritoMenu()"
+                        style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
+
+                    <div id="carritoMenu" style="
+                        display:none;
+                        position:absolute;
+                        top:40px;
+                        right:0;
+                        background:white;
+                        border-radius:10px;
+                        box-shadow:0 4px 12px rgba(0,0,0,0.2);
+                        padding:10px;
+                        z-index:999;
+                        min-width:180px;">
+                        <a th:href="@{/carrito}"
+                            style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                            🛒 Ver Carrito
+                        </a>
+
+                        <a th:href="@{/compras/historial}"
+                            style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                            📦 Historial de Compras
+                        </a>
+                    </div>
+                </div>
+
+                <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
+                    <img th:src="@{/img/cuenta.png}" alt="Perfil"
+                        style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="catalogo-contenido">
+
+        <!-- Título del producto -->
+        <div class="centrado" style="margin-bottom:20px;">
+            <h2 class="catalogo-title" th:text="${producto.nombre}">Nombre del producto</h2>
+        </div>
+
+        <!-- TARJETA DEL PRODUCTO -->
+        <div class="tile centrado" style="max-width:900px; margin:auto; padding:20px;">
+            <div class="catalogo-img">
+                <img th:if="${producto.imagen}" th:src="${producto.imagen}"
+                     alt="Imagen del producto" />
+                <img th:unless="${producto.imagen}"
+                     th:src="@{/img/heladosTarjeta1.png}" alt="Imagen por defecto" />
+            </div>
+
+            <div class="product-contenido" style="margin-top:20px;">
+                <h3 class="product-titulo" th:text="${producto.nombre}">Nombre</h3>
+
+                <p class="product-descripcion" th:text="${producto.descripcion}">
+                    Descripción del producto.
+                </p>
+
+                <span class="product-precio" th:text="'₡' + ${producto.precio}">
+                    ₡0000
+                </span>
+
+                <!-- Botón agregar al carrito -->
+                <form th:action="@{/carrito/agregar}" method="post" style="margin-top:10px;">
+                    <input type="hidden" name="productoId" th:value="${producto.id}" />
+                    <input type="number" name="cantidad" min="1" value="1" required />
+                    <button type="submit">Agregar al carrito 🛒</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE RESEÑAS -->
+        <section style="max-width:900px;margin:auto;margin-top:40px;">
+            <h2 class="catalogo-title">Opiniones de otros clientes</h2>
+
+            <div th:if="${#lists.isEmpty(reviews)}">
+                <p>No hay reseñas todavía. ¡Sé el primero en dejar una!</p>
+            </div>
+
+            <div th:each="review : ${reviews}" class="tile" style="padding:15px;margin-bottom:15px;">
+                <!-- ⭐⭐⭐⭐⭐ ESTRELLAS -->
+                <p th:text="'⭐'.repeat(review.rating)"></p>
+
+                <!-- Comentario -->
+                <p th:text="review.comment"></p>
+
+                <!-- Fecha -->
+                <small th:text="${#temporals.format(review.createdAt, 'dd/MM/yyyy HH:mm')}"></small>
+            </div>
+        </section>
+
+        <!-- FORMULARIO PARA AÑADIR RESEÑA -->
+        <section style="max-width:900px;margin:auto;margin-top:40px;">
+            <h2 class="catalogo-title">Escribe tu reseña</h2>
+
+            <form th:action="@{'/producto/' + ${producto.id} + '/review'}" method="post">
+
+                <label><strong>Valoración</strong></label>
+                <select name="rating" required>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="1">⭐</option>
+                </select>
+
+                <label><strong>Comentario</strong></label>
+                <textarea name="comment" required></textarea>
+
+                <button type="submit" class="btn pill" style="background-color:#D27D63;">
+                    Enviar reseña
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mommys Ice Cream</p>
+    </footer>
+
+    <script src="/js/lang.js"></script>
+</body>
+
+</html>

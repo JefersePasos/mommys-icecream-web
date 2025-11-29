@@ -32,11 +32,11 @@
                         <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
                     </select>
                 </form>
+
                 <div class="carrito-menu-container" style="position:relative;">
-                
                     <img src="/img/carrito.png" onclick="toggleCarritoMenu()"
                         style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
-                
+
                     <!-- MENÚ DESPLEGABLE -->
                     <div id="carritoMenu" style="
                         display:none;
@@ -49,19 +49,19 @@
                         padding:10px;
                         z-index:999;
                         min-width:180px;">
-                
+
                         <a th:href="@{/carrito}"
                             style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
                             🛒 Ver Carrito
                         </a>
-                
+
                         <a th:href="@{/compras/historial}"
                             style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
                             📦 Historial de Compras
                         </a>
-                
                     </div>
                 </div>
+
                 <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
                     <img th:src="@{/img/cuenta.png}" alt="Perfil"
                         style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
@@ -72,83 +72,111 @@
 
     <main class="catalogo-contenido">
 
-
         <div class="centrado catalogo-header">
             <h2 class="catalogo-title" th:text="#{catalogo.tituloPagina}">Product Catalog</h2>
         </div>
+
         <div class="recientes-box" th:if="${recientes != null and #lists.size(recientes) > 0}">
             <h1 class="catalogo-subtitle" th:text="#{catalogo.tituloRecientes}">Discover our latest flavors</h1>
+
             <div class="grid3 page catalogo-grid recientes-grid">
                 <div th:each="producto : ${recientes}" class="tile">
-                    <!-- Foto centrada -->
                     <div class="catalogo-img">
                         <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
                             alt="Imagen del producto" />
                         <img th:unless="${producto.imagen != null and producto.imagen != ''}"
                             th:src="@{/img/heladosMani.png}" alt="Imagen por defecto" />
                     </div>
-                    <!--Nombre en tarjeta-->
+
                     <div class="product-contenido">
                         <div class="product-title-box">
                             <h3 th:text="${producto.nombre}" class="product-titulo">Product name</h3>
                         </div>
 
-
-                        <p class="product-descripcion" th:text="${producto.descripcion} ?: #{producto.sinDescripcion}">
+                        <p class="product-descripcion"
+                            th:text="${producto.descripcion} ?: #{producto.sinDescripcion}">
                             No description available.
                         </p>
 
                         <span class="product-precio">₡900</span>
-
                     </div>
                 </div>
             </div>
         </div>
-        <!-- contenedor de tarjetas -->
+
+        <!-- ============================================================= -->
+        <!-- ================ SECCIÓN DE PRODUCTOS ====================== -->
+        <!-- ============================================================= -->
+
         <div class="grid3 page catalogo-grid">
-            <div th:each="producto : ${productos}" class="tile" th:classappend="${!producto.status} ? ' tile-off'">
-                <!-- Foto centrada -->
-                <div class="catalogo-img">
-                    <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
-                        alt="Imagen del producto" />
-                    <img th:unless="${producto.imagen != null and producto.imagen != ''}"
-                        th:src="@{/img/heladosTarjeta1.png}" alt="Imagen por defecto" />
-                </div>
-                <!--Nombre en tarjeta-->
-                <div class="product-contenido">
-                    <div class="product-title-box">
-                        <h3 th:text="${producto.nombre}" class="product-titulo">Product name</h3>
+            <div th:each="producto : ${productos}">
+
+                <!-- ENLACE AL DETALLE DEL PRODUCTO -->
+                <a th:href="@{'/productos/detalle/' + ${producto.id}}"
+                   style="text-decoration:none; color:inherit;">
+
+                    <div class="tile" th:classappend="${!producto.status} ? ' tile-off'">
+
+                        <div class="catalogo-img">
+                            <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
+                                alt="Imagen del producto" />
+                            <img th:unless="${producto.imagen != null and producto.imagen != ''}"
+                                th:src="@{/img/heladosTarjeta1.png}" alt="Imagen por defecto" />
+                        </div>
+
+                        <div class="product-contenido">
+                            <div class="product-title-box">
+                                <h3 th:text="${producto.nombre}" class="product-titulo">Product name</h3>
+                            </div>
+
+                            <p class="product-descripcion"
+                               th:text="${producto.descripcion} ?: #{producto.sinDescripcion}">
+                               No description available.
+                            </p>
+
+                            <span class="product-precio">₡900
+
+                                <!-- AGREGAR AL CARRITO -->
+                                <form th:action="@{/carrito/agregar}" method="post">
+                                    <input type="hidden" name="productoId" th:value="${producto.id}" />
+                                    <input type="number" name="cantidad" min="1" value="1" required style="width:100px;" />
+                                    <button type="submit">Agregar al carrito 🛒</button>
+                                </form>
+
+                            </span>
+                        </div>
+
+                        <div class="tile-overlay"
+                            th:if="${!producto.status}"
+                            th:text="#{estado.no-disponible}">
+                            Unavailable
+                        </div>
+
                     </div>
 
-
-                    <p class="product-descripcion" th:text="${producto.descripcion} ?: #{producto.sinDescripcion}">
-                        No description available.
-                    </p>
-
-                    <span class="product-precio">₡900
-
-                    <!-- Botón agregar al carrito --> <!-- Esto agrega la cantidad y agrega al carrito --> 
-                    <form th:action="@{/carrito/agregar}" method="post">
-                        <input type="hidden" name="productoId" th:value="${producto.id}" />
-                        <input type="number" name="cantidad" min="1" value="1" required style="width:100px;" />
-                        <button type="submit">Agregar al carrito 🛒</button>
-                    </form>
-                    </span>
-                </div>
-                <!-- Overlay de no disponible -->
-                <div class="tile-overlay" th:if="${!producto.status}" th:text="#{estado.no-disponible}">Unavailable</div>
+                </a>
             </div>
         </div>
+
+        <!-- ============================================================= -->
+        <!-- ============== FORMULARIO DE SUGERENCIAS =================== -->
+        <!-- ============================================================= -->
+
         <section>
             <section class="hero--banner-sugerencias hero--banner--bleed" id="sugerir-nuevo">
                 <div class="banner-text">
-                    <h2 class="catalogo-title" th:text="#{sugerencias.titulo}">Have a flavor in mind that you don't see on our list?</h2>
+                    <h2 class="catalogo-title" th:text="#{sugerencias.titulo}">
+                        Have a flavor in mind that you don't see on our list?
+                    </h2>
                 </div>
             </section>
-            <!-- Contenido -->
+
             <div class="centrado" style="align-items:flex-start;">
                 <div class="contenedor-formulario" style="max-width:560px; width:100%;">
-                    <h2 style="margin-top:0;" th:text="#{sugerencias.tituloFormulario}">Let us know!</h2>
+                    <h2 style="margin-top:0;" th:text="#{sugerencias.tituloFormulario}">
+                        Let us know!
+                    </h2>
+
                     <form th:object="${sugerencia}" th:action="@{/productos/confirmacion}" method="post">
 
                         <label for="sabor"><strong th:text="#{sugerencias.descripcion}">Description</strong></label>
@@ -157,10 +185,14 @@
                         <label for="descripcion"><strong th:text="#{sugerencias.correo}">Email</strong></label>
                         <input id="descripcion" type="text" th:field="*{descripcion}" th:placeholder="#{sugerencias.comodin-email}" required />
 
-                        <!-- Acciones -->
                         <div style="display:flex; gap:10px; margin-top:6px;">
-                            <button type="submit" class="btn pill" style="width:100%; font-weight: 600; background-color: #D27D63;" th:text="#{sugerencias.enviar}">Send</button>
+                            <button type="submit" class="btn pill"
+                                style="width:100%; font-weight: 600; background-color: #D27D63;"
+                                th:text="#{sugerencias.enviar}">
+                                Send
+                            </button>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -170,16 +202,15 @@
     <footer>
         <p>&copy; 2025 Mommys Ice Cream</p>
     </footer>
+
     <script src="/js/lang.js"></script>
 
-    <!-- Script para abrir el menu del carrito como un hamburger menu -->
     <script>
     function toggleCarritoMenu() {
         let menu = document.getElementById("carritoMenu");
         menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
 
-    // Cerrar si se hace clic afuera
     document.addEventListener("click", function(e){
         const menu = document.getElementById("carritoMenu");
         const container = document.querySelector(".carrito-menu-container");
@@ -187,7 +218,8 @@
             menu.style.display = "none";
         }
     });
-</script>
+    </script>
 </body>
 
 </html>
+
