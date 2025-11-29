@@ -130,23 +130,26 @@
         </dependency>
 
         <!-- Encriptacion de la contrasena en hash (no reversible)con BCrypt -->
-        <!-- Quitar momentáneamente para pruebas sin login
+        
         <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        -->
 
+        <!-- Quitar momentáneamente para pruebas sin login 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-        </dependency>
+        </dependency>--> 
+        <!-- Fin Encriptacion de la contrasena -->
+        
+
         <dependency>
             <groupId>com.github.librepdf</groupId>
             <artifactId>openpdf</artifactId>
             <version>1.3.30</version>
-        </dependency>
-        <!-- Fin Encriptacion de la contrasena -->
+        </dependency> 
+
     </dependencies>
 
     <build>

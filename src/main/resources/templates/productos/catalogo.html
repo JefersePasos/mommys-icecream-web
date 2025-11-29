@@ -34,8 +34,29 @@
                 </form>
                 <div class="carrito-menu-container" style="position:relative;">
                 
-                    <img src="/img/carrito.png" onclick="toggleCarritoMenu()"
-                        style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
+                    <div id="carrito-icono" style="position:relative; cursor:pointer;" onclick="toggleCarritoMenu()">
+
+                        <img src="/img/carrito.png"
+                            style="width:28px;height:28px;object-fit:cover;" />
+
+                        <!-- Contador de items -->
+                        <span id="carrito-count"
+                            style="
+                            position:absolute;
+                            top:-8px;
+                            right:-8px;
+                            background: var(--rojo);
+                            color:white;
+                            padding:2px 6px;
+                            font-size:12px;
+                            border-radius:50%;
+                            font-weight:700;
+                            box-shadow:0 2px 6px rgba(0,0,0,.2);
+                            ">
+                            0
+                        </span>
+
+                    </div>
                 
                     <!-- MENÚ DESPLEGABLE -->
                     <div id="carritoMenu" style="
@@ -71,8 +92,6 @@
     </header>
 
     <main class="catalogo-contenido">
-
-
         <div class="centrado catalogo-header">
             <h2 class="catalogo-title" th:text="#{catalogo.tituloPagina}">Product Catalog</h2>
         </div>
@@ -106,7 +125,7 @@
         </div>
         <!-- contenedor de tarjetas -->
         <div class="grid3 page catalogo-grid">
-            <div th:each="producto : ${productos}" class="tile" th:classappend="${!producto.status} ? ' tile-off'">
+            <div th:each="producto : ${productos}" class="tile" th:id="'producto-' + ${producto.id}">
                 <!-- Foto centrada -->
                 <div class="catalogo-img">
                     <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
@@ -125,16 +144,28 @@
                         No description available.
                     </p>
 
-                    <span class="product-precio">₡900
+                    <!-- Mensaje para este producto -->
+                    <div
+                        th:if="${productoAgregadoId != null and productoAgregadoId == producto.id}" 
+                        class="mensaje-producto-agregado">
+                        ¡Agregado al carrito! 🛒
+                    </div>
+                    
+                    <div class="product-precio">₡900</div>
 
                     <!-- Botón agregar al carrito --> <!-- Esto agrega la cantidad y agrega al carrito --> 
-                    <form th:action="@{/carrito/agregar}" method="post">
+                    <form class="form-agregar"
+                        method="post"
+                        th:onsubmit="|agregarCarrito(event, ${producto.id})|">
+                        
                         <input type="hidden" name="productoId" th:value="${producto.id}" />
-                        <input type="number" name="cantidad" min="1" value="1" required style="width:100px;" />
+                        <input type="number" name="cantidad" min="1" value="1" required />
+
                         <button type="submit">Agregar al carrito 🛒</button>
-                    </form>
-                    </span>
+                    </form>                                                    
+          
                 </div>
+                
                 <!-- Overlay de no disponible -->
                 <div class="tile-overlay" th:if="${!producto.status}" th:text="#{estado.no-disponible}">Unavailable</div>
             </div>
@@ -170,7 +201,6 @@
     <footer>
         <p>&copy; 2025 Mommys Ice Cream</p>
     </footer>
-    <script src="/js/lang.js"></script>
 
     <!-- Script para abrir el menu del carrito como un hamburger menu -->
     <script>
@@ -183,11 +213,92 @@
     document.addEventListener("click", function(e){
         const menu = document.getElementById("carritoMenu");
         const container = document.querySelector(".carrito-menu-container");
-        if (!container.contains(e.target)) {
+        if (menu && container && !container.contains(e.target)) {
             menu.style.display = "none";
         }
     });
 </script>
+
+<script>
+    // 🔹 Actualiza el numerito del carrito
+    function actualizarContadorCarrito() {
+        fetch("/carrito/cantidad")
+            .then(r => r.json())
+            .then(cantidad => {
+                const count = document.getElementById("carrito-count");
+                if (!count) return;
+                count.textContent = cantidad;
+
+                // Animación POP
+                const icono = document.getElementById("carrito-icono");
+                if (!icono) return;
+                icono.classList.add("carrito-pop");
+                setTimeout(() => icono.classList.remove("carrito-pop"), 300);
+            })
+            .catch(err => console.error("Error al actualizar contador:", err));
+    }
+
+    // 🔹 Mensaje “¡Agregado al carrito!” en la tarjeta
+    function mostrarMensajeEnProducto(productoId) {
+        const contenedor = document.getElementById("producto-" + productoId);
+        if (!contenedor) return;
+
+        // Eliminar mensaje previo si existe
+        const anterior = contenedor.querySelector(".mensaje-producto-agregado");
+        if (anterior) anterior.remove();
+
+        const msg = document.createElement("div");
+        msg.className = "mensaje-producto-agregado";
+        msg.innerText = "¡Agregado al carrito! 🛒";
+
+        // Un poquito de estilo inline (puedes pasarlo a CSS)
+        msg.style.marginTop = "6px";
+        msg.style.padding = "6px 10px";
+        msg.style.background = "#CFFFE2";
+        msg.style.borderRadius = "8px";
+        msg.style.fontWeight = "600";
+        msg.style.fontSize = "0.9rem";
+
+        contenedor.appendChild(msg);
+
+        // Se borra solo a los 4 segundos
+        setTimeout(() => {
+            msg.remove();
+        }, 4000);
+    }
+
+    // 🔹 Enviar al backend SIN recargar ni subir arriba
+    function agregarCarrito(event, productoId) {
+        event.preventDefault();
+
+        const form = event.target;
+        const cantidad = form.querySelector("input[name='cantidad']").value;
+
+        fetch("/carrito/agregar-ajax", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `productoId=${productoId}&cantidad=${cantidad}`
+        })
+        .then(r => r.text())
+        .then(res => {
+            if (res === "OK") {
+                mostrarMensajeEnProducto(productoId);
+                actualizarContadorCarrito();
+            } else {
+                console.error("Respuesta inesperada del servidor:", res);
+            }
+        })
+        .catch(err => console.error("Error al agregar al carrito:", err));
+    }
+
+    // 🔹 Al cargar el catálogo, sincronizar contador con el servidor
+    document.addEventListener("DOMContentLoaded", function() {
+        actualizarContadorCarrito();
+    });
+</script>
+
 </body>
 
 </html>
