@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/css/estilos.css">
-        <title>Iniciar Sesión</title>
+        <title th:text="#{login.titulo}">Sign In</title>
     </head>
 
     <body> 
@@ -19,15 +19,49 @@
 
                 <nav class="nav-menu">
                     <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
-                    <a th:href="@{/productos/listar}"       th:text="#{nav.catalogo}">Catálogo</a>
+                    <a th:href="@{/productos/catalogo}"       th:text="#{nav.catalogo}">Catálogo</a>
                     <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
                     <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
                 </nav>
 
                 <div class="nav-actions">
-                    <span th:text="${lang} ?: 'ES'">ES</span>
-                    <a th:href="@{/carrito}" title="Carrito"</a>
-                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                    <form method="get">
+                        <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                            <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                        </select>
+                    </form>
+                                        <!-- CARRITO CON MENÚ DROPDOWN -->
+                    <div class="carrito-menu-container" style="position:relative;">
+                    
+                        <img th:src="@{/img/carrito.png}" onclick="toggleCarritoMenu()"
+                            style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
+                    
+                        <div id="carritoMenu" style="
+                                            display:none;
+                                            position:absolute;
+                                            top:40px;
+                                            right:0;
+                                            background:white;
+                                            border-radius:10px;
+                                            box-shadow:0 4px 12px rgba(0,0,0,0.2);
+                                            padding:10px;
+                                            z-index:999;
+                                            min-width:180px;">
+                    
+                            <a th:href="@{/carrito}"
+                                style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                                🛒 Ver Carrito
+                            </a>
+                    
+                            <a th:href="@{/compras/historial}"
+                                style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                                📦 Historial de Compras
+                            </a>
+                    
+                        </div>
+                    
+                    </div>
                     <a th:href="@{/login}" title="Cuenta">
                         <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
                     </a>
@@ -37,24 +71,44 @@
         
         <div class="centrado">
             <div class="contenedor-formulario">
-                <h2>Iniciar sesión</h2>
+                <h2 th:text="#{login.titulo2}">Sign In</h2>
 
                 <div th:if="${error}">
                     <p class="error" th:text="${error}"></p>
                 </div>
 
                 <form th:action="@{/login}" th:object="${usuario}" method="post">
-                    <label>Correo:</label>
+                    <label th:text="#{login.correo}">Email</label>
                     <input type="email" th:field="*{correo}" required />
 
-                    <label>Contraseña:</label>
+                    <label th:text="#{login.contrasena}">Password</label>
                     <input type="password" th:field="*{contrasena}" required />
 
-                    <button type="submit">Ingresar</button>
+                    <button type="submit" th:text="#{login.ingresar}">Sign in</button>
                 </form>
 
-                <p>¿No tienes cuenta? <a href="/registro">Regístrate</a></p>
+                <p>
+                    <span th:text="#{login.noCuenta}">Don't have an account?</span>
+                    <a href="/registro" th:text="#{login.registrar}">Register</a>
+                </p>
             </div>
         </div>
+    <script src="/js/lang.js"></script>
+    <!-- Script para abrir el menu del carrito como un hamburger menu -->
+    <script>
+        function toggleCarritoMenu() {
+            let menu = document.getElementById("carritoMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        // Cerrar si se hace clic afuera
+        document.addEventListener("click", function(e){
+            const menu = document.getElementById("carritoMenu");
+            const container = document.querySelector(".carrito-menu-container");
+            if (!container.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
     </body>
 </html>

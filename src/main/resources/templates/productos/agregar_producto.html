@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 
 <head>
   <meta charset="UTF-8" />
-  <title th:text="${producto.id != null} ? 'Editar Producto' : 'Nuevo Producto'">Producto</title>
+  <title th:text="${producto.id != null} ? #{producto.editarProducto} : #{producto.nuevoProducto}">Product</title>
   <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 
@@ -26,10 +26,43 @@
       </nav>
 
       <div class="nav-actions">
-        <span th:text="${lang} ?: 'ES'">ES</span>
-        <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
-          <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
-        </a>
+        <form method="get">
+          <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+              <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+              <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+          </select>
+        </form>
+                <!-- CARRITO CON MENÚ DROPDOWN -->
+        <div class="carrito-menu-container" style="position:relative;">
+        
+            <img th:src="@{/img/carrito.png}" onclick="toggleCarritoMenu()"
+                style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
+        
+            <div id="carritoMenu" style="
+                                display:none;
+                                position:absolute;
+                                top:40px;
+                                right:0;
+                                background:white;
+                                border-radius:10px;
+                                box-shadow:0 4px 12px rgba(0,0,0,0.2);
+                                padding:10px;
+                                z-index:999;
+                                min-width:180px;">
+        
+                <a th:href="@{/carrito}"
+                    style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                    🛒 Ver Carrito
+                </a>
+        
+                <a th:href="@{/compras/historial}"
+                    style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                    📦 Historial de Compras
+                </a>
+        
+            </div>
+        
+        </div>
         <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
           <img th:src="@{/img/cuenta.png}" alt="Perfil"
             style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
@@ -41,33 +74,37 @@
   <!-- Contenido -->
   <div class="centrado" style="align-items:flex-start;">
     <div class="contenedor-formulario" style="max-width:560px; width:100%;">
-      <h2 style="margin-top:0;" th:text="${producto.id != null} ? 'Editar Producto' : 'Nuevo Producto'">Producto</h2>
+      <h2 style="margin-top:0;" th:text="${producto.id != null} ? #{producto.editarProducto} : #{producto.nuevoProducto}">Product</h2>
 
       <form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
         <input type="hidden" th:field="*{id}" />
 
-        <label for="sabor"><strong>Sabor</strong></label>
-        <input id="sabor" type="text" th:field="*{sabor}" placeholder="Sabor del helado" required />
+        <label for="sabor"><strong th:text="#{producto.label-sabor}">Flavor</strong></label>
+        <input id="sabor" type="text" th:field="*{sabor}" th:placeholder="#{producto.comodin-sabor}" required />
 
-        <label for="descripcion"><strong>Descripción</strong></label>
-        <input id="descripcion" type="text" th:field="*{descripcion}" placeholder="Descripción del helado" required />
+        <label for="descripcion"><strong th:text="#{producto.label-descripcion}">Description</strong></label>
+        <input id="descripcion" type="text" th:field="*{descripcion}" th:placeholder="#{producto.comodin-descripcion}" required />
 
-        <label for="estado"><strong>Estado</strong></label>
+        <label for="precio"><strong th:text="#{producto.label-precio}">Precio</strong></label>
+        <input id="precio" type="number" step="0.01" min="0" th:field="*{precio}" th:placeholder="#{producto.comodin-precio}" required />
+
+        <label for="estado"><strong th:text="#{producto.label-estado}">Status</strong></label>
         <select id="estado" th:field="*{status}"
           style="width:100%; padding:0.6em; margin:0.5em 0 1em 0; border:1px solid var(--gris); border-radius:8px; font-size:1em;">
-          <option th:value="true">Disponible</option>
-          <option th:value="false">No disponible</option>
+          <option th:value="true" th:text="#{estado.disponible}">Available</option>
+          <option th:value="false" th:text="#{estado.no-disponible}">Unavailable</option>
         </select>
 
-        <label for="imagen"><strong>Imagen (URL)</strong></label>
-        <input id="imagen" type="url" th:field="*{imagen}" placeholder="https://example.com/imagen.jpg" />
+        <label for="imagen"><strong th:text="#{producto.label-imagen}">Image (URL)</strong></label>
+        <input id="imagen" type="url" th:field="*{imagen}" th:placeholder="#{producto.comodin-imagen}" />
 
         <!-- Acciones -->
         <div style="display:flex; gap:10px; margin-top:6px;">
-          <button type="submit" class="btn pill" style="width:100%; font-weight: 600">Guardar</button>
-          <button href="/productos/dashboardProductos" class="btn pill"
+          <button type="submit" class="btn pill" style="width:100%; font-weight: 600" th:text="#{boton.guardar}">Save</button>
+          <button class="btn pill"
+            onclick="window.location.href='/productos/dashboardProductos';"
             style="background:var(--gris); color:var(--texto); width:100%; text-align:center; text-decoration:none;">
-            Volver
+            <span th:text="#{boton.volver}">Back</span>
           </button>
         </div>
       </form>
@@ -77,6 +114,23 @@
   <footer>
     <p>&copy; 2025 Mommys Ice Cream</p>
   </footer>
+<script src="/js/lang.js"></script>
+    <!-- Script para abrir el menu del carrito como un hamburger menu -->
+    <script>
+        function toggleCarritoMenu() {
+            let menu = document.getElementById("carritoMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        // Cerrar si se hace clic afuera
+        document.addEventListener("click", function(e){
+            const menu = document.getElementById("carritoMenu");
+            const container = document.querySelector(".carrito-menu-container");
+            if (!container.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 </body>
 
 </html>

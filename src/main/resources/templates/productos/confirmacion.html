@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 <head>
     <meta charset="UTF-8" />
-    <title>Confirmación</title>
+    <title th:text="#{confirmacion.titulo}">Confirmation</title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     </head>
@@ -23,10 +23,43 @@
                 <a th:href="@{/contacto}" th:text="#{nav.contacto}">Contáctenos</a>
             </nav>
             <div class="nav-actions">
-                <span th:text="${lang} ?: 'ES'">ES</span>
-                <a th:href="@{/carrito}" title="Carrito" style="text-decoration:none;">
-                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
-                </a>
+                <form method="get">
+                    <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                        <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                        <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                    </select>
+                </form>
+                                <!-- CARRITO CON MENÚ DROPDOWN -->
+                <div class="carrito-menu-container" style="position:relative;">
+                
+                    <img th:src="@{/img/carrito.png}" onclick="toggleCarritoMenu()"
+                        style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
+                
+                    <div id="carritoMenu" style="
+                                        display:none;
+                                        position:absolute;
+                                        top:40px;
+                                        right:0;
+                                        background:white;
+                                        border-radius:10px;
+                                        box-shadow:0 4px 12px rgba(0,0,0,0.2);
+                                        padding:10px;
+                                        z-index:999;
+                                        min-width:180px;">
+                
+                        <a th:href="@{/carrito}"
+                            style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                            🛒 Ver Carrito
+                        </a>
+                
+                        <a th:href="@{/compras/historial}"
+                            style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                            📦 Historial de Compras
+                        </a>
+                
+                    </div>
+                
+                </div>
                 <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
                     <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
                 </a>
@@ -37,11 +70,11 @@
     <main>
         <div class="centrado">
             <div class="contenedor-formulario" style="max-width:560px; width:100%; text-align:center;">
-                <div class="confirmacion-encabezado"><img th:src="@{/img/confirmacion.png}" alt="Confirmación" class="confirmacion-icon" /><h2 style="margin:0;">¡Gracias por tu sugerencia!</h2></div>
-                <p>Hemos recibido tu sugerencia. ¡Gracias por tu contribución!</p>
+                <div class="confirmacion-encabezado"><img th:src="@{/img/confirmacion.png}" alt="Confirmación" class="confirmacion-icon" /><h2 style="margin:0;" th:text="#{confirmacion.gracias}">Thanks for your suggestion!</h2></div>
+                <p th:text="#{confirmacion.recibido}">We have received your suggestion. Thank you for your contribution!</p>
                 <div style="margin-top:12px; display:flex; gap:10px; justify-content:center;">
-                    <a th:href="@{/productos/catalogo}" class="btn pill">Volver al catálogo</a>
-                    <a th:href="@{/}" class="btn pill" style="background:var(--gris); color:var(--texto);">Ir al inicio</a>
+                    <a th:href="@{/productos/catalogo}" class="btn pill" th:text="#{confirmacion.volver}">Back to catalog</a>
+                    <a th:href="@{/}" class="btn pill" style="background:var(--gris); color:var(--texto);" th:text="#{confirmacion.volverInicio}">Go to home</a>
                 </div>
             </div>
         </div>
@@ -50,6 +83,22 @@
     <footer>
         <p>&copy; 2025 Mommys Ice Cream</p>
     </footer>
+<script src="/js/lang.js"></script>
+    <!-- Script para abrir el menu del carrito como un hamburger menu -->
+    <script>
+        function toggleCarritoMenu() {
+            let menu = document.getElementById("carritoMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        // Cerrar si se hace clic afuera
+        document.addEventListener("click", function(e){
+            const menu = document.getElementById("carritoMenu");
+            const container = document.querySelector(".carrito-menu-container");
+            if (!container.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>
-

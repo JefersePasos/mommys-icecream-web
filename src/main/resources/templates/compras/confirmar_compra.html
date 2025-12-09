@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Confirmar Compra</title>
+  <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+<body>
+  <header>
+    <h2>Confirmar Compra</h2>
+  </header>
+
+  <div class="contenedor-formulario" style="max-width:700px; margin:auto;">
+    <h3>Resumen del Pedido</h3>
+
+    <table style="width:100%; margin-bottom:20px;">
+      <thead>
+        <tr>
+          <th>Sabor</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="item : ${items}">
+          <td th:text="${item.producto.sabor}">Sabor</td>
+          <td th:text="${item.producto.precio}">₡0</td>
+          <td th:text="${item.cantidad}">1</td>
+          <td th:text="${item.producto.precio * item.cantidad}">₡0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Total:</strong> ₡<span th:text="${total}">0</span></p>
+
+    <form th:action="@{/compras/finalizar}" method="post">
+      <button type="submit" class="btn pill">Confirmar Compra</button>
+      <a th:href="@{/carrito}" class="btn pill" style="background-color:#ccc;">Volver al Carrito</a>
+    </form>
+  </div>
+</body>
+</html>

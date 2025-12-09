@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8">
         <title>Perfil</title>
@@ -18,15 +18,49 @@
 
                 <nav class="nav-menu">
                     <a th:href="@{/comprar}"        th:text="#{nav.comprar}">Comprar</a>
-                    <a th:href="@{/productos/listar}"       th:text="#{nav.catalogo}">Catálogo</a>
+                    <a th:href="@{/productos/catalogo}"       th:text="#{nav.catalogo}">Catálogo</a>
                     <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
                     <a th:href="@{/contacto}"       th:text="#{nav.contacto}">Contáctenos</a>
                 </nav>
 
                 <div class="nav-actions">
-                    <span th:text="${lang} ?: 'ES'">ES</span>
-                    <a th:href="@{/carrito}" title="Carrito"</a>
-                    <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;object-fit:cover;" />
+                    <form method="get">
+                        <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+                            <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+                        </select>
+                    </form>
+                                        <!-- CARRITO CON MENÚ DROPDOWN -->
+                    <div class="carrito-menu-container" style="position:relative;">
+                    
+                        <img th:src="@{/img/carrito.png}" onclick="toggleCarritoMenu()"
+                            style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
+                    
+                        <div id="carritoMenu" style="
+                                            display:none;
+                                            position:absolute;
+                                            top:40px;
+                                            right:0;
+                                            background:white;
+                                            border-radius:10px;
+                                            box-shadow:0 4px 12px rgba(0,0,0,0.2);
+                                            padding:10px;
+                                            z-index:999;
+                                            min-width:180px;">
+                    
+                            <a th:href="@{/carrito}"
+                                style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                                🛒 Ver Carrito
+                            </a>
+                    
+                            <a th:href="@{/compras/historial}"
+                                style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
+                                📦 Historial de Compras
+                            </a>
+                    
+                        </div>
+                    
+                    </div>
                     <a th:href="@{/login}" title="Cuenta">
                         <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
                     </a>
@@ -39,24 +73,24 @@
                 <h2>Hola, <span th:text="${usuario.nombre}">Usuario</span> 👋</h2>
 
                 <div class="perfil-datos">
-                    <p><strong>Correo:</strong> <span th:text="${usuario.correo}"></span></p>
-                    <p><strong>Provincia:</strong> <span th:text="${usuario.provincia}"></span></p>
-                    <p><strong>Cantón:</strong> <span th:text="${usuario.canton}"></span></p>
-                    <p><strong>Distrito:</strong> <span th:text="${usuario.distrito}"></span></p>
-                    <p><strong>Dirección:</strong> <span th:text="${usuario.direccionExacta}"></span></p>
+                    <p><strong th:text="#{registro.correo}">Correo</strong>: <span th:text="${usuario.correo}"></span></p>
+                    <p><strong th:text="#{registro.provincia}">Provincia</strong>: <span th:text="${usuario.provincia}"></span></p>
+                    <p><strong th:text="#{registro.canton}">Cantón</strong>: <span th:text="${usuario.canton}"></span></p>
+                    <p><strong th:text="#{registro.distrito}">Distrito</strong>: <span th:text="${usuario.distrito}"></span></p>
+                    <p><strong th:text="#{registro.direccionExacta}">Dirección Exacta</strong>: <span th:text="${usuario.direccionExacta}"></span></p>
                 </div>
 
                 <div style="margin-top: 1.5em; display: flex; flex-direction: column; gap: 0.5em;">
                     <a href="/editar-perfil" style="text-decoration: none">
-                        <button style="background-color: var(--naranja); text-decoration: none; color: var(--texto); font-weight: 600;">Editar perfil</button>
+                        <button style="background-color: var(--naranja); text-decoration: none; color: var(--texto); font-weight: 600;" th:text="#{cuenta.editarPerfil}">Editar perfil</button>
                     </a>
 
                     <form action="/logout" method="post">
-                        <button type="submit" style="background-color: var(--gris); text-decoration: none; color: var(--texto); font-weight: 600;">Cerrar sesión</button>
+                        <button type="submit" style="background-color: var(--gris); text-decoration: none; color: var(--texto); font-weight: 600;" th:text="#{cuenta.cerrarSesion}">Cerrar sesión</button>
                     </form>
 
                     <form action="/confirmar-eliminacion" method="get">
-                        <button type="submit" style="background-color: var(--rosado); text-decoration: none; color: var(--texto); font-weight: 600;">Eliminar cuenta</button>
+                        <button type="submit" style="background-color: var(--rosado); text-decoration: none; color: var(--texto); font-weight: 600;" th:text="#{cuenta.eliminar}">Eliminar cuenta</button>
                     </form>
                 </div>
                 <!-- Solo mostrar si el usuario es Administrador por seguridad-->
@@ -64,14 +98,31 @@
                      and #strings.equalsIgnoreCase(usuario.rol.nombre,'Administrador')}"
                      style="margin-top:1em;">
                     <a th:href="@{/admin/roles/dashboard}" style="text-decoration: none; font-weight: 600;">
-                        <button style="background-color: var(--durazno); text-decoration: none; color: var(--texto); font-weight: 600;">Ir al Panel de Roles</button>
+                        <button style="background-color: var(--durazno); text-decoration: none; color: var(--texto); font-weight: 600;" th:text="#{cuenta.irPanelRoles}">Ir al Panel de Roles</button>
                     </a>
                     <a th:href="@{/productos/dashboardProductos}" style="text-decoration: none; font-weight: 600;">
-                        <button style="background-color: var(--menta); text-decoration: none; color: var(--texto); font-weight: 600;">Gestión de Productos</button>
+                        <button style="background-color: var(--menta); text-decoration: none; color: var(--texto); font-weight: 600;" th:text="#{producto.gestionProductos}">Gestión de Productos</button>
                     </a>
                 </div>
             </div>
 
         </div>    
-    </body>
+    <script src="/js/lang.js"></script>
+    <!-- Script para abrir el menu del carrito como un hamburger menu -->
+    <script>
+        function toggleCarritoMenu() {
+            let menu = document.getElementById("carritoMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        // Cerrar si se hace clic afuera
+        document.addEventListener("click", function(e){
+            const menu = document.getElementById("carritoMenu");
+            const container = document.querySelector(".carrito-menu-container");
+            if (!container.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
+    </body> 
 </html>
