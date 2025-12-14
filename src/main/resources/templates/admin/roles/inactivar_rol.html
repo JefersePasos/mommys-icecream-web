@@ -9,69 +9,7 @@
 
 <body>
 
-    <header>
-        <!--Logo + nombre de la pagina, seccion 1-->
-        <div class="navbar">
-            <a class="brand" th:href="@{/}">
-                <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
-                <h1>
-                    <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
-                    <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
-                </h1>
-            </a>
-            <!--Categorias del menu, seccion 2-->
-            <nav class="nav-menu">
-                <a th:href="@{/comprar}" th:text="#{nav.comprar}">Comprar</a>
-                <a th:href="@{/catalogo}" th:text="#{nav.catalogo}">Catálogo</a>
-                <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
-                <a th:href="@{/contacto}" th:text="#{nav.contacto}">Contáctenos</a>
-            </nav>
-            <!--Opciones de lenguaje y carrito de compras, seccion 3-->
-            <div class="nav-actions">
-                <form method="get">
-                    <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
-                        <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
-                        <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
-                    </select>
-                </form>
-                                    <!-- CARRITO CON MENÚ DROPDOWN -->
-                    <div class="carrito-menu-container" style="position:relative;">
-                    
-                        <img th:src="@{/img/carrito.png}" onclick="toggleCarritoMenu()"
-                            style="width:28px;height:28px;object-fit:cover;cursor:pointer;" />
-                    
-                        <div id="carritoMenu" style="
-                                            display:none;
-                                            position:absolute;
-                                            top:40px;
-                                            right:0;
-                                            background:white;
-                                            border-radius:10px;
-                                            box-shadow:0 4px 12px rgba(0,0,0,0.2);
-                                            padding:10px;
-                                            z-index:999;
-                                            min-width:180px;">
-                    
-                            <a th:href="@{/carrito}"
-                                style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
-                                🛒 Ver Carrito
-                            </a>
-                    
-                            <a th:href="@{/compras/historial}"
-                                style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
-                                📦 Historial de Compras
-                            </a>
-                    
-                        </div>
-                    
-                    </div>
-                <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
-                    <img th:src="@{/img/cuenta.png}" alt="Perfil"
-                        style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
-                </a>
-            </div>
-        </div>
-    </header>
+    <header th:replace="general/navbar :: navbar"></header>
 
     <div class="centrado">
 
@@ -111,3 +49,5 @@
 </body>
 
 </html>
+
+

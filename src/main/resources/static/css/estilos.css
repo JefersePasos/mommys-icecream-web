@@ -601,10 +601,11 @@ color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.3);
     display: flex;
     align-items: center;
     margin-top: 24px;
+    min-height: 64px; /* mantiene altura uniforme cuando el nombre ocupa 1 o 2 renglones */
 }
 
 .product-titulo {
-    font-size: 26px;
+    font-size: 24px; /* reducido 2px para títulos largos */
     font-weight: 700;
     line-height: 1.2;
     color: white;
@@ -612,6 +613,11 @@ color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.3);
     padding: 10px 12px;
     display: block;
     text-align: left;
+}
+.catalogo-grid .tile .product-contenido {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .product-descripcion {
@@ -651,6 +657,60 @@ color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.3);
     font-weight: 700;
     font-size: 25px;
     color: var(--texto);
+    margin-top: auto; /* mantiene el precio alineado aunque el título ocupe 2 líneas */
+}
+
+/* Cantidad y botón en catálogo */
+.catalogo-grid .form-agregar {
+    display: flex;
+    align-items: flex-end; /* alinea bases de los controles */
+    justify-content: center;
+    gap: 12px;
+    padding: 0 12px 12px;
+    width: 100%;
+    margin-top: auto; /* se queda al fondo de la tarjeta */
+}
+
+.catalogo-grid .form-agregar input[type=number] {
+    width: 90px; /* espacio para flechas + 4 dígitos */
+    min-width: 88px;
+    height: 40px;
+    padding: 0 12px;
+    margin: 0;
+    border: 1px solid var(--gris);
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 40px;
+    box-sizing: border-box;
+    align-self: center;
+}
+
+.catalogo-grid .form-agregar button {
+    height: 40px;
+    width: 52px;
+    background: var(--cafe);
+    border: none;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0;
+    box-sizing: border-box;
+    vertical-align: middle;
+    margin-top: -2px; /* lo sube ligeramente para alinear con el input */
+}
+
+.catalogo-grid .form-agregar button:hover {
+    background: var(--naranja-hover);
+}
+
+.catalogo-grid .form-agregar button img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
 }
 
 

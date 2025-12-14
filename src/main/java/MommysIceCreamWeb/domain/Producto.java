@@ -16,12 +16,18 @@ public class Producto {
     @Column(name = "flavor")
     private String sabor;
 
+    @Column(name = "flavor_en")
+    private String saborEn;
+
     private boolean status;
     @Column(name = "imagen")
     private String imagen;
     
     @Column(name = "descripcion")
     private String descripcion;
+
+    @Column(name = "descripcion_en")
+    private String descripcionEn;
 
     @Column(name = "precio")
     private double precio;
@@ -53,6 +59,8 @@ public class Producto {
     public void setNombre(String sabor) { this.sabor = sabor; }
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public String getDescripcionEn() { return descripcionEn; }
+    public void setDescripcionEn(String descripcionEn) { this.descripcionEn = descripcionEn; }
     public boolean isStatus() { return status; }
     public void setStatus(boolean status) { this.status = status; }
     public LocalDateTime getCreated_at() { return created_at; }
@@ -63,4 +71,6 @@ public class Producto {
 
     public String getImagen() { return imagen; }
     public void setImagen(String imagen) { this.imagen = imagen; }
+    public String getSaborEn() { return saborEn; }
+    public void setSaborEn(String saborEn) { this.saborEn = saborEn; }
 }

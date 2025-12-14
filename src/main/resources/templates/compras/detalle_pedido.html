@@ -7,14 +7,7 @@
 </head>
 
 <body>
-  <header>
-    <div class="navbar">
-      <a class="brand" th:href="@{/}">
-        <img th:src="@{/img/logo.png}" alt="Logo Mommy's Ice Cream" />
-        <h1>Mommy’s <span>Ice Cream</span></h1>
-      </a>
-    </div>
-  </header>
+  <header th:replace="general/navbar :: navbar"></header>
 
   <main class="centrado">
     <div class="contenedor-formulario" style="max-width: 900px;">
@@ -65,3 +58,5 @@
   </footer>
 </body>
 </html>
+
+
