@@ -1,4 +1,4 @@
-package MommysIceCreamWeb.dao;
+package MommysIceCreamWeb.repository;
 
 import MommysIceCreamWeb.domain.Comentario;
 import MommysIceCreamWeb.domain.Producto;

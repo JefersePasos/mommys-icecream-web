@@ -1,6 +1,6 @@
 package MommysIceCreamWeb.service.impl;
 
-import MommysIceCreamWeb.dao.ComentarioRepository;
+import MommysIceCreamWeb.repository.ComentarioRepository;
 import MommysIceCreamWeb.domain.Comentario;
 import MommysIceCreamWeb.domain.Producto;
 import MommysIceCreamWeb.service.ComentarioService;
