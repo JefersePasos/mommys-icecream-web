@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap');
+
 :root {
     --naranja: #FFA978;
     --naranja-hover: #FF9460;
@@ -19,7 +21,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Nunito', sans-serif;
     background-color: var(--durazno);
     color: var(--texto);
     min-height: 100vh;
@@ -601,11 +603,11 @@ color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.3);
     display: flex;
     align-items: center;
     margin-top: 24px;
-    min-height: 64px; /* mantiene altura uniforme cuando el nombre ocupa 1 o 2 renglones */
+    min-height: 64px; 
 }
 
 .product-titulo {
-    font-size: 24px; /* reducido 2px para títulos largos */
+    font-size: 24px; 
     font-weight: 700;
     line-height: 1.2;
     color: white;
@@ -657,22 +659,22 @@ color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.3);
     font-weight: 700;
     font-size: 25px;
     color: var(--texto);
-    margin-top: auto; /* mantiene el precio alineado aunque el título ocupe 2 líneas */
+    margin-top: auto; 
 }
 
 /* Cantidad y botón en catálogo */
 .catalogo-grid .form-agregar {
     display: flex;
-    align-items: flex-end; /* alinea bases de los controles */
+    align-items: flex-end; 
     justify-content: center;
     gap: 12px;
     padding: 0 12px 12px;
     width: 100%;
-    margin-top: auto; /* se queda al fondo de la tarjeta */
+    margin-top: auto; 
 }
 
 .catalogo-grid .form-agregar input[type=number] {
-    width: 90px; /* espacio para flechas + 4 dígitos */
+    width: 90px; 
     min-width: 88px;
     height: 40px;
     padding: 0 12px;
@@ -700,7 +702,7 @@ color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.3);
     padding: 0;
     box-sizing: border-box;
     vertical-align: middle;
-    margin-top: -2px; /* lo sube ligeramente para alinear con el input */
+    margin-top: -2px; 
 }
 
 .catalogo-grid .form-agregar button:hover {
@@ -908,7 +910,7 @@ tr:nth-child(even) {
     }
 
     .factura-table thead {
-        display: none; /* ocultamos cabecera */
+        display: none; 
     }
 
     .factura-table tr {
@@ -970,7 +972,247 @@ tr:nth-child(even) {
     100% { transform: scale(1); }
 }
 
+/* Sobre nosotros */
+.sobre-wrapper {
+    max-width: 1100px;
+    margin: 32px auto 64px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+.sobre-box {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,.08);
+    padding: 20px 22px;
+}
+.sobre-box h1 {
+    margin: 0 0 12px 0;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--cafe);
+    text-align: center;
+}
+.sobre-box p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin: 0 auto;
+    max-width: 900px;
+    text-align: center;
+}
+.sobre-hero-box {
+    background: linear-gradient(135deg, #fffaf3, #ffffff);
+    border: 1px solid #f2d8c7;
+    box-shadow: 0 10px 20px rgba(210, 125, 99, 0.12);
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, 340px);
+    grid-template-areas: "text image";
+    align-items: stretch;
+    gap: 0;
+    overflow: hidden;
+}
+.sobre-hero-inner {
+    grid-area: text;
+    max-width: 640px;
+    padding: 32px 32px 32px 112px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.sobre-hero-inner h1 {
+    text-align: center;
+    white-space: nowrap;
+}
+.sobre-hero-inner p {
+    text-align: center;
+    max-width: 520px;
+    margin: 0 auto;
+}
+.badges {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.badges span {
+    background: var(--vainilla);
+    color: var(--cafe);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+}
+.sobre-hero-img {
+    grid-area: image;
+    width: 100%;
+    min-width: 280px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    display: block;
+    box-shadow: -6px 0 16px rgba(0,0,0,0.1);
+    margin: 0;
+    align-self: stretch;
+}
+.sobre-section h2 {
+    margin: 0 0 12px 0;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #d4dbe6;
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: #1f2a38;
+}
+.sobre-section .icon {
+    color: #d27d63;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+.sobre-section p {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+.sobre-section .sobre-link {
+    color: #1f2a38;
+    font-weight: 800;
+    text-decoration: underline;
+}
+.sobre-section .sobre-note {
+    margin-top: 10px;
+    font-weight: 800;
+}
+.sobre-section-grid {
+    display: grid;
+    grid-template-columns: minmax(360px, 460px) 1fr;
+    gap: 18px;
+    align-items: stretch;
+    padding: 0;
+}
+.sobre-img-wrap {
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+.sobre-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: var(--naranja);
+    border-radius: 12px;
+}
+.sobre-section-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+}
+.sobre-section-text p {
+    text-align: justify;
+    text-align-last: left;
+}
+.sobre-section-text h1 {
+    margin-bottom: 8px;
+}
+.card-sub {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+.card-bullets {
+    margin-top: 4px;
+}
+.feedback-section .sobre-section-text {
+    text-align: center;
+}
+.feedback-section img {
+    border-radius: 0 12px 12px 0;
+    background: var(--naranja);
+}
+
 /* Confirmacion: encabezado con icono + texto */
 .confirmacion-encabezado{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
 .confirmacion-icon{width:56px;height:56px;object-fit:contain}
 @media (max-width:480px){.confirmacion-encabezado{gap:8px}.confirmacion-icon{width:44px;height:44px}}
+
+/* Títulos y elementos de marca en Poppins */
+h1, h2, h3, h4, h5, h6,
+.brand h1,
+.nav-menu a,
+.catalogo-title,
+.catalogo-subtitle,
+.product-titulo,
+.sobre-box h1,
+.sobre-section h2,
+.btn,
+button {
+    font-family: 'Poppins', sans-serif;
+}
+/* Texto general*/
+p,
+.product-descripcion,
+.sobre-box p,
+.sobre-section p,
+td,
+input,
+textarea,
+select {
+    font-family: 'Nunito', sans-serif;
+}
+
+.sobre-section-grid img {
+  object-fit: contain;              
+  padding: 0;
+  background: var(--naranja);
+}
+
+.sobre-section-grid img.cover {
+  object-fit: cover;
+  padding: 0;
+  background: none;
+}
+
+/* CTA Feedback */
+.feedback-section .sobre-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--naranja);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 800;
+  margin-top: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+  transition: transform .15s ease, background .2s ease;
+}
+
+.feedback-section .sobre-link:hover {
+  background: var(--naranja-hover);
+  transform: translateY(-1px);
+}
+
+.feedback-section .sobre-note {
+  margin-top: 12px;
+  background: var(--vainilla);
+  border: 1px solid #f2d8c7;
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: inline-block;
+}

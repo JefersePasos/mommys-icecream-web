@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Sobre Nosotros</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+
+<body>
+    <header th:replace="general/navbar :: navbar"></header>
+
+    <main class="sobre-wrapper">
+        <section class="sobre-box sobre-hero-box">
+            <img class="sobre-hero-img" th:src="@{/img/img1.jpg}" alt="Nuestro trabajo" />
+            <div class="sobre-hero-inner">
+                <h1 th:text="#{sobre.hero.title}">¿A qué nos dedicamos?</h1>
+                <p th:text="#{sobre.hero.body}">
+                    Somos un pequeño emprendimiento dedicado a la elaboración artesanal de apretados en leche y en agua.
+                    Vendemos nuestros helados a pequeña y gran escala. Estamos dedicados a proveer los helados más
+                    deliciosos
+                    al mejor precio con el toque único de “mamá”.
+                </p>
+                <div class="badges">
+                    <span th:text="#{sobre.badge.artesanal}">🥛 Artesanal</span>
+                    <span th:text="#{sobre.badge.fruta}">🍓 Fruta natural</span>
+                    <span th:text="#{sobre.badge.casa}">👩‍👧 Hecho en casa</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="sobre-box sobre-section sobre-section-grid">
+                <img th:src="@{/img/img2.png}" alt="Nuestra historia" />
+            <div class="sobre-section-text">
+
+                <h1 th:text="#{sobre.historia.titulo}">Historia</h1>
+
+                <h3 class="card-sub" th:text="#{sobre.historia.subtitulo}">
+                    De una receta en casa a los helados favoritos para el calor de Guanacaste.
+                </h3>
+
+                <ul class="card-bullets">
+                    <li><strong>2020:</strong> Nacimos durante la pandemia.</li>
+                    <li><strong>Recetas caseras:</strong> Inspiradas en YouTube.</li>
+                    <li><strong>Familia y amigos:</strong> Nos animaron a emprender.</li>
+                </ul>
+
+                <p th:text="#{sobre.historia.texto}">
+                    Helados de Mamá nació en el año 2020 durante la pandemia. Marielen Chavarría, su dueña y creadora,
+                    inició siguiendo recetas en YouTube para mantener a sus hijos frescos en el calor de Guanacaste.
+                    Tras compartir sus helados con familiares y amigos, estos la animaron a abrir e iniciar su negocio.
+                </p>
+            </div>
+        </section>
+
+
+        <section class="sobre-box sobre-section sobre-section-grid feedback-section">
+            <div class="sobre-section-text">
+
+                <h1 th:text="#{sobre.feedback.titulo}">Feedback</h1>
+
+                <p class="card-sub" th:text="#{sobre.feedback.subtitulo}">
+                    Lee lo que dicen nuestros clientes y comparte tu experiencia.
+                </p>
+
+                <div class="rating-row" aria-label="Customer rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-text" th:text="#{sobre.feedback.trust}">Confiado por nuestros clientes</span>
+                </div>
+
+                <a th:href="@{/resenas}" class="cta-link" th:text="#{sobre.feedback.cta}">
+                    Dejar reseña
+                </a>
+
+                <div class="sobre-note" th:text="#{sobre.feedback.nota}">
+                    Nota: Debes estar registrado en la página para dejar tu reseña.
+                </div>
+            </div>
+
+                <img th:src="@{/img/feedback.png}" alt="Opiniones y feedback" />
+        </section>
+    </main>
+</body>
+
+</html>

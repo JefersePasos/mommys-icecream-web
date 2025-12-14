@@ -25,4 +25,9 @@ public class IndexController {
     public String catalogoRedirect() {
         return "redirect:/productos/catalogo";
     }
+
+    @GetMapping("/sobre-nosotros")
+    public String sobreNosotros() {
+        return "general/sobre-nosotros";
+    }
 }
