@@ -30,4 +30,9 @@ public class IndexController {
     public String sobreNosotros() {
         return "general/sobre-nosotros";
     }
+
+    @GetMapping("/contacto")
+    public String contacto() {
+        return "general/contacto";
+    }
 }

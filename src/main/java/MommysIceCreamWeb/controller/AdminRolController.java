@@ -147,7 +147,7 @@ public class AdminRolController {
     }
 
     @PostMapping("/editar") // Procesar el formulario para editar un rol existente | Recibe los datos del formulario de editar rol
-    public String editarRol(@ModelAttribute Rol rolEditado, HttpSession session) {
+    public String editarRol(@ModelAttribute Rol rolEditado, HttpSession session, Locale locale) {
         Usuario admin = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (admin == null || !admin.getRol().getNombre().equalsIgnoreCase("Administrador")) {
@@ -156,7 +156,23 @@ public class AdminRolController {
 
         Rol rolExistente = rolService.buscarPorId(rolEditado.getId()).orElse(null);
         if (rolExistente != null) {
-            rolExistente.setNombre(rolEditado.getNombre());
+            if ("en".equalsIgnoreCase(locale.getLanguage())) {
+                String entrada = rolEditado.getNombre();
+                String nombreEs = rolService.traducirInglesAEspanol(entrada);
+                String nombreEn = entrada;
+                if (nombreEs != null && nombreEs.equalsIgnoreCase(entrada)) {
+                    String posibleEn = rolService.traducirEspanolAIngles(entrada);
+                    if (posibleEn != null && !posibleEn.equalsIgnoreCase(entrada)) {
+                        nombreEn = posibleEn;
+                        nombreEs = entrada;
+                    }
+                }
+                rolExistente.setNombre(nombreEs);
+                rolExistente.setNombreEn(nombreEn);
+            } else {
+                // EspaÒol: entrada es nombre en espaÒol, se traducir· en el service al guardar
+                rolExistente.setNombre(rolEditado.getNombre());
+            }
             rolService.guardar(rolExistente);
         }
 
@@ -203,8 +219,15 @@ public class AdminRolController {
             model.addAttribute("error", messageSource.getMessage("roles.errorNombreDuplicado", null, locale));
             return "admin/roles/crear_rol";
         }
-        
-        rol.setNombre(nombre);
+
+        // Si se est√° creando en ingl√©s, consideramos el nombre ingresado como ingl√©s.
+        if ("en".equalsIgnoreCase(locale.getLanguage())) {
+            rol.setNombreEn(nombre);
+            rol.setNombre(rolService.traducirInglesAEspanol(nombre));
+        } else {
+            rol.setNombre(nombre);
+        }
+
         rol.setActivo(Boolean.TRUE);
         rolService.guardar(rol);
         
@@ -255,3 +278,5 @@ public class AdminRolController {
         return "redirect:/admin/roles/dashboard";
     }
 }
+
+

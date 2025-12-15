@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 
 <head>
     <meta charset="UTF-8" />
-    <title th:text="#{catalogo.titulo}">Catalog</title>
+            <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+        <title th:text="#{catalogo.titulo}">Catalog</title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 
@@ -38,9 +39,9 @@
                             No description available.
                         </p>
 
-                        <span class="product-precio" th:text="${'₡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">₡900</span>
+                        <span class="product-precio" th:text="${'â‚¡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">â‚¡900</span>
 
-                        <!-- Botón agregar al carrito -->
+                        <!-- BotÃ³n agregar al carrito -->
                         <form class="form-agregar"
                             method="post"
                             th:onsubmit="|agregarCarrito(event, ${producto.id})|">
@@ -84,13 +85,13 @@
                     <div
                         th:if="${productoAgregadoId != null and productoAgregadoId == producto.id}" 
                         class="mensaje-producto-agregado">
-                        ¡Agregado al carrito! 🛒
+                        Â¡Agregado al carrito! ðŸ›’
                     </div>
                     
-                    <div class="product-precio" th:text="${'₡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">₡900</div>
+                    <div class="product-precio" th:text="${'â‚¡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">â‚¡900</div>
 
 
-                    <!-- Botón agregar al carrito --> 
+                    <!-- BotÃ³n agregar al carrito --> 
                     <form class="form-agregar"
                         method="post"
                         th:onsubmit="|agregarCarrito(event, ${producto.id})|">
@@ -159,7 +160,7 @@
 </script>
 
 <script>
-    // 🔹 Actualiza el numerito del carrito
+    // ðŸ”¹ Actualiza el numerito del carrito
     function actualizarContadorCarrito() {
         fetch("/carrito/cantidad")
             .then(r => r.json())
@@ -168,7 +169,7 @@
                 if (!count) return;
                 count.textContent = cantidad;
 
-                // Animación POP
+                // AnimaciÃ³n POP
                 const icono = document.getElementById("carrito-icono");
                 if (!icono) return;
                 icono.classList.add("carrito-pop");
@@ -177,7 +178,7 @@
             .catch(err => console.error("Error al actualizar contador:", err));
     }
 
-    // 🔹 Mensaje “¡Agregado al carrito!” en la tarjeta
+    // ðŸ”¹ Mensaje â€œÂ¡Agregado al carrito!â€ en la tarjeta
     function mostrarMensajeEnProducto(productoId) {
         const contenedor = document.getElementById("producto-" + productoId);
         if (!contenedor) return;
@@ -188,7 +189,7 @@
 
         const msg = document.createElement("div");
         msg.className = "mensaje-producto-agregado";
-        msg.innerText = "¡Agregado al carrito! 🛒";
+        msg.innerText = "Â¡Agregado al carrito! ðŸ›’";
 
         // Un poquito de estilo inline (puedes pasarlo a CSS)
         msg.style.marginTop = "6px";
@@ -206,7 +207,7 @@
         }, 4000);
     }
 
-    // 🔹 Enviar al backend SIN recargar ni subir arriba
+    // ðŸ”¹ Enviar al backend SIN recargar ni subir arriba
     function agregarCarrito(event, productoId) {
         event.preventDefault();
 
@@ -232,7 +233,7 @@
         .catch(err => console.error("Error al agregar al carrito:", err));
     }
 
-    // 🔹 Al cargar el catálogo, sincronizar contador con el servidor
+    // ðŸ”¹ Al cargar el catÃ¡logo, sincronizar contador con el servidor
     document.addEventListener("DOMContentLoaded", function() {
         actualizarContadorCarrito();
     });
@@ -241,5 +242,10 @@
 </body>
 
 </html>
+
+
+
+
+
 
 

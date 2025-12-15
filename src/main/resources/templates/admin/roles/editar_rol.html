@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 
 <head>
     <meta charset="UTF-8" />
-    <title th:text="#{roles.editarRol}">Edit Role</title>
+            <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+        <title th:text="#{roles.editarRol}">Edit Role</title>
     <link rel="stylesheet" href="/css/estilos.css" />
 </head>
 
@@ -15,6 +16,7 @@
 
             <form th:action="@{/admin/roles/editar}" th:object="${rol}" method="post">
                 <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{nombreEn}" />
 
                 <label th:text="#{roles.nombre}">Role Name:</label>
                 <input type="text" th:field="*{nombre}" required />
@@ -51,5 +53,9 @@
 </body>
 
 </html>
+
+
+
+
 
 

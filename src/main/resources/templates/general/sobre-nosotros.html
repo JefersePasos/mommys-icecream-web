@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Sobre Nosotros</title>
+    <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
     <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 
@@ -29,8 +30,11 @@
             </div>
         </section>
 
-        <section class="sobre-box sobre-section sobre-section-grid">
-                <img th:src="@{/img/img2.png}" alt="Nuestra historia" />
+        <section class="sobre-box sobre-section sobre-section-grid historia-section">
+            <div class="sobre-img-wrap">
+                <img class="cover" th:src="@{/img/img2.png}" alt="Nuestra historia" />
+            </div>
+
             <div class="sobre-section-text">
 
                 <h1 th:text="#{sobre.historia.titulo}">Historia</h1>
@@ -77,9 +81,13 @@
                 </div>
             </div>
 
-                <img th:src="@{/img/feedback.png}" alt="Opiniones y feedback" />
+            <div class="sobre-img-wrap">
+                <img class="cover" th:src="@{/img/feedback.png}" alt="Opiniones y feedback" />
+            </div>
         </section>
     </main>
 </body>
 
 </html>
+
+

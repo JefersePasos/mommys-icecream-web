@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <header th:fragment="navbar">
@@ -12,9 +12,9 @@
         </a>
 
         <nav class="nav-menu">
-            <a th:href="@{/productos/catalogo}" th:text="#{nav.catalogo}">Catálogo</a>
+            <a th:href="@{/productos/catalogo}" th:text="#{nav.catalogo}">CatÃ¡logo</a>
             <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
-            <a th:href="@{/contacto}" th:text="#{nav.contacto}">Contáctenos</a>
+            <a th:href="@{/contacto}" th:text="#{nav.contacto}">ContÃ¡ctenos</a>
         </nav>
 
         <div class="nav-actions">
@@ -50,7 +50,7 @@
 
                 </div>
             
-                <!-- MENÚ DESPLEGABLE -->
+                <!-- MENÃš DESPLEGABLE -->
                 <div id="carritoMenu" style="
                     display:none;
                     position:absolute;
@@ -76,7 +76,7 @@
                 </div>
             
             </div>
-            <a th:href="@{/login}" title="Cuenta">
+            <a th:href="${session.usuarioLogueado != null} ? @{/perfil} : @{/login}" title="Cuenta">
                 <img th:src="@{/img/cuenta.png}" alt="Perfil" style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
             </a>
         </div>
@@ -99,3 +99,6 @@
 </script>
 </body>
 </html>
+
+
+

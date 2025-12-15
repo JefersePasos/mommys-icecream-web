@@ -1,18 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 <head>
     <meta charset="UTF-8" />
     <title th:text="#{confirmacion.titulo}">Confirmation</title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
+            <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+</head>
 <body>
     <header th:replace="general/navbar :: navbar"></header>
 
     <main>
         <div class="centrado">
             <div class="contenedor-formulario" style="max-width:560px; width:100%; text-align:center;">
-                <div class="confirmacion-encabezado"><img th:src="@{/img/confirmacion.png}" alt="Confirmaci�n" class="confirmacion-icon" /><h2 style="margin:0;" th:text="#{confirmacion.gracias}">Thanks for your suggestion!</h2></div>
+                <div class="confirmacion-encabezado"><img th:src="@{/img/confirmacion.png}" alt="Confirmación" class="confirmacion-icon" /><h2 style="margin:0;" th:text="#{confirmacion.gracias}">Thanks for your suggestion!</h2></div>
                 <p th:text="#{confirmacion.recibido}">We have received your suggestion. Thank you for your contribution!</p>
                 <div style="margin-top:12px; display:flex; gap:10px; justify-content:center;">
                     <a th:href="@{/productos/catalogo}" class="btn pill" th:text="#{confirmacion.volver}">Back to catalog</a>
@@ -44,5 +45,9 @@
     </script>
 </body>
 </html>
+
+
+
+
 
 

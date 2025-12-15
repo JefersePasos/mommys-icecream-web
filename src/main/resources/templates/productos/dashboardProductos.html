@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8" />
-        <title th:text="#{producto.gestionProductos}">Products — Mommy’s Ice Cream</title>
+                <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+        <title th:text="#{producto.gestionProductos}">Products â€” Mommyâ€™s Ice Cream</title>
         <link rel="stylesheet" th:href="@{/css/estilos.css}" />
     </head>
     <body>
@@ -13,7 +14,7 @@
             <div class="contenedor-formulario" style="max-width:1100px; width:100%;">
                 <h2 style="margin-top:0;" th:text="#{producto.gestionProductos}">Product Management</h2>
 
-                <!-- Botón agregar -->
+                <!-- BotÃ³n agregar -->
                 <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
                     <a th:href="@{/productos/nuevo}" class="btn pill" style="text-decoration:none;" th:text="#{producto.agregarProducto}">
                         Add Product
@@ -39,8 +40,8 @@
                             <tr th:each="producto : ${productos}" style="background:#fff; box-shadow:0 4px 10px rgba(0,0,0,.06);">
                                 <td style="padding:14px 12px; border-radius:10px 0 0 10px;" th:text="${producto.id}">1</td>
                                 <td style="padding:14px 12px;"
-                                    th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.saborEn) ? producto.nombre : producto.saborEn) : producto.nombre}">
-                                    Nombre
+                                    th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.saborEn) ? producto.sabor : producto.saborEn) : producto.sabor}">
+                                    Flavor
                                 </td>
                                 <td style="padding:14px 12px;">
                                     <span th:text="${producto.status} ? #{estado.disponible} : #{estado.no-disponible}"></span>
@@ -84,5 +85,9 @@
     </script>
     </body>
 </html>
+
+
+
+
 
 

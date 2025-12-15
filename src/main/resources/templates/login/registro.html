@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="/css/estilos.css">
+                <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+<link rel="stylesheet" href="/css/estilos.css">
         <title th:text="#{registro.titulo}">Account Registration</title>
     </head>
     <body> 
@@ -46,7 +47,7 @@
                     <label th:text="#{registro.direccionExacta}">Exact Address</label>
                     <textarea th:field="*{direccionExacta}"></textarea><br/>
 
-                    <!-- Teléfonos dinámicos (opcional, aquí solo uno por ahora) -->
+                    <!-- TelÃ©fonos dinÃ¡micos (opcional, aquÃ­ solo uno por ahora) -->
                     <label th:text="#{registro.telefono}">Phone</label>
                     <input type="text" name="telefonos[0].numero" /><br/>
 
@@ -79,5 +80,10 @@
     </script>
 </body>
 </html>
+
+
+
+
+
 
 

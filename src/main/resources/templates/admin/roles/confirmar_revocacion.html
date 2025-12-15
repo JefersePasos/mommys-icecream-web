@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 <head>
     <meta charset="UTF-8" />
-    <title th:text="#{roles.confirmarRevocacion.titulo}">¿Revocar rol?</title>
+            <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+        <title th:text="#{roles.confirmarRevocacion.titulo}">Â¿Revocar rol?</title>
     <link rel="stylesheet" href="/css/estilos.css" />
 </head>
 <body>
@@ -10,13 +11,13 @@
 
     <div class="centrado">
         <div class="contenedor-formulario">
-            <h2 style="color: red;" th:text="#{roles.confirmarRevocacion.titulo}">¿Revocar rol?</h2>
+            <h2 style="color: red;" th:text="#{roles.confirmarRevocacion.titulo}">Â¿Revocar rol?</h2>
             <p th:text="${#messages.msg('roles.confirmarRevocacion.detalle', usuario.rol.nombre, usuario.nombre + ' ' + usuario.primerApellido)}">
-                ¿Estás seguro de que deseas quitar el rol?
+                Â¿EstÃ¡s seguro de que deseas quitar el rol?
             </p>
 
             <form th:action="@{'/admin/roles/revocar/' + ${usuario.id}}" method="post">
-                <button type="submit" th:text="#{roles.confirmarRevocacion.boton}">Sí, revocar rol</button>
+                <button type="submit" th:text="#{roles.confirmarRevocacion.boton}">SÃ­, revocar rol</button>
             </form>
 
             <div style="margin-top: 1em;">
@@ -44,5 +45,10 @@
     </script>
 </body>
 </html>
+
+
+
+
+
 
 

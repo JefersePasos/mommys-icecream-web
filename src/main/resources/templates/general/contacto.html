@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="#{contact.title}">Contáctanos</title>
+    <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+<body>
+<header th:replace="general/navbar :: navbar"></header>
+
+<main class="contact-wrapper">
+    <section class="contact-card">
+        <h1 class="contact-title" th:text="#{contact.title}">¿Te gustaría comunicarte con nosotros?</h1>
+        <p class="contact-lead" th:text="#{contact.lead}">
+            Si deseas saber más sobre nosotros, iniciar tu venta de helados en casa o coordinar un pedido de gran volumen, por favor contáctanos por cualquiera de los medios listados abajo.
+        </p>
+
+        <div class="contact-grid">
+            <div class="contact-col">
+                <div class="contact-heading">
+                    <h2 class="contact-heading-text" th:text="#{contact.heading.telefonos}">Números telefónicos</h2>
+                    <span class="contact-heading-icon">
+                        <img th:src="@{/img/telefono.png}" alt="Teléfonos" />
+                    </span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-label" th:text="#{contact.tel.consultas.label}">Consultas</span>
+                    <span class="contact-item-desc" th:text="#{contact.tel.consultas.desc}">12345678 (Para preguntas generales)</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-label" th:text="#{contact.tel.pedidos.label}">Pedidos</span>
+                    <span class="contact-item-desc" th:text="#{contact.tel.pedidos.desc}">12345678 (Hacer pedidos)</span>
+                </div>
+            </div>
+
+            <div class="contact-col">
+                <div class="contact-heading">
+                    <h2 class="contact-heading-text" th:text="#{contact.heading.redes}">Redes Sociales</h2>
+                    <span class="contact-heading-icon">
+                        <img th:src="@{/img/redesSociales.png}" alt="Redes sociales" />
+                    </span>
+                </div>
+                <div class="contact-social">
+                    <span class="contact-social-icon">
+                        <img th:src="@{/img/instagram.png}" alt="Instagram" />
+                    </span>
+                    <span class="contact-social-text" th:text="#{contact.social.ig}">@mommys_icecream.cr</span>
+                </div>
+                <div class="contact-social">
+                    <span class="contact-social-icon">
+                        <img th:src="@{/img/whatsapp.png}" alt="WhatsApp" />
+                    </span>
+                    <span class="contact-social-text" th:text="#{contact.social.whatsapp}">12345678</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
+
+

@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title th:text="${pageTitle} ?: 'Mommy’s ice cream'">Mommy’s ice cream</title>
+        <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+        <title th:text="${pageTitle} ?: 'Mommys Ice Cream'">Mommys Ice Cream</title>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link rel="stylesheet" th:href="@{/css/estilos.css}" />
         <style>
@@ -29,9 +30,9 @@
         <section class="grid3 home-grid">
             <!-- Tarjeta 1: Contactar -->
             <div class="tile">
-                <img th:src="${tile1} ?: @{/img/heladosTarjeta1.jpg}" alt="Catálogo de helados" />
+                <img th:src="${tile1} ?: @{/img/heladosTarjeta1.jpg}" alt="CatÃ¡logo de helados" />
                 <div class="tile-cta">
-                    <a class="btn pill" th:href="@{/productos/catalogo}" th:text="#{cta.contactar}">See more</a>
+                    <a class="btn pill" th:href="@{/contacto}" th:text="#{cta.contactar}">Contact</a>
                 </div>
             </div>
 
@@ -43,9 +44,9 @@
                 </div>
             </div>
 
-            <!-- Tarjeta 3: Ver reseñas -->
+            <!-- Tarjeta 3: Ver reseÃ±as -->
             <div class="tile">
-                <img th:src="${tile3} ?: @{/img/resenas.png}" alt="Clientes dejando reseñas" />
+                <img th:src="${tile3} ?: @{/img/resenas.png}" alt="Clientes dejando reseÃ±as" />
                 <div class="tile-cta">
                     <a class="btn pill" th:href="@{/resenas}" th:attr="aria-label=#{cta.feedback}" th:text="#{cta.feedback}">See reviews</a>
                 </div>
@@ -74,5 +75,13 @@
     </script>
     </body>
 </html>
+
+
+
+
+
+
+
+
 
 
