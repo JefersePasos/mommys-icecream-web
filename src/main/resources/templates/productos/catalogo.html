@@ -60,7 +60,7 @@
         </div>
         <!-- contenedor de tarjetas -->
         <div class="grid3 page catalogo-grid">
-            <div th:each="producto : ${productos}" class="tile" th:id="'producto-' + ${producto.id}">
+            <div th:each="producto : ${productos}" th:class="'tile ' + (${!producto.status} ? 'no-disponible' : '')" th:id="'producto-' + ${producto.id}">
                 <!-- Foto centrada -->
                 <div class="catalogo-img">
                     <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
@@ -103,11 +103,33 @@
                             <img th:src="@{/img/agregarCarrito.png}" alt="Agregar" />
                         </button>
                     </form>                                                    
+                    <!-- Botón agregar al carrito --> <!-- Esto agrega la cantidad y agrega al carrito --> 
+                    <div th:if="${producto.status}">
+                        <form class="form-agregar-horizontal"
+                            method="post"
+                            th:onsubmit="|agregarCarrito(event, ${producto.id})|">
+
+                            <input type="hidden" name="productoId" th:value="${producto.id}" />
+
+                            <input type="number" name="cantidad" min="1" value="1"
+                                class="input-cantidad" required />
+
+                            <button type="submit" class="btn-agregar">🛒</button>
+                        </form>
+                    </div>
+
+                    <div th:unless="${producto.status}">
+                        <div class="form-agregar-horizontal" style="opacity:0.5; pointer-events:none;">
+                            <input type="number" disabled class="input-cantidad"/>
+                            <button disabled class="btn-agregar">🛒</button>
+                        </div>
+                    </div>
+
+                    <div th:unless="${producto.status}" class="producto-no-disponible">
+                        <p style="color: gray; font-weight: bold;">No disponible</p>
+                    </div>                                                    
           
                 </div>
-                
-                <!-- Overlay de no disponible -->
-                <div class="tile-overlay" th:if="${!producto.status}" th:text="#{estado.no-disponible}">Unavailable</div>
             </div>
         </div>
         <section>

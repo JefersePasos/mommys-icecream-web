@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reseñas - Mommy’s Ice Cream</title>
+  <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+</head>
+<body>
+
+  <!-- === HEADER === -->
+  <header>
+    <div class="navbar">
+      <a class="brand" th:href="@{/}">
+        <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
+        <h1>
+          <span>Mommy’s</span>
+          <span>Ice Cream</span>
+        </h1>
+      </a>
+
+      <nav class="nav-menu">
+        <a th:href="@{/comprar}">Comprar</a>
+        <a th:href="@{/productos/catalogo}">Catálogo</a>
+        <a th:href="@{/sobre-nosotros}">Sobre Nosotros</a>
+        <a th:href="@{/contacto}">Contáctenos</a>
+      </nav>
+
+      <div class="nav-actions">
+        <form method="get">
+          <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
+            <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
+            <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+          </select>
+        </form>
+
+        <a th:href="@{/carrito}">
+          <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;" />
+        </a>
+
+        <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
+          <img th:src="@{/img/cuenta.png}" alt="Perfil"
+               style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- === MAIN CONTENT === -->
+  <main class="centrado">
+    <div class="contenedor-formulario" style="max-width: 700px;">
+      <h2>Reseñas de Clientes</h2>
+
+      <!-- Lista de reseñas -->
+      <div class="reseñas-existentes" th:if="${comentarios != null and #lists.size(comentarios) > 0}">
+        <ul>
+          <li th:each="comentario : ${comentarios}" style="margin-bottom: 1.5em;">
+            <strong th:text="${comentario.usuario.nombre}">Nombre</strong> dijo:
+            <p th:text="${comentario.contenido}">Texto del comentario</p>
+            <p>Calificación: 
+            <span th:if="${comentario.calificacion != null}">
+              <span th:each="i : ${#numbers.sequence(1, comentario.calificacion)}">&#11088;</span>
+            </span>
+            <span th:if="${comentario.calificacion == null}">Sin calificación</span>
+            </p>
+            <small style="color:gray;" th:text="${#temporals.format(comentario.createdAt, 'dd/MM/yyyy HH:mm')}">Fecha</small>
+          </li>
+        </ul>
+      </div>
+      <div th:if="${comentarios == null or #lists.isEmpty(comentarios)}">
+        <p>Aún no hay reseñas. ¡Sé el primero en escribir una!</p>
+      </div>
+
+      <!-- Formulario para nueva reseña -->
+      <form th:action="@{/resenas/guardar}" method="post" th:object="${comentario}">
+        <label for="comentario"><strong>Escribe tu reseña:</strong></label>
+        <textarea th:field="*{contenido}" required></textarea>
+        <div style="margin: 1em 0;">
+          <label><strong>Calificación:</strong></label>
+          <div class="star-rating">
+            <input type="hidden" th:field="*{calificacion}" />
+            <div class="stars">
+              <span th:each="i : ${#numbers.sequence(1,5)}"
+                    th:classappend="${i <= comentario.calificacion} ? 'filled' : ''"
+                    th:attr="data-value=${i}"
+                    onclick="seleccionarCalificacion(this)">
+                &#9733;
+              </span>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn">Enviar Reseña</button>
+    </form>
+    </div>
+  </main>
+
+  <!-- === FOOTER === -->
+  <footer>
+    <p>&copy; 2025 Mommy’s Ice Cream</p>
+  </footer>
+
+</body>
+<style>
+  .star-rating .stars {
+    display: flex;
+    font-size: 2rem;
+    gap: 0.25em;
+    cursor: pointer;
+  }
+
+  .star-rating .stars span {
+    color: #ccc;
+    transition: color 0.2s ease;
+  }
+
+  .star-rating .stars span.filled {
+    color: gold;
+  }
+
+  .star-rating {
+    margin: 1em 0;
+  }
+</style>
+<script>
+  function seleccionarCalificacion(starElement) {
+    const valor = starElement.getAttribute('data-value');
+    const input = document.querySelector('input[name="calificacion"]');
+    input.value = valor;
+
+    const estrellas = document.querySelectorAll('.star-rating .stars span');
+    estrellas.forEach((el, idx) => {
+      if (idx < valor) {
+        el.classList.add('filled');
+      } else {
+        el.classList.remove('filled');
+      }
+    });
+  }
+</script>
+</html>

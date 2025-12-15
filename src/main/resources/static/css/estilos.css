@@ -354,6 +354,7 @@ form textarea {
     gap: 20px;
     justify-content: center;
     max-width: 1360px;
+    height: 100%;
     margin: 16px auto 48px;
     padding: 0 var(--side-pad);
     box-sizing: border-box;
@@ -784,9 +785,12 @@ color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.3);
 }
 
 .product-contenido {
-    padding: 0;
-    display: grid;
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px;
+    flex-grow: 1;
 }
 
 
@@ -1270,6 +1274,76 @@ tr:nth-child(even) {
     padding: 18px;          
     object-fit: contain;
 }
+
+/*No disponible css*/
+.tile.no-disponible {
+    opacity: 0.5;
+    pointer-events: none; /* desactiva clics */
+    filter: grayscale(100%);
+}
+
+/* Formulario agregar al carrito */
+.form-agregar-horizontal {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 12px;
+  margin: 12px auto;
+}
+
+.input-cantidad {
+  width: 60px;
+  height: 44px;
+  padding: 0 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--gris);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: initial;
+}
+
+.btn-agregar {
+  height: 44px;
+  padding: 0 16px; /* vertical 0 */
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--naranja);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin-top: initial;
+}
+
+.btn-agregar:hover {
+    background-color: var(--naranja-hover);
+    transform: translateY(-1px);
+}
+
+
+/* desactivar botón y campo cuando no disponible */
+.tile.no-disponible .form-agregar-horizontal {
+    display: none;
+}
+
+/* Indicador de carga CSS */
+body::after {
+  content: "CSS cargado ✅";
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  font-size: 10px;
+  color: green;
+}
+
 
 /* Confirmacion: encabezado con icono + texto */
 .confirmacion-encabezado{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
