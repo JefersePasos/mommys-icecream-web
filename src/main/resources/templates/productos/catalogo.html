@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8" />
-            <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
-        <title th:text="#{catalogo.titulo}">Catalog</title>
+    <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+    <title th:text="#{catalogo.titulo}">Catalog</title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 
@@ -16,36 +16,54 @@
             <h2 class="catalogo-title" th:text="#{catalogo.tituloPagina}">Product Catalog</h2>
         </div>
         <div class="recientes-box" th:if="${recientes != null and #lists.size(recientes) > 0}">
-            <h1 class="catalogo-subtitle" th:text="#{catalogo.tituloRecientes}">Discover our latest flavors</h1>
+            <h1 class="catalogo-subtitle" th:text="#{catalogo.tituloRecientes}">
+                Discover our latest flavors
+            </h1>
+
             <div class="grid3 page catalogo-grid recientes-grid">
-                <div th:each="producto : ${recientes}" class="tile">
-                    <!-- Foto centrada -->
+                <div th:each="producto : ${recientes}" class="tile" th:id="'producto-' + ${producto.id}">
                     <div class="catalogo-img">
-                        <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
+                        <img th:if="${producto.imagen != null and producto.imagen != ''}"
+                            th:src="${producto.imagen}"
                             alt="Imagen del producto" />
                         <img th:unless="${producto.imagen != null and producto.imagen != ''}"
-                            th:src="@{/img/heladosMani.png}" alt="Imagen por defecto" />
+                            th:src="@{/img/heladosMani.png}"
+                            alt="Imagen por defecto" />
                     </div>
-                    <!--Nombre en tarjeta-->
+
                     <div class="product-contenido">
                         <div class="product-title-box">
-                            <h3 th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.saborEn) ? producto.nombre : producto.saborEn) : producto.nombre}" class="product-titulo">Product name</h3>
+                            <h3 class="product-titulo"
+                                th:text="${#locale.language == 'en'
+                                        ? (#strings.isEmpty(producto.saborEn) ? producto.nombre : producto.saborEn)
+                                        : producto.nombre}">
+                                Product name
+                            </h3>
                         </div>
 
-
                         <p class="product-descripcion"
-                           th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.descripcionEn) ? producto.descripcion : producto.descripcionEn)
-                                      : (#strings.isEmpty(producto.descripcion) ? #messages.msg('producto.sinDescripcion') : producto.descripcion)}">
+                        th:text="${#locale.language == 'en'
+                                    ? (#strings.isEmpty(producto.descripcionEn) ? producto.descripcion : producto.descripcionEn)
+                                    : (#strings.isEmpty(producto.descripcion) ? #messages.msg('producto.sinDescripcion') : producto.descripcion)}">
                             No description available.
                         </p>
 
-                        <span class="product-precio" th:text="${'â‚¡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">â‚¡900</span>
+                        <!-- ✅ MENSAJE AGREGADO AQUÍ -->
+                        <div th:if="${productoAgregadoId != null and productoAgregadoId == producto.id}"
+                            class="mensaje-producto-agregado">
+                            ¡Agregado al carrito!
+                        </div>
 
-                        <!-- BotÃ³n agregar al carrito -->
+                        <span class="product-precio"
+                            th:text="${'₡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">
+                            ₡900
+                        </span>
+
+                        <!-- Botón agregar al carrito -->
                         <form class="form-agregar"
                             method="post"
                             th:onsubmit="|agregarCarrito(event, ${producto.id})|">
-                            
+
                             <input type="hidden" name="productoId" th:value="${producto.id}" />
                             <input type="number" name="cantidad" min="1" value="1" required />
 
@@ -53,104 +71,71 @@
                                 <img th:src="@{/img/agregarCarrito.png}" alt="Agregar" />
                             </button>
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
-        <!-- contenedor de tarjetas -->
+
         <div class="grid3 page catalogo-grid">
             <div th:each="producto : ${productos}" th:class="'tile ' + (${!producto.status} ? 'no-disponible' : '')" th:id="'producto-' + ${producto.id}">
-                <!-- Foto centrada -->
                 <div class="catalogo-img">
-                    <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}"
-                        alt="Imagen del producto" />
-                    <img th:unless="${producto.imagen != null and producto.imagen != ''}"
-                        th:src="@{/img/heladosTarjeta1.png}" alt="Imagen por defecto" />
+                    <img th:if="${producto.imagen != null and producto.imagen != ''}" th:src="${producto.imagen}" alt="Imagen del producto" />
+                    <img th:unless="${producto.imagen != null and producto.imagen != ''}" th:src="@{/img/heladosTarjeta1.png}" alt="Imagen por defecto" />
                 </div>
-                <!--Nombre en tarjeta-->
                 <div class="product-contenido">
                     <div class="product-title-box">
                         <h3 th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.saborEn) ? producto.nombre : producto.saborEn) : producto.nombre}" class="product-titulo">Product name</h3>
                     </div>
-
-
-                    <p class="product-descripcion"
-                       th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.descripcionEn) ? producto.descripcion : producto.descripcionEn)
-                                  : (#strings.isEmpty(producto.descripcion) ? #messages.msg('producto.sinDescripcion') : producto.descripcion)}">
-                        No description available.
-                    </p>
-
-                    <!-- Mensaje para este producto -->
-                    <div
-                        th:if="${productoAgregadoId != null and productoAgregadoId == producto.id}" 
-                        class="mensaje-producto-agregado">
-                        Â¡Agregado al carrito! ðŸ›’
+                    <p class="product-descripcion" th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.descripcionEn) ? producto.descripcion : producto.descripcionEn) : (#strings.isEmpty(producto.descripcion) ? #messages.msg('producto.sinDescripcion') : producto.descripcion)}">No description available.</p>
+                    <div th:if="${productoAgregadoId != null and productoAgregadoId == producto.id}" class="mensaje-producto-agregado">
+                        ¡Agregado al carrito!
                     </div>
-                    
-                    <div class="product-precio" th:text="${'â‚¡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">â‚¡900</div>
+                    <div class="product-precio" th:text="${'₡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">₡900</div>
 
-
-                    <!-- BotÃ³n agregar al carrito --> 
-                    <form class="form-agregar"
-                        method="post"
-                        th:onsubmit="|agregarCarrito(event, ${producto.id})|">
-                        
-                        <input type="hidden" name="productoId" th:value="${producto.id}" />
-                        <input type="number" name="cantidad" min="1" value="1" required />
-
-                        <button type="submit" aria-label="Agregar al carrito">
-                            <img th:src="@{/img/agregarCarrito.png}" alt="Agregar" />
-                        </button>
-                    </form>                                                    
-                    <!-- Botón agregar al carrito --> <!-- Esto agrega la cantidad y agrega al carrito --> 
                     <div th:if="${producto.status}">
-                        <form class="form-agregar-horizontal"
+                         <!-- Boton agregar al carrito -->
+                        <form class="form-agregar"
                             method="post"
                             th:onsubmit="|agregarCarrito(event, ${producto.id})|">
-
+                        
                             <input type="hidden" name="productoId" th:value="${producto.id}" />
-
-                            <input type="number" name="cantidad" min="1" value="1"
-                                class="input-cantidad" required />
-
-                            <button type="submit" class="btn-agregar">🛒</button>
-                        </form>
+                            <input type="number" name="cantidad" min="1" value="1" required />
+    
+                            <button type="submit" aria-label="Agregar al carrito">
+                                <img th:src="@{/img/agregarCarrito.png}" alt="Agregar" />
+                            </button>
+                        </form>  
                     </div>
 
                     <div th:unless="${producto.status}">
                         <div class="form-agregar-horizontal" style="opacity:0.5; pointer-events:none;">
-                            <input type="number" disabled class="input-cantidad"/>
+                            <input type="number" disabled class="input-cantidad" />
                             <button disabled class="btn-agregar">🛒</button>
                         </div>
+                        <div class="producto-no-disponible">
+                            <p style="color: gray; font-weight: bold;">No disponible</p>
+                        </div>
                     </div>
-
-                    <div th:unless="${producto.status}" class="producto-no-disponible">
-                        <p style="color: gray; font-weight: bold;">No disponible</p>
-                    </div>                                                    
-          
                 </div>
             </div>
         </div>
+
         <section>
             <section class="hero--banner-sugerencias hero--banner--bleed" id="sugerir-nuevo">
                 <div class="banner-text">
                     <h2 class="catalogo-title" th:text="#{sugerencias.titulo}">Have a flavor in mind that you don't see on our list?</h2>
                 </div>
             </section>
-            <!-- Contenido -->
             <div class="centrado" style="align-items:flex-start;">
                 <div class="contenedor-formulario" style="max-width:560px; width:100%;">
                     <h2 style="margin-top:0;" th:text="#{sugerencias.tituloFormulario}">Let us know!</h2>
                     <form th:object="${sugerencia}" th:action="@{/productos/confirmacion}" method="post">
-
                         <label for="sabor"><strong th:text="#{sugerencias.descripcion}">Description</strong></label>
                         <input id="sabor" type="text" th:field="*{sabor}" th:placeholder="#{producto.comodin-sabor}" required />
 
                         <label for="descripcion"><strong th:text="#{sugerencias.correo}">Email</strong></label>
                         <input id="descripcion" type="text" th:field="*{descripcion}" th:placeholder="#{sugerencias.comodin-email}" required />
 
-                        <!-- Acciones -->
                         <div style="display:flex; gap:10px; margin-top:6px;">
                             <button type="submit" class="btn pill" style="width:100%; font-weight: 600; background-color: #D27D63;" th:text="#{sugerencias.enviar}">Send</button>
                         </div>
@@ -164,110 +149,89 @@
         <p>&copy; 2025 Mommys Ice Cream</p>
     </footer>
 
-    <!-- Script para abrir el menu del carrito como un hamburger menu -->
     <script>
-    function toggleCarritoMenu() {
-        let menu = document.getElementById("carritoMenu");
-        menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-
-    // Cerrar si se hace clic afuera
-    document.addEventListener("click", function(e){
-        const menu = document.getElementById("carritoMenu");
-        const container = document.querySelector(".carrito-menu-container");
-        if (menu && container && !container.contains(e.target)) {
-            menu.style.display = "none";
+        function toggleCarritoMenu() {
+            let menu = document.getElementById("carritoMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
-    });
-</script>
 
-<script>
-    // ðŸ”¹ Actualiza el numerito del carrito
-    function actualizarContadorCarrito() {
-        fetch("/carrito/cantidad")
-            .then(r => r.json())
-            .then(cantidad => {
-                const count = document.getElementById("carrito-count");
-                if (!count) return;
-                count.textContent = cantidad;
-
-                // AnimaciÃ³n POP
-                const icono = document.getElementById("carrito-icono");
-                if (!icono) return;
-                icono.classList.add("carrito-pop");
-                setTimeout(() => icono.classList.remove("carrito-pop"), 300);
-            })
-            .catch(err => console.error("Error al actualizar contador:", err));
-    }
-
-    // ðŸ”¹ Mensaje â€œÂ¡Agregado al carrito!â€ en la tarjeta
-    function mostrarMensajeEnProducto(productoId) {
-        const contenedor = document.getElementById("producto-" + productoId);
-        if (!contenedor) return;
-
-        // Eliminar mensaje previo si existe
-        const anterior = contenedor.querySelector(".mensaje-producto-agregado");
-        if (anterior) anterior.remove();
-
-        const msg = document.createElement("div");
-        msg.className = "mensaje-producto-agregado";
-        msg.innerText = "Â¡Agregado al carrito! ðŸ›’";
-
-        // Un poquito de estilo inline (puedes pasarlo a CSS)
-        msg.style.marginTop = "6px";
-        msg.style.padding = "6px 10px";
-        msg.style.background = "#CFFFE2";
-        msg.style.borderRadius = "8px";
-        msg.style.fontWeight = "600";
-        msg.style.fontSize = "0.9rem";
-
-        contenedor.appendChild(msg);
-
-        // Se borra solo a los 4 segundos
-        setTimeout(() => {
-            msg.remove();
-        }, 4000);
-    }
-
-    // ðŸ”¹ Enviar al backend SIN recargar ni subir arriba
-    function agregarCarrito(event, productoId) {
-        event.preventDefault();
-
-        const form = event.target;
-        const cantidad = form.querySelector("input[name='cantidad']").value;
-
-        fetch("/carrito/agregar-ajax", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `productoId=${productoId}&cantidad=${cantidad}`
-        })
-        .then(r => r.text())
-        .then(res => {
-            if (res === "OK") {
-                mostrarMensajeEnProducto(productoId);
-                actualizarContadorCarrito();
-            } else {
-                console.error("Respuesta inesperada del servidor:", res);
+        document.addEventListener("click", function(e) {
+            const menu = document.getElementById("carritoMenu");
+            const container = document.querySelector(".carrito-menu-container");
+            if (menu && container && !container.contains(e.target)) {
+                menu.style.display = "none";
             }
-        })
-        .catch(err => console.error("Error al agregar al carrito:", err));
-    }
+        });
 
-    // ðŸ”¹ Al cargar el catÃ¡logo, sincronizar contador con el servidor
-    document.addEventListener("DOMContentLoaded", function() {
-        actualizarContadorCarrito();
-    });
-</script>
+        function actualizarContadorCarrito() {
+            fetch("/carrito/cantidad")
+                .then(r => r.json())
+                .then(cantidad => {
+                    const count = document.getElementById("carrito-count");
+                    if (!count) return;
+                    count.textContent = cantidad;
 
+                    const icono = document.getElementById("carrito-icono");
+                    if (!icono) return;
+                    icono.classList.add("carrito-pop");
+                    setTimeout(() => icono.classList.remove("carrito-pop"), 300);
+                })
+                .catch(err => console.error("Error al actualizar contador:", err));
+        }
+
+        function mostrarMensajeEnProducto(productoId) {
+            const contenedor = document.getElementById("producto-" + productoId);
+            if (!contenedor) return;
+
+            const anterior = contenedor.querySelector(".mensaje-producto-agregado");
+            if (anterior) anterior.remove();
+
+            const msg = document.createElement("div");
+            msg.className = "mensaje-producto-agregado";
+            msg.innerText = "¡Agregado al carrito!";
+
+            msg.style.marginTop = "6px";
+            msg.style.padding = "6px 10px";
+            msg.style.background = "#CFFFE2";
+            msg.style.borderRadius = "8px";
+            msg.style.fontWeight = "600";
+            msg.style.fontSize = "0.9rem";
+
+            contenedor.appendChild(msg);
+
+            setTimeout(() => {
+                msg.remove();
+            }, 4000);
+        }
+
+        function agregarCarrito(event, productoId) {
+            event.preventDefault();
+
+            const form = event.target;
+            const cantidad = form.querySelector("input[name='cantidad']").value;
+
+            fetch("/carrito/agregar-ajax", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `productoId=${productoId}&cantidad=${cantidad}`
+            })
+            .then(r => r.text())
+            .then(res => {
+                if (res === "OK") {
+                    mostrarMensajeEnProducto(productoId);
+                    actualizarContadorCarrito();
+                } else {
+                    console.error("Respuesta inesperada del servidor:", res);
+                }
+            })
+            .catch(err => console.error("Error al agregar al carrito:", err));
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            actualizarContadorCarrito();
+        });
+    </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
