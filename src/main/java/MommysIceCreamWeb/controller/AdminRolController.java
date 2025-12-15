@@ -4,12 +4,14 @@ import MommysIceCreamWeb.domain.Rol;
 import MommysIceCreamWeb.domain.Usuario;
 import MommysIceCreamWeb.service.RolService;
 import MommysIceCreamWeb.service.UsuarioService;
+import org.springframework.context.MessageSource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/admin/roles")
@@ -17,10 +19,12 @@ public class AdminRolController {
 
     private final UsuarioService usuarioService;
     private final RolService rolService;
+    private final MessageSource messageSource;
 
-    public AdminRolController(UsuarioService usuarioService, RolService rolService) { // Inyección de dependencias
+    public AdminRolController(UsuarioService usuarioService, RolService rolService, MessageSource messageSource) { // Inyección de dependencias
         this.usuarioService = usuarioService;
         this.rolService = rolService;
+        this.messageSource = messageSource;
     }
 
     // Todo los metodos de mostrar formularios
@@ -143,7 +147,7 @@ public class AdminRolController {
     }
 
     @PostMapping("/editar") // Procesar el formulario para editar un rol existente | Recibe los datos del formulario de editar rol
-    public String editarRol(@ModelAttribute Rol rolEditado, HttpSession session) {
+    public String editarRol(@ModelAttribute Rol rolEditado, HttpSession session, Locale locale) {
         Usuario admin = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (admin == null || !admin.getRol().getNombre().equalsIgnoreCase("Administrador")) {
@@ -152,7 +156,23 @@ public class AdminRolController {
 
         Rol rolExistente = rolService.buscarPorId(rolEditado.getId()).orElse(null);
         if (rolExistente != null) {
-            rolExistente.setNombre(rolEditado.getNombre());
+            if ("en".equalsIgnoreCase(locale.getLanguage())) {
+                String entrada = rolEditado.getNombre();
+                String nombreEs = rolService.traducirInglesAEspanol(entrada);
+                String nombreEn = entrada;
+                if (nombreEs != null && nombreEs.equalsIgnoreCase(entrada)) {
+                    String posibleEn = rolService.traducirEspanolAIngles(entrada);
+                    if (posibleEn != null && !posibleEn.equalsIgnoreCase(entrada)) {
+                        nombreEn = posibleEn;
+                        nombreEs = entrada;
+                    }
+                }
+                rolExistente.setNombre(nombreEs);
+                rolExistente.setNombreEn(nombreEn);
+            } else {
+                // Espa�ol: entrada es nombre en espa�ol, se traducir� en el service al guardar
+                rolExistente.setNombre(rolEditado.getNombre());
+            }
             rolService.guardar(rolExistente);
         }
 
@@ -179,7 +199,7 @@ public class AdminRolController {
     }
 
     @PostMapping("/crear")
-    public String crearRol(@ModelAttribute Rol rol, HttpSession session, Model model) {
+    public String crearRol(@ModelAttribute Rol rol, HttpSession session, Model model, Locale locale) {
         var admin = (Usuario) session.getAttribute("usuarioLogueado");
         if (admin == null || admin.getRol() == null
                 || !"Administrador".equalsIgnoreCase(admin.getRol().getNombre())) {
@@ -189,18 +209,25 @@ public class AdminRolController {
         // Validar que no exista un rol con el mismo nombre
         if (rol.getNombre() == null || rol.getNombre().trim().isEmpty()) {
             model.addAttribute("rol", rol);
-            model.addAttribute("error", "El nombre es obligatorio.");
+            model.addAttribute("error", messageSource.getMessage("roles.errorNombreObligatorio", null, locale));
             return "admin/roles/crear_rol";
         }
 
         var nombre = rol.getNombre().trim();
         if (rolService.buscarPorNombre(nombre).isPresent()) {
             model.addAttribute("rol", rol);
-            model.addAttribute("error", "Ya existe un rol con ese nombre.");
+            model.addAttribute("error", messageSource.getMessage("roles.errorNombreDuplicado", null, locale));
             return "admin/roles/crear_rol";
         }
-        
-        rol.setNombre(nombre);
+
+        // Si se está creando en inglés, consideramos el nombre ingresado como inglés.
+        if ("en".equalsIgnoreCase(locale.getLanguage())) {
+            rol.setNombreEn(nombre);
+            rol.setNombre(rolService.traducirInglesAEspanol(nombre));
+        } else {
+            rol.setNombre(nombre);
+        }
+
         rol.setActivo(Boolean.TRUE);
         rolService.guardar(rol);
         
@@ -208,7 +235,7 @@ public class AdminRolController {
     }
 
     @PostMapping("/eliminar/{id}") // Procesar la eliminación de un rol | Recibe el ID del rol
-    public String eliminarRol(@PathVariable Long id, HttpSession session, Model model) {
+    public String eliminarRol(@PathVariable Long id, HttpSession session, Model model, Locale locale) {
         Usuario admin = (Usuario) session.getAttribute("usuarioLogueado");
 
         if (admin == null || !admin.getRol().getNombre().equalsIgnoreCase("Administrador")) {
@@ -217,7 +244,7 @@ public class AdminRolController {
 
         Rol rol = rolService.buscarPorId(id).orElse(null);
         if (rol == null || rol.getNombre().equalsIgnoreCase("Administrador") || rol.getNombre().equalsIgnoreCase("Cliente")) {
-            model.addAttribute("errorRol", "Este rol no puede ser eliminado.");
+            session.setAttribute("errorRol", messageSource.getMessage("roles.errorRolProtegido", null, locale));
             return "redirect:/admin/roles/dashboard";
         }
 
@@ -226,7 +253,7 @@ public class AdminRolController {
                 .toList();
 
         if (!usuariosConRol.isEmpty()) {
-            session.setAttribute("errorRol", "Este rol está en uso y no puede eliminarse.");
+            session.setAttribute("errorRol", messageSource.getMessage("roles.errorRolEnUso", null, locale));
             return "redirect:/admin/roles/dashboard";
         }
 
@@ -251,3 +278,5 @@ public class AdminRolController {
         return "redirect:/admin/roles/dashboard";
     }
 }
+
+

@@ -1,51 +1,56 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/estilos.css">
-    <title>Editar Perfil</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+    <title th:text="#{perfil.editar.titulo}">Editar perfil</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
-<body class="centrado">
+<body>
+<header th:replace="general/navbar :: navbar"></header>
+<div class="centrado">
     <div class="contenedor-formulario">
-        <h2>Editar Perfil</h2>
+        <h2 th:text="#{perfil.editar.titulo}">Editar perfil</h2>
 
         <div th:if="${mensaje}" class="mensaje" th:text="${mensaje}"></div>
 
         <form th:action="@{/editar-perfil}" th:object="${usuario}" method="post">
-            <label>Nombre:</label>
-            <input type="text" th:field="*{nombre}" required /><br/>
+            <label th:text="#{registro.nombre}">Nombre</label>
+            <input type="text" th:field="*{nombre}" required />
 
-            <label>Primer Apellido:</label>
-            <input type="text" th:field="*{primerApellido}" required /><br/>
+            <label th:text="#{registro.primerApellido}">Primer Apellido</label>
+            <input type="text" th:field="*{primerApellido}" required />
 
-            <label>Segundo Apellido:</label>
-            <input type="text" th:field="*{segundoApellido}" /><br/>
+            <label th:text="#{registro.segundoApellido}">Segundo Apellido</label>
+            <input type="text" th:field="*{segundoApellido}" />
 
-            <label>Correo:</label>
-            <input type="email" th:field="*{correo}" required /><br/>
+            <label th:text="#{registro.correo}">Correo</label>
+            <input type="email" th:field="*{correo}" required />
 
-            <label>Nueva Contraseña (opcional):</label>
-            <input type="password" th:field="*{contrasena}" /><br/>
+            <label th:text="#{perfil.editar.nuevaContrasena}">Nueva contraseña (opcional)</label>
+            <input type="password" th:field="*{contrasena}" />
 
-            <label>Provincia:</label>
-            <input type="text" th:field="*{provincia}" /><br/>
+            <label th:text="#{registro.provincia}">Provincia</label>
+            <input type="text" th:field="*{provincia}" />
 
-            <label>Cantón:</label>
-            <input type="text" th:field="*{canton}" /><br/>
+            <label th:text="#{registro.canton}">Cantón</label>
+            <input type="text" th:field="*{canton}" />
 
-            <label>Distrito:</label>
-            <input type="text" th:field="*{distrito}" /><br/>
+            <label th:text="#{registro.distrito}">Distrito</label>
+            <input type="text" th:field="*{distrito}" />
 
-            <label>Dirección Exacta:</label>
-            <textarea th:field="*{direccionExacta}"></textarea><br/>
+            <label th:text="#{registro.direccionExacta}">Dirección Exacta</label>
+            <textarea th:field="*{direccionExacta}"></textarea>
 
-            <button type="submit">Guardar Cambios</button>
+            <button type="submit" th:text="#{perfil.editar.guardar}">Guardar cambios</button>
         </form>
 
-        <br/>
         <div style="margin-top: 1em;">
-            <a href="/perfil">Volver al perfil</a>
+            <a th:href="@{/perfil}" th:text="#{perfil.editar.volver}">Volver al perfil</a>
         </div>
     </div>
+</div>
+<script src="/js/lang.js"></script>
 </body>
 </html>

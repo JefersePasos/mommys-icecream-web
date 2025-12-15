@@ -1,95 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 
 <head>
     <meta charset="UTF-8" />
-    <title th:text="#{catalogo.titulo}">Catalog</title>
+            <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+        <title th:text="#{catalogo.titulo}">Catalog</title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 
 <body>
-    <header>
-        <div class="navbar">
-            <a class="brand" th:href="@{/}">
-                <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
-                <h1>
-                    <span th:text="${brandLine1} ?: 'Mommy’s'"></span>
-                    <span th:text="${brandLine2} ?: 'Ice Cream'"></span>
-                </h1>
-            </a>
-
-            <nav class="nav-menu">
-                <a th:href="@{/comprar}" th:text="#{nav.comprar}">Comprar</a>
-                <a th:href="@{/productos/catalogo}" th:text="#{nav.catalogo}">Catálogo</a>
-                <a th:href="@{/sobre-nosotros}" th:text="#{nav.sobreNosotros}">Sobre Nosotros</a>
-                <a th:href="@{/contacto}" th:text="#{nav.contacto}">Contáctenos</a>
-            </nav>
-
-            <div class="nav-actions">
-                <form method="get">
-                    <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
-                        <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
-                        <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
-                    </select>
-                </form>
-                <div class="carrito-menu-container" style="position:relative;">
-                
-                    <div id="carrito-icono" style="position:relative; cursor:pointer;" onclick="toggleCarritoMenu()">
-
-                        <img src="/img/carrito.png"
-                            style="width:28px;height:28px;object-fit:cover;" />
-
-                        <!-- Contador de items -->
-                        <span id="carrito-count"
-                            style="
-                            position:absolute;
-                            top:-8px;
-                            right:-8px;
-                            background: var(--rojo);
-                            color:white;
-                            padding:2px 6px;
-                            font-size:12px;
-                            border-radius:50%;
-                            font-weight:700;
-                            box-shadow:0 2px 6px rgba(0,0,0,.2);
-                            ">
-                            0
-                        </span>
-
-                    </div>
-                
-                    <!-- MENÚ DESPLEGABLE -->
-                    <div id="carritoMenu" style="
-                        display:none;
-                        position:absolute;
-                        top:40px;
-                        right:0;
-                        background:white;
-                        border-radius:10px;
-                        box-shadow:0 4px 12px rgba(0,0,0,0.2);
-                        padding:10px;
-                        z-index:999;
-                        min-width:180px;">
-                
-                        <a th:href="@{/carrito}"
-                            style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
-                            🛒 Ver Carrito
-                        </a>
-                
-                        <a th:href="@{/compras/historial}"
-                            style="display:flex;align-items:center;gap:8px;padding:8px;text-decoration:none;color:var(--texto);font-weight:600;">
-                            📦 Historial de Compras
-                        </a>
-                
-                    </div>
-                </div>
-                <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
-                    <img th:src="@{/img/cuenta.png}" alt="Perfil"
-                        style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
-                </a>
-            </div>
-        </div>
-    </header>
+    <header th:replace="general/navbar :: navbar"></header>
 
     <main class="catalogo-contenido">
         <div class="centrado catalogo-header">
@@ -109,15 +29,30 @@
                     <!--Nombre en tarjeta-->
                     <div class="product-contenido">
                         <div class="product-title-box">
-                            <h3 th:text="${producto.nombre}" class="product-titulo">Product name</h3>
+                            <h3 th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.saborEn) ? producto.nombre : producto.saborEn) : producto.nombre}" class="product-titulo">Product name</h3>
                         </div>
 
 
-                        <p class="product-descripcion" th:text="${producto.descripcion} ?: #{producto.sinDescripcion}">
+                        <p class="product-descripcion"
+                           th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.descripcionEn) ? producto.descripcion : producto.descripcionEn)
+                                      : (#strings.isEmpty(producto.descripcion) ? #messages.msg('producto.sinDescripcion') : producto.descripcion)}">
                             No description available.
                         </p>
 
-                        <span class="product-precio">₡900</span>
+                        <span class="product-precio" th:text="${'â‚¡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">â‚¡900</span>
+
+                        <!-- BotÃ³n agregar al carrito -->
+                        <form class="form-agregar"
+                            method="post"
+                            th:onsubmit="|agregarCarrito(event, ${producto.id})|">
+                            
+                            <input type="hidden" name="productoId" th:value="${producto.id}" />
+                            <input type="number" name="cantidad" min="1" value="1" required />
+
+                            <button type="submit" aria-label="Agregar al carrito">
+                                <img th:src="@{/img/agregarCarrito.png}" alt="Agregar" />
+                            </button>
+                        </form>
 
                     </div>
                 </div>
@@ -136,11 +71,13 @@
                 <!--Nombre en tarjeta-->
                 <div class="product-contenido">
                     <div class="product-title-box">
-                        <h3 th:text="${producto.nombre}" class="product-titulo">Product name</h3>
+                        <h3 th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.saborEn) ? producto.nombre : producto.saborEn) : producto.nombre}" class="product-titulo">Product name</h3>
                     </div>
 
 
-                    <p class="product-descripcion" th:text="${producto.descripcion} ?: #{producto.sinDescripcion}">
+                    <p class="product-descripcion"
+                       th:text="${#locale.language == 'en' ? (#strings.isEmpty(producto.descripcionEn) ? producto.descripcion : producto.descripcionEn)
+                                  : (#strings.isEmpty(producto.descripcion) ? #messages.msg('producto.sinDescripcion') : producto.descripcion)}">
                         No description available.
                     </p>
 
@@ -148,11 +85,24 @@
                     <div
                         th:if="${productoAgregadoId != null and productoAgregadoId == producto.id}" 
                         class="mensaje-producto-agregado">
-                        ¡Agregado al carrito! 🛒
+                        Â¡Agregado al carrito! ðŸ›’
                     </div>
                     
-                    <div class="product-precio">₡900</div>
+                    <div class="product-precio" th:text="${'â‚¡' + #numbers.formatDecimal(producto.precio, 0, 'COMMA', 0, 'POINT')}">â‚¡900</div>
 
+
+                    <!-- BotÃ³n agregar al carrito --> 
+                    <form class="form-agregar"
+                        method="post"
+                        th:onsubmit="|agregarCarrito(event, ${producto.id})|">
+                        
+                        <input type="hidden" name="productoId" th:value="${producto.id}" />
+                        <input type="number" name="cantidad" min="1" value="1" required />
+
+                        <button type="submit" aria-label="Agregar al carrito">
+                            <img th:src="@{/img/agregarCarrito.png}" alt="Agregar" />
+                        </button>
+                    </form>                                                    
                     <!-- Botón agregar al carrito --> <!-- Esto agrega la cantidad y agrega al carrito --> 
                     <div th:if="${producto.status}">
                         <form class="form-agregar-horizontal"
@@ -232,7 +182,7 @@
 </script>
 
 <script>
-    // 🔹 Actualiza el numerito del carrito
+    // ðŸ”¹ Actualiza el numerito del carrito
     function actualizarContadorCarrito() {
         fetch("/carrito/cantidad")
             .then(r => r.json())
@@ -241,7 +191,7 @@
                 if (!count) return;
                 count.textContent = cantidad;
 
-                // Animación POP
+                // AnimaciÃ³n POP
                 const icono = document.getElementById("carrito-icono");
                 if (!icono) return;
                 icono.classList.add("carrito-pop");
@@ -250,7 +200,7 @@
             .catch(err => console.error("Error al actualizar contador:", err));
     }
 
-    // 🔹 Mensaje “¡Agregado al carrito!” en la tarjeta
+    // ðŸ”¹ Mensaje â€œÂ¡Agregado al carrito!â€ en la tarjeta
     function mostrarMensajeEnProducto(productoId) {
         const contenedor = document.getElementById("producto-" + productoId);
         if (!contenedor) return;
@@ -261,7 +211,7 @@
 
         const msg = document.createElement("div");
         msg.className = "mensaje-producto-agregado";
-        msg.innerText = "¡Agregado al carrito! 🛒";
+        msg.innerText = "Â¡Agregado al carrito! ðŸ›’";
 
         // Un poquito de estilo inline (puedes pasarlo a CSS)
         msg.style.marginTop = "6px";
@@ -279,7 +229,7 @@
         }, 4000);
     }
 
-    // 🔹 Enviar al backend SIN recargar ni subir arriba
+    // ðŸ”¹ Enviar al backend SIN recargar ni subir arriba
     function agregarCarrito(event, productoId) {
         event.preventDefault();
 
@@ -305,7 +255,7 @@
         .catch(err => console.error("Error al agregar al carrito:", err));
     }
 
-    // 🔹 Al cargar el catálogo, sincronizar contador con el servidor
+    // ðŸ”¹ Al cargar el catÃ¡logo, sincronizar contador con el servidor
     document.addEventListener("DOMContentLoaded", function() {
         actualizarContadorCarrito();
     });
@@ -314,3 +264,10 @@
 </body>
 
 </html>
+
+
+
+
+
+
+

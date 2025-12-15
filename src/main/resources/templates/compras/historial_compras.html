@@ -1,19 +1,13 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
-  <title>Historial de Pedidos</title>
+          <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+        <title>Historial de Pedidos</title>
   <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 <body>
-  <header>
-    <div class="navbar">
-      <a class="brand" th:href="@{/}">
-        <img th:src="@{/img/logo.png}" alt="Logo Mommy's Ice Cream" />
-        <h1>Mommy’s <span>Ice Cream</span></h1>
-      </a>
-    </div>
-  </header>
+  <header th:replace="general/navbar :: navbar"></header>
 
   <main class="centrado">
     <div class="contenedor-formulario" style="max-width: 900px;">
@@ -45,9 +39,9 @@
 
           <!-- Meses -->
           <div>
-            <label>Últimos meses:</label>
+            <label>Ãšltimos meses:</label>
             <select name="meses">
-              <option value="0" th:selected="${meses == null or meses == 0}">—</option>
+              <option value="0" th:selected="${meses == null or meses == 0}">â€”</option>
               <option value="1" th:selected="${meses == 1}">1 mes</option>
               <option value="3" th:selected="${meses == 3}">3 meses</option>
               <option value="6" th:selected="${meses == 6}">6 meses</option>
@@ -61,7 +55,7 @@
           <div style="display:flex; align-items:end;">
               <a th:href="@{/compras/historial}">
                   <button type="button" class="btn" style="height:38px; background:#c0392b; border:none; color:white;">
-                    ✖ Limpiar
+                    âœ– Limpiar
                   </button>
               </a>
           </div>
@@ -111,7 +105,7 @@
                 <li th:each="pp : ${pedido.productos}">
                   <span th:text="${pp.cantidad}">1</span> x
                   <span th:text="${pp.producto.sabor}">Sabor</span> - 
-                  <span th:text="${pp.precio}">₡0.00</span>
+                  <span th:text="${pp.precio}">â‚¡0.00</span>
                 </li>
               </ul>
             </td>--> 
@@ -131,7 +125,7 @@
       </table>
         <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 20px;">
         
-          <!-- Botón Anterior -->
+          <!-- BotÃ³n Anterior -->
           <a th:if="${!pagina.first}" th:href="@{/compras/historial(
                             page=${pagina.number - 1},
                             size=${pagina.size},
@@ -145,7 +139,7 @@
         
           <div style="display: flex; align-items: center; gap: 6px;">
         
-            <!-- Página 1 -->
+            <!-- PÃ¡gina 1 -->
             <span th:if="${pagina.number == 0}"
               style="font-weight:bold; padding: 6px 10px; border: 1px solid #444; border-radius: 5px; background:#eaeaea;">
               1
@@ -164,18 +158,18 @@
         
             <!-- -->
         
-            <span th:if="${pagina.number > 2}">…</span>
+            <span th:if="${pagina.number > 2}">â€¦</span>
         
             <span th:each="i : ${#numbers.sequence(pagina.number - 1, pagina.number + 1)}"
               th:if="${i > 0 and i < pagina.totalPages - 1}">
         
-              <!-- Página actual -->
+              <!-- PÃ¡gina actual -->
               <span th:if="${i == pagina.number}"
                 style="font-weight:bold; padding: 6px 10px; border: 1px solid #444; border-radius: 5px; background:#eaeaea;">
                 [[${i + 1}]]
               </span>
         
-              <!-- Otras páginas -->
+              <!-- Otras pÃ¡ginas -->
               <a th:if="${i != pagina.number}" th:href="@{/compras/historial(
                                     page=${i},
                                     size=${pagina.size},
@@ -188,9 +182,9 @@
               </a>
             </span>
         
-            <span th:if="${pagina.number < pagina.totalPages - 3}">…</span>
+            <span th:if="${pagina.number < pagina.totalPages - 3}">â€¦</span>
         
-            <!-- Última página -->
+            <!-- Ãšltima pÃ¡gina -->
             <span th:if="${pagina.number == pagina.totalPages - 1}"
               style="font-weight:bold; padding: 6px 10px; border: 1px solid #444; border-radius: 5px; background:#eaeaea;">
               [[${pagina.totalPages}]]
@@ -209,7 +203,7 @@
         
           </div>
         
-          <!-- Botón Siguiente -->
+          <!-- BotÃ³n Siguiente -->
           <a th:if="${!pagina.last}" th:href="@{/compras/historial(
                             page=${pagina.number + 1},
                             size=${pagina.size},
@@ -224,21 +218,21 @@
         </div>
 
       <!-- Este funciona tambien, se ve mas profesional pero menos usado
-      Este codigo es para la paginación
+      Este codigo es para la paginaciÃ³n
       <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 20px;">
 
-           Botón Anterior 
+           BotÃ³n Anterior 
           <a th:if="${!pagina.first}"
             th:href="@{/compras/historial(page=${pagina.number - 1}, size=${pagina.size})}">
               <button class="btn">&laquo; Anterior</button>
           </a>
 
-          Texto de páginas centrado 
+          Texto de pÃ¡ginas centrado 
           <span style="font-size: 16px; font-weight: bold; text-align: center;">
-              Página [[${pagina.number + 1}]] de [[${pagina.totalPages}]]
+              PÃ¡gina [[${pagina.number + 1}]] de [[${pagina.totalPages}]]
           </span>
 
-           Botón Siguiente 
+           BotÃ³n Siguiente 
           <a th:if="${!pagina.last}"
             th:href="@{/compras/historial(page=${pagina.number + 1}, size=${pagina.size})}">
               <button class="btn">Siguiente &raquo;</button>
@@ -248,7 +242,7 @@
 
       <div style="margin-top: 2em;">
         <a th:href="@{/productos/catalogo}">
-          <button class="btn">Volver al Catálogo</button>
+          <button class="btn">Volver al CatÃ¡logo</button>
         </a>
       </div>
     </div>
@@ -259,3 +253,10 @@
   </footer>
 </body>
 </html>
+
+
+
+
+
+
+

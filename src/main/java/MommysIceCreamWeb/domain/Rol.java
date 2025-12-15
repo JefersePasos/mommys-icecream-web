@@ -15,5 +15,7 @@ public class Rol {
     private Long id;
 
     private String nombre; // Ejemplo: "ROLE_USER", "ROLE_ADMIN"
+    @Column(name = "nombre_en")
+    private String nombreEn; // Nombre del rol en inglés
     private boolean activo = true;
 }
