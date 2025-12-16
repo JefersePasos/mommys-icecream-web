@@ -1,34 +1,63 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 <head>
     <meta charset="UTF-8" />
-    <title>Asignar Rol</title>
+            <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+        <title th:text="#{roles.asignarRol.titulo}">Asignar Rol</title>
     <link rel="stylesheet" href="/css/estilos.css" />
 </head>
-<body class="centrado">
+<body>
+    <header th:replace="general/navbar :: navbar"></header>
 
-<div class="contenedor-formulario">
-    <h2>Asignar Rol</h2>
+    <div class="centrado">
+        <div class="contenedor-formulario">
+            <h2 th:text="#{roles.asignarRol.encabezado}">Asignar Rol</h2>
 
-    <p>Seleccioná un nuevo rol para el usuario <strong th:text="${usuario.nombre} + ' ' + ${usuario.primerApellido}"></strong></p>
+            <p th:text="${#messages.msg('roles.asignarRol.descripcion', usuario.nombre + ' ' + usuario.primerApellido)}">
+                Selecciona un nuevo rol para el usuario
+            </p>
 
-    <form th:action="@{/admin/roles/asignar}" method="post">
-        <input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+            <form th:action="@{/admin/roles/asignar}" method="post">
+                <input type="hidden" name="usuarioId" th:value="${usuario.id}" />
 
-        <label for="rol">Nuevo Rol:</label>
-        <select name="rolId" id="rol" required>
-            <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}" th:selected="${rol.id == usuario.rol.id}"></option>
-        </select>
+                <label for="rol" th:text="#{roles.nuevoRol}">Nuevo Rol:</label>
+                <select name="rolId" id="rol" required>
+                    <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}" th:selected="${rol.id == usuario.rol.id}"></option>
+                </select>
 
-        <br><br>
-        <button type="submit">Confirmar</button>
-    </form>
+                <br><br>
+                <button type="submit" th:text="#{boton.confirmar}">Confirmar</button>
+            </form>
 
-    <br>
-    <a href="/admin/roles/dashboard">
-        <button style="background-color: var(--gris); color: var(--texto);">Cancelar</button>
-    </a>
-</div>
+            <div style="margin-top: 1em;">
+                <a href="/admin/roles/dashboard">
+                    <button style="background-color: var(--gris); color: var(--texto);" th:text="#{boton.cancelar}">Cancelar</button>
+                </a>
+            </div>
+        </div>
+    </div>
 
+    <script src="/js/lang.js"></script>
+    <script>
+        function toggleCarritoMenu() {
+            const menu = document.getElementById("carritoMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        document.addEventListener("click", function(e){
+            const menu = document.getElementById("carritoMenu");
+            const container = document.querySelector(".carrito-menu-container");
+            if (menu && container && !container.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+

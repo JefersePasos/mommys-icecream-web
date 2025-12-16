@@ -1,67 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
 <head>
   <meta charset="UTF-8" />
-  <title>Historial de Pedidos</title>
+  <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+  <title th:text="#{historial.titulo}">Historial de Pedidos</title>
   <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 <body>
-  <header>
-    <div class="navbar">
-      <a class="brand" th:href="@{/}">
-        <img th:src="@{/img/logo.png}" alt="Logo Mommy's Ice Cream" />
-        <h1>Mommy’s <span>Ice Cream</span></h1>
-      </a>
-    </div>
-  </header>
+  <header th:replace="general/navbar :: navbar"></header>
 
   <main class="centrado">
     <div class="contenedor-formulario" style="max-width: 900px;">
-      <h2>Historial de Pedidos</h2>
+      <h2 th:text="#{historial.titulo}">Historial de Pedidos</h2>
         <form th:action="@{/compras/historial}" method="get"
           style="margin-bottom: 20px; display:flex; gap:15px; flex-wrap:wrap;">
 
           <!-- Fecha desde -->
           <div>
-            <label>Desde:</label>
+            <label th:text="#{historial.desde}">Desde:</label>
             <input type="date" name="desde" th:value="${desde != null ? desde : ''}" />
           </div>
 
           <!-- Fecha hasta -->
           <div>
-            <label>Hasta:</label>
+            <label th:text="#{historial.hasta}">Hasta:</label>
             <input type="date" name="hasta" th:value="${hasta != null ? hasta : ''}" />
           </div>
 
           <!-- Estado -->
           <div>
-            <label>Estado:</label>
+            <label th:text="#{historial.estado}">Estado:</label>
             <select name="estado">
-              <option value="">Todos</option>
-              <option value="true" th:selected="${estado == 'true'}">Confirmado</option>
-              <option value="false" th:selected="${estado == 'false'}">Pendiente</option>
+              <option value="" th:text="#{historial.estado.todos}">Todos</option>
+              <option value="true" th:selected="${estado == 'true'}" th:text="#{historial.estado.confirmado}">Confirmado</option>
+              <option value="false" th:selected="${estado == 'false'}" th:text="#{historial.estado.pendiente}">Pendiente</option>
             </select>
           </div>
 
           <!-- Meses -->
           <div>
-            <label>Últimos meses:</label>
+            <label th:text="#{historial.ultimosMeses}">Últimos meses:</label>
             <select name="meses">
-              <option value="0" th:selected="${meses == null or meses == 0}">—</option>
-              <option value="1" th:selected="${meses == 1}">1 mes</option>
-              <option value="3" th:selected="${meses == 3}">3 meses</option>
-              <option value="6" th:selected="${meses == 6}">6 meses</option>
+              <option value="0" th:selected="${meses == null or meses == 0}" th:text="#{historial.meses.ninguno}">-</option>
+              <option value="1" th:selected="${meses == 1}" th:text="#{historial.meses.uno}">1 mes</option>
+              <option value="3" th:selected="${meses == 3}" th:text="#{historial.meses.tres}">3 meses</option>
+              <option value="6" th:selected="${meses == 6}" th:text="#{historial.meses.seis}">6 meses</option>
             </select>
           </div>
 
           <!-- Submit -->
           <div style="display:flex; align-items:end;">
-            <button class="btn" type="submit" style="height:38px;">Filtrar</button>
+            <button class="btn" type="submit" style="height:38px;" th:text="#{historial.filtrar}">Filtrar</button>
           </div>
           <div style="display:flex; align-items:end;">
               <a th:href="@{/compras/historial}">
                   <button type="button" class="btn" style="height:38px; background:#c0392b; border:none; color:white;">
-                    ✖ Limpiar
+                    <span th:text="#{historial.limpiar}">Limpiar</span>
                   </button>
               </a>
           </div>
@@ -70,13 +64,13 @@
 
       <table style="width:100%; border-collapse: collapse; text-align: center;">
         <thead>
-          <tr class="" style="width:100%; border-collapse: collapse; text-align: center;">
-            <th>ID Pedido</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Cantidad total</th>
-            <th>Productos comprados</th>
-            <th>Precio total</th>
+          <tr style="width:100%; border-collapse: collapse; text-align: center;">
+            <th th:text="#{historial.col.id}">ID Pedido</th>
+            <th th:text="#{historial.col.fecha}">Fecha</th>
+            <th th:text="#{historial.col.estado}">Estado</th>
+            <th th:text="#{historial.col.cantidad}">Cantidad total</th>
+            <th th:text="#{historial.col.productos}">Productos comprados</th>
+            <th th:text="#{historial.col.precio}">Precio total</th>
           </tr>
         </thead>
         <tbody>
@@ -85,46 +79,28 @@
 
             <td th:text="${#temporals.format(pedido.created_at, 'yyyy-MM-dd HH:mm')}"></td>
 
-            <td th:text="${pedido.orderStatus} ? 'Confirmado' : 'Pendiente'"></td>
+            <td th:text="${pedido.orderStatus} ? #{historial.estado.confirmado} : #{historial.estado.pendiente}"></td>
             
             <td th:text="${pedido.cantidadTotal}"></td>
 
             <td>
               <span th:each="pp, iter : ${pedido.productos}">
-                <span th:text="${pp.producto.sabor}"></span>
+                <span th:text="${#locale.language == 'en' ? (#strings.isEmpty(pp.producto.saborEn) ? pp.producto.sabor : pp.producto.saborEn) : pp.producto.sabor}"></span>
                 <span th:if="${!iter.last}"> - </span>
               </span>
             </td>
 
             <td th:text="${pedido.totalColones}"></td>
 
-            <!-- Este es de cantidad unitaria
-            <td th:if="${#lists.size(pedido.productos) > 0}"
-                th:text="${pedido.productos[0].cantidad}"></td> 
-
-            Este es precio de cada producto, pero mejor hice que el backend haga la operacion
-            <td th:if="${#lists.size(pedido.productos) > 0}"
-                th:text="${pedido.productos[0].precio}"></td>
-            
-            <td colspan="3">
-              <ul>
-                <li th:each="pp : ${pedido.productos}">
-                  <span th:text="${pp.cantidad}">1</span> x
-                  <span th:text="${pp.producto.sabor}">Sabor</span> - 
-                  <span th:text="${pp.precio}">₡0.00</span>
-                </li>
-              </ul>
-            </td>--> 
-
             <td>
                 <a th:href="@{'/compras/pedidos/detalle/' + ${pedido.id}}">
-                    <button class="btn">Ver detalle</button>
+                    <button class="btn" th:text="#{boton.verDetalle}">Ver detalle</button>
                 </a>
             </td>
 
              <!-- SI NO HAY PRODUCTOS -->
             <td th:if="${#lists.size(pedido.productos) == 0}" colspan="3">
-              Sin productos
+              <span th:text="#{historial.sinProductos}">Sin productos</span>
             </td>
           </tr> 
         </tbody>
@@ -140,7 +116,7 @@
                             estado=${estado},
                             meses=${meses}
                       )}">
-            <button class="btn">&laquo; Anterior</button>
+            <button class="btn" th:text="#{historial.anterior}">&laquo; Anterior</button>
           </a>
         
           <div style="display: flex; align-items: center; gap: 6px;">
@@ -162,20 +138,16 @@
               1
             </a>
         
-            <!-- -->
-        
             <span th:if="${pagina.number > 2}">…</span>
         
             <span th:each="i : ${#numbers.sequence(pagina.number - 1, pagina.number + 1)}"
               th:if="${i > 0 and i < pagina.totalPages - 1}">
-        
-              <!-- Página actual -->
+
               <span th:if="${i == pagina.number}"
                 style="font-weight:bold; padding: 6px 10px; border: 1px solid #444; border-radius: 5px; background:#eaeaea;">
                 [[${i + 1}]]
               </span>
         
-              <!-- Otras páginas -->
               <a th:if="${i != pagina.number}" th:href="@{/compras/historial(
                                     page=${i},
                                     size=${pagina.size},
@@ -190,7 +162,6 @@
         
             <span th:if="${pagina.number < pagina.totalPages - 3}">…</span>
         
-            <!-- Última página -->
             <span th:if="${pagina.number == pagina.totalPages - 1}"
               style="font-weight:bold; padding: 6px 10px; border: 1px solid #444; border-radius: 5px; background:#eaeaea;">
               [[${pagina.totalPages}]]
@@ -218,37 +189,14 @@
                             estado=${estado},
                             meses=${meses}
                       )}">
-            <button class="btn">Siguiente &raquo;</button>
+            <button class="btn" th:text="#{historial.siguiente}">Siguiente &raquo;</button>
           </a>
         
         </div>
 
-      <!-- Este funciona tambien, se ve mas profesional pero menos usado
-      Este codigo es para la paginación
-      <div style="margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 20px;">
-
-           Botón Anterior 
-          <a th:if="${!pagina.first}"
-            th:href="@{/compras/historial(page=${pagina.number - 1}, size=${pagina.size})}">
-              <button class="btn">&laquo; Anterior</button>
-          </a>
-
-          Texto de páginas centrado 
-          <span style="font-size: 16px; font-weight: bold; text-align: center;">
-              Página [[${pagina.number + 1}]] de [[${pagina.totalPages}]]
-          </span>
-
-           Botón Siguiente 
-          <a th:if="${!pagina.last}"
-            th:href="@{/compras/historial(page=${pagina.number + 1}, size=${pagina.size})}">
-              <button class="btn">Siguiente &raquo;</button>
-          </a>
-
-      </div>-->
-
       <div style="margin-top: 2em;">
         <a th:href="@{/productos/catalogo}">
-          <button class="btn">Volver al Catálogo</button>
+          <button class="btn" th:text="#{boton.volverCatalogo}">Volver al Catálogo</button>
         </a>
       </div>
     </div>
@@ -257,5 +205,22 @@
   <footer>
     <p>&copy; 2025 Mommy's Ice Cream</p>
   </footer>
+  <script src="/js/lang.js"></script>
+    <!-- Script para abrir el menu del carrito como un hamburger menu -->
+    <script>
+        function toggleCarritoMenu() {
+            let menu = document.getElementById("carritoMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        // Cerrar si se hace clic afuera
+        document.addEventListener("click", function(e){
+            const menu = document.getElementById("carritoMenu");
+            const container = document.querySelector(".carrito-menu-container");
+            if (!container.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>

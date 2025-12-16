@@ -1,139 +1,127 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Reseñas - Mommy’s Ice Cream</title>
-  <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="#{resenas.titulo}">Reseñas</title>
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <style>
+    .stars {
+      display: flex;
+      gap: 8px;
+      font-size: 32px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .stars span {
+      color: #d3d3d3;
+      transition: color 0.15s ease;
+    }
+
+    .stars span.filled {
+      color: gold;
+    }
+  </style>
 </head>
-<body>
 
-  <!-- === HEADER === -->
-  <header>
-    <div class="navbar">
-      <a class="brand" th:href="@{/}">
-        <img th:src="@{/img/logo.png}" alt="Logo Mommy's ice cream" />
-        <h1>
-          <span>Mommy’s</span>
-          <span>Ice Cream</span>
-        </h1>
-      </a>
+<body th:attr="lang=${#locale.language}">
+  <header th:replace="general/navbar :: navbar"></header>
 
-      <nav class="nav-menu">
-        <a th:href="@{/comprar}">Comprar</a>
-        <a th:href="@{/productos/catalogo}">Catálogo</a>
-        <a th:href="@{/sobre-nosotros}">Sobre Nosotros</a>
-        <a th:href="@{/contacto}">Contáctenos</a>
-      </nav>
+  <main class="centrado" style="padding: 32px 16px;">
+    <section class="contenedor-formulario" style="max-width: 760px;">
+      <h2 th:text="#{resenas.titulo}">Reseñas de Clientes</h2>
 
-      <div class="nav-actions">
-        <form method="get">
-          <select class="lang-select" name="lang" aria-label="Idioma" onchange="this.form.submit()">
-            <option value="es" th:selected="${#locale.language == 'es'}">ES</option>
-            <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
-          </select>
-        </form>
-
-        <a th:href="@{/carrito}">
-          <img th:src="@{/img/carrito.png}" alt="Carrito" style="width:28px;height:28px;" />
-        </a>
-
-        <a th:href="@{/login}" title="Cuenta" style="text-decoration:none;">
-          <img th:src="@{/img/cuenta.png}" alt="Perfil"
-               style="width:28px;height:28px;object-fit:cover;border-radius:50%;" />
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- === MAIN CONTENT === -->
-  <main class="centrado">
-    <div class="contenedor-formulario" style="max-width: 700px;">
-      <h2>Reseñas de Clientes</h2>
-
-      <!-- Lista de reseñas -->
-      <div class="reseñas-existentes" th:if="${comentarios != null and #lists.size(comentarios) > 0}">
-        <ul>
-          <li th:each="comentario : ${comentarios}" style="margin-bottom: 1.5em;">
-            <strong th:text="${comentario.usuario.nombre}">Nombre</strong> dijo:
-            <p th:text="${comentario.contenido}">Texto del comentario</p>
-            <p>Calificación: 
-            <span th:if="${comentario.calificacion != null}">
+      <div th:if="${comentarios != null and !#lists.isEmpty(comentarios)}" style="margin-bottom: 18px;">
+        <ul style="padding-left: 18px; margin: 0;">
+          <li th:each="comentario : ${comentarios}" style="margin-bottom: 14px; list-style: disc;">
+            <div>
+              <strong th:text="${comentario.usuario.nombre}">Cliente</strong>
+              <span th:text="${#temporals.format(comentario.createdAt, 'dd/MM/yyyy HH:mm')}"></span>
+            </div>
+            <div th:text="${comentario.contenido}" style="margin: 6px 0;"></div>
+            <div>
+              <span th:text="#{resenas.calificacion} + ' '"></span>
               <span th:each="i : ${#numbers.sequence(1, comentario.calificacion)}">&#11088;</span>
-            </span>
-            <span th:if="${comentario.calificacion == null}">Sin calificación</span>
-            </p>
-            <small style="color:gray;" th:text="${#temporals.format(comentario.createdAt, 'dd/MM/yyyy HH:mm')}">Fecha</small>
+            </div>
           </li>
         </ul>
       </div>
-      <div th:if="${comentarios == null or #lists.isEmpty(comentarios)}">
-        <p>Aún no hay reseñas. ¡Sé el primero en escribir una!</p>
-      </div>
+      <p th:if="${comentarios == null or #lists.isEmpty(comentarios)}" th:text="#{resenas.sinResenas}"
+        style="margin-bottom: 18px;">No reviews yet.</p>
 
-      <!-- Formulario para nueva reseña -->
-      <form th:action="@{/resenas/guardar}" method="post" th:object="${comentario}">
-        <label for="comentario"><strong>Escribe tu reseña:</strong></label>
-        <textarea th:field="*{contenido}" required></textarea>
-        <div style="margin: 1em 0;">
-          <label><strong>Calificación:</strong></label>
-          <div class="star-rating">
-            <input type="hidden" th:field="*{calificacion}" />
-            <div class="stars">
-              <span th:each="i : ${#numbers.sequence(1,5)}"
-                    th:classappend="${i <= comentario.calificacion} ? 'filled' : ''"
-                    th:attr="data-value=${i}"
-                    onclick="seleccionarCalificacion(this)">
-                &#9733;
-              </span>
-            </div>
-          </div>
+      <form th:action="@{/resenas/guardar}" method="post" th:object="${comentario}" style="display: grid; gap: 12px;">
+        <label for="comentario" th:text="#{resenas.escribir}">Escribe tu reseña:</label>
+        <textarea id="comentario" th:field="*{contenido}" rows="3" required></textarea>
+
+        <label th:for="calificacion" th:text="#{resenas.calificacion}">Calificación:</label>
+        <input id="calificacion" type="hidden" th:field="*{calificacion}" required>
+        <div class="stars" id="stars">
+          <span th:each="i : ${#numbers.sequence(1,5)}" th:attr="data-value=${i}"
+            th:classappend="${i <= (comentario.calificacion != null ? comentario.calificacion : 0)} ? 'filled' : ''">&#9733;</span>
         </div>
-        <button type="submit" class="btn">Enviar Reseña</button>
-    </form>
-    </div>
+
+        <button type="submit" class="btn" th:text="#{resenas.enviar}">Enviar Reseña</button>
+      </form>
+    </section>
   </main>
-
-  <!-- === FOOTER === -->
   <footer>
-    <p>&copy; 2025 Mommy’s Ice Cream</p>
+    <p>&copy; 2025 Mommys Ice Cream</p>
   </footer>
+  <script>
+    (function () {
+      const stars = document.querySelectorAll('#stars span');
+      const input = document.getElementById('calificacion');
 
-</body>
-<style>
-  .star-rating .stars {
-    display: flex;
-    font-size: 2rem;
-    gap: 0.25em;
-    cursor: pointer;
-  }
+      function setRating(val) {
+        input.value = val;
+        stars.forEach(star => {
+          const v = parseInt(star.getAttribute('data-value'), 10);
+          star.classList.toggle('filled', v <= val);
+        });
+      }
 
-  .star-rating .stars span {
-    color: #ccc;
-    transition: color 0.2s ease;
-  }
+      stars.forEach(star => {
+        star.addEventListener('click', () => {
+          const val = parseInt(star.getAttribute('data-value'), 10);
+          setRating(val);
+        });
+        star.addEventListener('mouseenter', () => {
+          const val = parseInt(star.getAttribute('data-value'), 10);
+          stars.forEach(s => {
+            const v = parseInt(s.getAttribute('data-value'), 10);
+            s.classList.toggle('filled', v <= val);
+          });
+        });
+      });
 
-  .star-rating .stars span.filled {
-    color: gold;
-  }
+      document.getElementById('stars').addEventListener('mouseleave', () => {
+        const current = parseInt(input.value || '0', 10);
+        setRating(current);
+      });
 
-  .star-rating {
-    margin: 1em 0;
-  }
-</style>
-<script>
-  function seleccionarCalificacion(starElement) {
-    const valor = starElement.getAttribute('data-value');
-    const input = document.querySelector('input[name="calificacion"]');
-    input.value = valor;
+      // default rating if none selected
+      if (!input.value) setRating(5);
+    })();
+  </script>
+  <script src="/js/lang.js"></script>
+  <!-- Script para abrir el menu del carrito como un hamburger menu -->
+  <script>
+    function toggleCarritoMenu() {
+      let menu = document.getElementById("carritoMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
 
-    const estrellas = document.querySelectorAll('.star-rating .stars span');
-    estrellas.forEach((el, idx) => {
-      if (idx < valor) {
-        el.classList.add('filled');
-      } else {
-        el.classList.remove('filled');
+    // Cerrar si se hace clic afuera
+    document.addEventListener("click", function (e) {
+      const menu = document.getElementById("carritoMenu");
+      const container = document.querySelector(".carrito-menu-container");
+      if (!container.contains(e.target)) {
+        menu.style.display = "none";
       }
     });
-  }
-</script>
+  </script>
+</body>
+
 </html>

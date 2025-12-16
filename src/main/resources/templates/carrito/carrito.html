@@ -1,228 +1,177 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale.language}">
+
 <head>
   <meta charset="UTF-8" />
-  <title>Mi Carrito</title>
+  <link rel="icon" th:href="@{/img/logo.png}" type="image/png" />
+  <title th:text="#{carrito.tituloPagina}">Mi Carrito</title>
   <link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 
 <body>
-  <header>
-    <div class="navbar">
-      <a class="brand" th:href="@{/}">
-        <img th:src="@{/img/logo.png}" alt="Logo Mommy's Ice Cream" />
-        <h1>Mommy’s <span>Ice Cream</span></h1>
-      </a>
-    </div>
-  </header>
+  <header th:replace="general/navbar :: navbar"></header>
 
   <main class="centrado">
     <div class="contenedor-formulario" style="max-width: 700px;">
-      
-      <h2 style="text-align: center; margin-bottom: 1em;">🛒 Mi Carrito de Compras</h2>
+      <h2 style="text-align: center; margin-bottom: 1em;">
+        <span aria-hidden="true">🛒</span>
+        <span th:text="#{carrito.encabezado}">Mi Carrito de Compras</span>
+      </h2>
 
       <!-- Carrito vacío -->
       <div th:if="${items.size() == 0}" style="text-align:center;">
-        <p>Tu carrito está vacío.</p>
+        <p th:text="#{carrito.vacio}">Tu carrito está vacío.</p>
         <a th:href="@{/productos/catalogo}">
-          <button class="btn" style="margin-top: 1em;">Explorar productos</button>
+          <button class="btn" style="margin-top: 1em;" th:text="#{carrito.explorar}">Explorar productos</button>
         </a>
       </div>
 
       <!-- Carrito con productos -->
       <div th:if="${items.size() > 0}">
-        
-        <!-- Tabla estilo profesional -->
         <table class="factura-table">
           <thead>
             <tr>
-              <th>Imagen</th>
-              <th>Producto</th>   
-              <th>Cantidad</th>
-              <th>Precio</th>
-              <th>Subtotal</th>
+              <th th:text="#{carrito.col.imagen}">Imagen</th>
+              <th th:text="#{carrito.col.producto}">Producto</th>
+              <th th:text="#{carrito.col.cantidad}">Cantidad</th>
+              <th th:text="#{carrito.col.precio}">Precio</th>
+              <th th:text="#{carrito.col.subtotal}">Subtotal</th>
               <th></th>
             </tr>
           </thead>
-
           <tbody>
             <tr th:each="item : ${items}">
               <td data-label="Imagen">
-                  <img 
-                      th:if="${item.producto.imagen != null and item.producto.imagen != ''}" 
-                      th:src="${item.producto.imagen}"
-                      style="width:60px; height:60px; object-fit:cover; border-radius:8px;" 
-                      alt="Imagen del producto" />
-
-                  <img 
-                      th:unless="${item.producto.imagen != null and item.producto.imagen != ''}"
-                      th:src="@{/img/heladosTarjeta1.png}" 
-                      style="width:60px; height:60px; object-fit:cover; border-radius:8px;" 
-                      alt="Imagen por defecto" />
+                <img th:if="${item.producto.imagen != null and item.producto.imagen != ''}"
+                  th:src="${item.producto.imagen}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;"
+                  alt="Imagen del producto" />
+                <img th:unless="${item.producto.imagen != null and item.producto.imagen != ''}"
+                  th:src="@{/img/heladosTarjeta1.png}"
+                  style="width:60px; height:60px; object-fit:cover; border-radius:8px;" alt="Imagen por defecto" />
               </td>
-
-              <!-- Nombre -->
-              <td data-label="Producto" th:text="${item.producto.nombre}"></td>
-              <!--<td data-label="Cantidad" th:text="${item.cantidad}"></td>  Este solo muestra la cantidad como tal-->
-              <!-- esta parte es para poder aumentar o disminuir la cantidad que se desea comprar -->
+              <td data-label="Producto"
+                th:text="${#locale.language == 'en' ? (#strings.isEmpty(item.producto.saborEn) ? item.producto.sabor : item.producto.saborEn) : item.producto.sabor}">
+                Producto
+              </td>
               <td data-label="Cantidad" style="display:flex; justify-content:center; align-items:center; gap:10px;">
-              
-                <!-- Botón disminuir -->
                 <form th:action="@{/carrito/disminuir}" method="post" style="display:inline;">
                   <input type="hidden" name="productoId" th:value="${item.producto.id}" />
-                  <button type="submit" class="btn" style="padding:4px 10px; font-size:16px; background:var(--naranja);">
-                    −
-                  </button>
+                  <button type="submit" class="btn"
+                    style="padding:4px 10px; font-size:16px; background:var(--naranja);">-</button>
                 </form>
-              
-                <!-- Cantidad actual -->
                 <span style="font-weight:bold; font-size:18px;">[[${item.cantidad}]]</span>
-              
-                <!-- Botón aumentar -->
                 <form th:action="@{/carrito/aumentar}" method="post" style="display:inline;">
                   <input type="hidden" name="productoId" th:value="${item.producto.id}" />
-                  <button type="submit" class="btn" style="padding:4px 10px; font-size:16px; background:var(--naranja);">
-                    +
-                  </button>
+                  <button type="submit" class="btn"
+                    style="padding:4px 10px; font-size:16px; background:var(--naranja);">+</button>
                 </form>
-              
               </td>
-
-              <td data-label="Precio">₡ [[${item.producto.precio}]]</td>
-              <td data-label="Subtotal">₡ [[${item.subtotal}]]</td>
-
-              <!-- Eliminar -->
+              <td data-label="Precio"><span th:text="#{carrito.moneda}">₡</span> [[${item.producto.precio}]]</td>
+              <td data-label="Subtotal"><span th:text="#{carrito.moneda}">₡</span> [[${item.subtotal}]]</td>
               <td data-label="Acción" style="text-align:center;">
-                <button 
-                    class="btn" 
-                    type="button"
-                    th:attr="onclick=|abrirModal('${item.producto.id}')|"
-                    style="padding: 6px 12px; font-size:0.9em; background: var(--rojo);">
-                    Eliminar
+                <button class="btn" type="button" th:attr="onclick=|abrirModal('${item.producto.id}')|"
+                  style="padding: 6px 12px; font-size:0.9em; background: var(--rojo);">
+                  <span th:text="#{carrito.eliminar}">Eliminar</span>
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <!-- Total -->
         <h3 class="factura-total">
-          Total: ₡ <span th:text="${total}"></span>
+          <span th:text="#{carrito.total}">Total:</span> <span th:text="#{carrito.moneda}">₡</span> <span
+            th:text="${total}"></span>
         </h3>
 
-        <!-- Botones -->
         <div style="display:flex; flex-direction:column; gap:12px; margin-top: 1.5em;">
-
           <form th:action="@{/compras}" method="post">
-            <button class="btn pill" style="background: var(--naranja); font-size:18px;">Finalizar compra</button>
+            <button class="btn pill" style="background: var(--naranja); font-size:18px;"
+              th:text="#{carrito.finalizar}">Finalizar compra</button>
           </form>
-
-          <button 
-              class="btn" 
-              type="button"
-              onclick="abrirModalVaciar()"
-              style="background: var(--rojo); font-size:18px;">
-              Vaciar carrito
+          <button class="btn" type="button" onclick="abrirModalVaciar()"
+            style="background: var(--rojo); font-size:18px;">
+            <span th:text="#{carrito.vaciar}">Vaciar carrito</span>
           </button>
-
           <a th:href="@{/productos/catalogo}">
-            <button class="btn pill" style="background: var(--cafe);">⬅ Seguir comprando</button>
+            <button class="btn pill" style="background: var(--cafe);" th:text="#{carrito.seguir}">Seguir
+              comprando</button>
           </a>
-
         </div>
       </div>
     </div>
   </main>
 
-  <!-- MODAL DE CONFIRMACIÓN -->
-  <div id="modalEliminar" style="
-      display:none; 
-      position:fixed; 
-      top:0; left:0; 
-      width:100%; height:100%; 
-      background:rgba(0,0,0,.45); 
-      justify-content:center; 
-      align-items:center;
-      z-index:999;">
-      
-      <div style="
-          background:white; 
-          padding:2em; 
-          border-radius:12px; 
-          max-width:320px; 
-          text-align:center;">
-          
-          <h3>¿Eliminar este producto?</h3>
-          <p style="margin-bottom:1.5em;">Esta acción no se puede deshacer.</p>
-
-          <form id="formEliminar" method="post" th:action="@{/carrito/eliminar}">
-              <input type="hidden" name="productoId" id="idProductoEliminar">
-              <button class="btn" style="background:var(--rojo); width:100%;">Eliminar</button>
-          </form>
-
-          <button class="btn" onclick="cerrarModal()" style="background:var(--cafe); width:100%; margin-top:10px;">
-              Cancelar
-          </button>
-      </div>
+  <!-- MODAL ELIMINAR -->
+  <div id="modalEliminar"
+    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); justify-content:center; align-items:center; z-index:999;">
+    <div style="background:white; padding:2em; border-radius:12px; max-width:320px; text-align:center;">
+      <h3 th:text="#{carrito.modal.eliminar.titulo}">¿Eliminar este producto?</h3>
+      <p style="margin-bottom:1.5em;" th:text="#{carrito.modal.eliminar.texto}">Esta acción no se puede deshacer.</p>
+      <form id="formEliminar" method="post" th:action="@{/carrito/eliminar}">
+        <input type="hidden" name="productoId" id="idProductoEliminar">
+        <button class="btn" style="background:var(--rojo); width:100%;" th:text="#{carrito.eliminar}">Eliminar</button>
+      </form>
+      <button class="btn" onclick="cerrarModal()" style="background:var(--cafe); width:100%; margin-top:10px;">
+        <span th:text="#{carrito.cancelar}">Cancelar</span>
+      </button>
+    </div>
   </div>
 
-  <!-- MODAL PARA VACIAR CARRITO -->
-  <div id="modalVaciar" style="
-      display:none; 
-      position:fixed; 
-      top:0; left:0; 
-      width:100%; height:100%; 
-      background:rgba(0,0,0,.45); 
-      justify-content:center; 
-      align-items:center;
-      z-index:999;">
-      
-      <div style="
-          background:white; 
-          padding:2em; 
-          border-radius:12px; 
-          max-width:320px; 
-          text-align:center;">
-          
-          <h3>¿Vaciar el carrito?</h3>
-          <p style="margin-bottom:1.5em;">Esta acción eliminará TODOS los productos.</p>
-
-          <form method="post" th:action="@{/carrito/vaciar}">
-              <button class="btn" style="background:var(--rojo); width:100%;">Vaciar carrito</button>
-          </form>
-
-          <button class="btn" onclick="cerrarModalVaciar()" 
-                  style="background:var(--cafe); width:100%; margin-top:10px;">
-              Cancelar
-          </button>
-      </div>
+  <!-- MODAL VACIAR -->
+  <div id="modalVaciar"
+    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); justify-content:center; align-items:center; z-index:999;">
+    <div style="background:white; padding:2em; border-radius:12px; max-width:320px; text-align:center;">
+      <h3 th:text="#{carrito.modal.vaciar.titulo}">¿Vaciar el carrito?</h3>
+      <p style="margin-bottom:1.5em;" th:text="#{carrito.modal.vaciar.texto}">Esta acción eliminará TODOS los productos.
+      </p>
+      <form method="post" th:action="@{/carrito/vaciar}">
+        <button class="btn" style="background:var(--rojo); width:100%;" th:text="#{carrito.vaciar}">Vaciar
+          carrito</button>
+      </form>
+      <button class="btn" onclick="cerrarModalVaciar()" style="background:var(--cafe); width:100%; margin-top:10px;">
+        <span th:text="#{carrito.cancelar}">Cancelar</span>
+      </button>
+    </div>
   </div>
 
   <footer>
     <p>&copy; 2025 Mommy's Ice Cream</p>
   </footer>
 
-    <!--Script para modal de confirmacion de eliminacion del producto-->
   <script>
-  function abrirModal(productoId) {
+    function abrirModal(productoId) {
       document.getElementById("modalEliminar").style.display = "flex";
       document.getElementById("idProductoEliminar").value = productoId;
-  }
-
-  function cerrarModal() {
+    }
+    function cerrarModal() {
       document.getElementById("modalEliminar").style.display = "none";
-  }
-  </script>
-  
-   <!--Script para modal de confirmacion de vaciar el carrito-->
-  <script>
-  function abrirModalVaciar() {
+    }
+    function abrirModalVaciar() {
       document.getElementById("modalVaciar").style.display = "flex";
-  }
-
-  function cerrarModalVaciar() {
+    }
+    function cerrarModalVaciar() {
       document.getElementById("modalVaciar").style.display = "none";
-  }
+    }
+  </script>
+
+  <script src="/js/lang.js"></script>
+
+  <!-- Script para abrir el menu del carrito como un hamburger menu -->
+  <script>
+    function toggleCarritoMenu() {
+      let menu = document.getElementById("carritoMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Cerrar si se hace clic afuera
+    document.addEventListener("click", function (e) {
+      const menu = document.getElementById("carritoMenu");
+      const container = document.querySelector(".carrito-menu-container");
+      if (!container.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
   </script>
 </body>
+
 </html>
