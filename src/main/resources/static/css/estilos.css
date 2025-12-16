@@ -1334,16 +1334,6 @@ tr:nth-child(even) {
     display: none;
 }
 
-/* Indicador de carga CSS */
-body::after {
-  content: "CSS cargado ✅";
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
-  font-size: 10px;
-  color: green;
-}
-
 
 /* Confirmacion: encabezado con icono + texto */
 .confirmacion-encabezado{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
