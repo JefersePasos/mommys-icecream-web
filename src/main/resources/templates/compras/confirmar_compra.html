@@ -24,14 +24,14 @@
       <tbody>
         <tr th:each="item : ${items}">
           <td th:text="${item.producto.sabor}">Sabor</td>
-          <td th:text="${item.producto.precio}">â‚¡0</td>
+          <td th:text="${item.producto.precio}">₡0</td>
           <td th:text="${item.cantidad}">1</td>
-          <td th:text="${item.producto.precio * item.cantidad}">â‚¡0</td>
+          <td th:text="${item.producto.precio * item.cantidad}">₡0</td>
         </tr>
       </tbody>
     </table>
 
-    <p><strong>Total:</strong> â‚¡<span th:text="${total}">0</span></p>
+    <p><strong>Total:</strong> ₡<span th:text="${total}">0</span></p>
 
     <form th:action="@{/compras/finalizar}" method="post">
       <button type="submit" class="btn pill">Confirmar Compra</button>
